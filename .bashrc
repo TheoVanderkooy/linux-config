@@ -44,17 +44,17 @@ fi
 function status_code
 {
     local ret=$?
+    local col="32" # green for success
     if [[ $ret != 0 ]]; then
-        echo -en "\033[00m~\033[01;31m$ret\033[00m"
-    else
-        echo -en "\033[00m~\033[01;32m$ret\033[00m"
+        col="31" # red for failure
     fi
+    printf '\001\e[01;%sm\002%s\001\e[00m\002' "$col" "$ret"
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[04;32m\]\u@\h\[\033[00m\]$(status_code):\[\033[01;36m\]\w\[\033[00m\]> '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[04;32m\]\u@\h\[\033[00m\]:$(status_code):\[\033[01;36m\]\w\[\033[00m\]> '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h~$?:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:$?:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -82,9 +82,6 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -AhlF'
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -105,18 +102,5 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# start ssh-agent
-# if [ -z "$SSH_AUTH_SOCK" ] ; then
-#   eval `ssh-agent -t 1w`
-# fi
-
-# aliases
-alias start-ssh-agent="ssh-agent -t 1d > ~/ssh-env; . ~/ssh-env; ssh-add"
-
-alias g++14="g++ -std=c++14 -Wall"
-alias g++17="g++ -std=c++17 -Wall"
-alias dirs="dirs -v"
-
 
 export EDITOR=/usr/bin/vim
