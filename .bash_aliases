@@ -16,7 +16,7 @@ alias ssh-stop="ssh-agent -k"
 function ssh-start
 {
     if [[ -f $SSH_ENV_FILE ]]; then
-        . $SSH_ENV_FILE 
+        . $SSH_ENV_FILE > /dev/null
     fi
     if [[ ( ! -f $SSH_ENV_FILE ) || ( $(pgrep ssh-agent) != $SSH_AGENT_PID ) ]]; then
         ssh-agent -t 1d > $SSH_ENV_FILE

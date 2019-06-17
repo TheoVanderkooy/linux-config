@@ -3,6 +3,7 @@
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set autoindent
 
 " visual settings
 " syntax on " TODO figure this out
