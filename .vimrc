@@ -6,9 +6,10 @@ set expandtab
 set autoindent
 
 " visual settings
-" syntax on " TODO figure this out
+syntax on
 set background=dark
 set number
+set showcmd
 
 " searching
 set ignorecase
@@ -17,15 +18,26 @@ set incsearch
 set hlsearch " TODO allow to un-highlight
 " TODO set something to :noh to un-highlight (maybe esc?)
 ""  map <silent> <Esc> :noh
+set showmatch
+
+set autowrite
+set mouse=a
 
 
-" commenting blocks of code  " TODO make this work
+" commenting blocks of code
 autocmd FileType vim              let b:comment_leader = '" '
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
 autocmd FileType conf,fstab       let b:comment_leader = '# '
 autocmd FileType tex              let b:comment_leader = '% '
 autocmd FileType mail             let b:comment_leader = '> '
-
 noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+" reopen file at same location
+if has("autocmd")
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \ exe "normal g'\"" |
+        \ endif
+endif
