@@ -20,8 +20,12 @@ set hlsearch " TODO allow to un-highlight
 ""  map <silent> <Esc> :noh
 set showmatch
 
+" automatically save the file sometimes
 set autowrite
+
+" controls
 set mouse=a
+set whichwrap+=<,>,h,l,[,] " let movements wrap at ends of lines
 
 
 " commenting blocks of code
