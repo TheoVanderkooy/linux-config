@@ -22,3 +22,11 @@ set mouse=a
 set whichwrap+=<,>,h,l,[,] " let motions wrap at ends of lines
 
 " TODO just copy .vimrc
+
+if has("autocmd")
+    autocmd BufWritePre * :%s/\s\+$//e
+endif
+
+
+
+" TODO just use regular .vimrc

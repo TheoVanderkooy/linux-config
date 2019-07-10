@@ -44,4 +44,12 @@ if has("autocmd")
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \ exe "normal g'\"" |
         \ endif
+    autocmd BufWritePre * :%s/\s\+$//e
 endif
+
+if has("nvim")
+    " TODO nvim specific stuff
+else
+    " normal vim specific stuff
+endif
+
