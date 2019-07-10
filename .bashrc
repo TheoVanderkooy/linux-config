@@ -106,4 +106,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export EDITOR=/usr/bin/vim
+# use neovim as editor if available, otherwise use regular vim
+if [ $(command -v nvim) ]; then
+    export EDITOR=$(command -v nvim)
+else
+    export EDITOR=/usr/bin/vim
+fi
