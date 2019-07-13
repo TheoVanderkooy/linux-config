@@ -112,3 +112,5 @@ if [ $(command -v nvim) ]; then
 else
     export EDITOR=/usr/bin/vim
 fi
+
+export GPG_TTY=$(TTY)
