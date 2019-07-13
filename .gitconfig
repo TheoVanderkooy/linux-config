@@ -2,4 +2,8 @@
 	email = theo.vanderkooy@gmail.com
 	name = Theo Vanderkooy
 [core]
-	editor = vim
+	editor = nvim
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
