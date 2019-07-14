@@ -113,4 +113,4 @@ else
     export EDITOR=/usr/bin/vim
 fi
 
-export GPG_TTY=$(TTY)
+export GPG_TTY=$(tty)
