@@ -43,8 +43,13 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+. /etc/bash_completion.d/git-prompt
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWUPSTREAM=1
+
 # output the exit code of the previous command in colour
-function status_code
+status_code()
 {
     local ret=$?
     local col="32" # green for success
@@ -54,8 +59,14 @@ function status_code
     printf '\001\e[01;%sm\002%s\001\e[00m\002' "$col" "$ret"
 }
 
+git_status_prompt()
+{
+    local code=$(__git_ps1 " (%s)")
+    printf '\001\e[01;33m\002%s\001\e[00m\002' "$code"
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[04;32m\]\u@\h\[\033[00m\]:$(status_code):\[\033[01;36m\]\w\[\033[00m\]> '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[04;32m\]\u@\h\[\033[00m\]:$(status_code):\[\033[01;36m\]\w\[\033[00m\]$(git_status_prompt)> '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:$?:\w\$ '
 fi

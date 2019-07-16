@@ -5,3 +5,4 @@
 - make setup.sh to setup stuff after cloning repo
 - add git config?
 - use same config file for vim/nvim
+- git config: core.excludesfile = ~/.gitignore_global
