@@ -6,3 +6,4 @@
 - add git config?
 - use same config file for vim/nvim
 - git config: core.excludesfile = ~/.gitignore_global
+- .bashrc: refactor: put the GIT_PS1_* variable exports somewhere better

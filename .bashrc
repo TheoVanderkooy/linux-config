@@ -46,7 +46,7 @@ fi
 . /etc/bash_completion.d/git-prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM=1
+# export GIT_PS1_SHOWUPSTREAM=1
 
 # output the exit code of the previous command in colour
 status_code()
