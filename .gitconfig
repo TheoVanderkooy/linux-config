@@ -1,9 +1,9 @@
+# this file just a template/demo, setup file won't use it
 [user]
 	email = theo.vanderkooy@gmail.com
 	name = Theo Vanderkooy
-[core]
-	editor = nvim
-[gpg]
-	program = gpg
-[commit]
-	gpgsign = true
+# 	editor = nvim
+# [gpg]
+# 	program = gpg
+# [commit]
+# 	gpgsign = true

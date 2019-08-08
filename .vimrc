@@ -38,12 +38,13 @@ autocmd FileType mail             let b:comment_leader = '> '
 noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
-" reopen file at same location
 if has("autocmd")
+    " reopen file at same location
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \ exe "normal g'\"" |
         \ endif
+    " trim trailing whitespace on save
     autocmd BufWritePre * :%s/\s\+$//e
 endif
 
@@ -52,4 +53,3 @@ if has("nvim")
 else
     " normal vim specific stuff
 endif
-
