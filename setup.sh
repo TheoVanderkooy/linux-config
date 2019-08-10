@@ -13,7 +13,8 @@ ln -s "$BASEDIR/.vimrc" ~/.config/nvim/init.vim # use same vim/nvim config file
 
 # configure git
 echo "configuring git"
-git config --global core.excludesfile "$BASEDIR/.gitignore_global"
+git config --global core.excludesfile "$BASEDIR/gitignore_global"
 
 # TODO bashrc?
 # TODO bash_aliases?
+ln -s "$BASEDIR/.bash_aliases" ~

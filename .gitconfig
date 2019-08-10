@@ -1,7 +1,7 @@
 # this file just a template/demo, setup file won't use it
 [user]
-	email = theo.vanderkooy@gmail.com
-	name = Theo Vanderkooy
+	email = <email>
+	name = <name>
 # 	editor = nvim
 # [gpg]
 # 	program = gpg
