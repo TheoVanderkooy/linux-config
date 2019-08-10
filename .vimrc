@@ -3,13 +3,13 @@
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set autoindent
+set autoindent " default in nvim
 
 " visual settings
-syntax on
+syntax on " default in nvim
 set background=dark
 set number
-set showcmd
+set showcmd " default in nvim
 
 " searching
 set ignorecase

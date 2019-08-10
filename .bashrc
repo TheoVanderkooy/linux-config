@@ -14,7 +14,7 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# disable Ctrl+S turning scroll lock on (turn of with Ctrl+Q)
+# disable Ctrl+S turning scroll lock on (turn off with Ctrl+Q)
 stty -ixon
 
 # check the window size after each command and, if necessary,
