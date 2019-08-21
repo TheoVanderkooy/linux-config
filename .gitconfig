@@ -3,6 +3,8 @@
 	email = <email>
 	name = <name>
 # 	editor = nvim
+[grep]
+	linenumber = true
 # [gpg]
 # 	program = gpg
 # [commit]
