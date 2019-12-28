@@ -66,7 +66,7 @@ git_status_prompt()
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[04;32m\]\u@\h\[\033[00m\]:$(status_code):\[\033[01;36m\]\w\[\033[00m\]$(git_status_prompt)> '
+    PS1='${debian_chroot:+($debian_chroot)}\[\e[04;32m\]\u@\h\[\e[00m\]:$(status_code):\[\e[01;36m\]\w\[\e[00m\]$(git_status_prompt)> '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:$?:\w\$ '
 fi
