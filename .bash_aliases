@@ -34,6 +34,6 @@ ssh-start()
 if [[ -f "$SSH_ENV_FILE" ]]; then
     . "$SSH_ENV_FILE" > /dev/null
 fi
-if [[ ( ! -f "$SSH_ENV_FILE" ) || ( $(pgrep ssh-agent) != $SSH_AGENT_PID ) ]]; then
+if [[ ( ! -f "$SSH_ENV_FILE" ) || ( $(pgrep --newest ssh-agent) != $SSH_AGENT_PID ) ]]; then
     echo 'Note: ssh-agent not running. Start it with `ssh-start`'
 fi
