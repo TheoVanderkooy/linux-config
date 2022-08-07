@@ -82,6 +82,7 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "p", lazy.run_extension(extension.DmenuRun(dmenu_lines=None))),
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'), 
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
 ]
 
 groups = [Group(i) for i in "123456789"]
