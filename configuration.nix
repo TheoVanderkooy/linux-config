@@ -18,10 +18,6 @@
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -30,7 +26,6 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.utf8";
-
 
   # Enable the Desktop Environment and configure some things.
   services.xserver = {
@@ -41,12 +36,11 @@
     };
   };
   services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.desktopManager.xfce.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
     sddm.enable = true; # (lightDM by default)
-    defaultSession = "plasma"; # ???
+    defaultSession = "plasma";
     autoLogin = {
       enable = false;
       # user = "theo";
@@ -89,15 +83,25 @@
   users.users.theo = {
     isNormalUser = true;
     description = "Theo Vanderkooy";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
     shell = pkgs.fish;
     packages = with pkgs; [
+      # browsers
       firefox
-      kate
+      vivaldi
+
+      # editors
       vscode
+      vscodium
+
+      # games
       steam
       lutris
+      itch
+
+      # notes
       joplin-desktop
+      obsidian
     ];
   };
 
@@ -108,6 +112,7 @@
   environment.systemPackages = with pkgs; [
     # editors
     neovim
+    nano
     emacs
     gnome.gedit
 
@@ -137,6 +142,7 @@
     tmux
     tmuxp
     brightnessctl
+    pavucontrol
     
     # shells (bash installed by default)
     fish
@@ -180,7 +186,7 @@
 
 # TODO same alias for fish?? (and others...)
   programs.bash.shellAliases = {
-    vim = "nvim";
+    # vim = "nvim";
   };
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -32,6 +32,12 @@ from libqtile.utils import guess_terminal
 mod = "mod4"
 terminal = guess_terminal(['kitty'])
 
+# declare volume widget here so keyboard controls can be set up
+volume_widget = widget.Volume(
+    volume_app='pavucontrol',
+)
+
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -78,11 +84,19 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    # Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "p", lazy.run_extension(extension.DmenuRun(dmenu_lines=None))),
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'), 
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+
+    # Volume controls:
+    Key([], 'XF86AudioRaiseVolume', lazy.function(lambda qt: volume_widget.cmd_increase_vol())),
+    Key([], 'XF86AudioLowerVolume', lazy.function(lambda qt: volume_widget.cmd_decrease_vol())),
+    Key([], 'XF86AudioMute', lazy.function(lambda qt: volume_widget.cmd_mute())),
+
+    # Brightness controls:
+    Key([], 'XF86MonBrightnessUp', lazy.spawn("brightnessctl set 10%+")),
+    Key([], 'XF86MonBrightnessDown', lazy.spawn("brightnessctl set 10%-")),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -156,9 +170,10 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                # widget.TextBox("default config", name="default"),
-                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 widget.Systray(),
+                # TODO figure out why this doesn't work...
+                # widget.Backlight(brightness_file='intel_backlight'),
+                volume_widget,
                 # 12-hour time: %I:%M %p    12-hour: %H:%M
                 widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#ffffff'),
                 widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff'),
