@@ -28,6 +28,7 @@ from libqtile import bar, layout, widget, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.log_utils import logger
 
 mod = "mod4"
 terminal = guess_terminal(['kitty'])
@@ -36,6 +37,21 @@ terminal = guess_terminal(['kitty'])
 volume_widget = widget.Volume(
     volume_app='pavucontrol',
 )
+
+
+# function to decrease brightness, but don't go below 10%
+def dec_brightness(qt):
+    try: 
+        with open('/sys/class/backlight/intel_backlight/brightness', 'r') as f:
+            brightness = float(f.read().strip())
+        with open('/sys/class/backlight/intel_backlight/max_brightness', 'r') as f:
+            max_brightness = float(f.read().strip())
+    except FileNotFoundException as e:
+        logger.exception(e)
+    
+    brightness_pct = brightness / max_brightness
+    if brightness_pct > 0.15:
+        qt.cmd_spawn("brightnessctl set 10%-")
 
 
 keys = [
@@ -96,7 +112,8 @@ keys = [
 
     # Brightness controls:
     Key([], 'XF86MonBrightnessUp', lazy.spawn("brightnessctl set 10%+")),
-    Key([], 'XF86MonBrightnessDown', lazy.spawn("brightnessctl set 10%-")),
+    # Key([], 'XF86MonBrightnessDown', lazy.spawn("brightnessctl set 10%-")),
+    Key([], 'XF86MonBrightnessDown', lazy.function(dec_brightness)),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -118,15 +135,10 @@ for i in groups:
                 lazy.window.togroup(i.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
         ]
     )
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     layout.Columns(
         # blue border for windows when more than one
         border_focus='#111188',
@@ -174,8 +186,7 @@ screens = [
                 # TODO figure out why this doesn't work...
                 # widget.Backlight(brightness_file='intel_backlight'),
                 volume_widget,
-                # 12-hour time: %I:%M %p    12-hour: %H:%M
-                widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#ffffff'),
+                widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#ffffff'), # 12-hour time: %I:%M %p    24-hour: %H:%M
                 widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff'),
                 widget.QuickExit(foreground='#df5050', countdown_start=3),
             ],
