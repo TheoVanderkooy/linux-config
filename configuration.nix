@@ -41,10 +41,7 @@
   services.xserver.displayManager = {
     sddm.enable = true; # (lightDM by default)
     defaultSession = "plasma";
-    autoLogin = {
-      enable = false;
-      # user = "theo";
-    };
+    autoLogin.enable = false;
   };
 
   # Configure keymap in X11
@@ -89,9 +86,10 @@
       # browsers
       firefox
       vivaldi
+      brave
 
       # editors
-      vscode
+      # vscode
       vscodium
 
       # games
@@ -102,6 +100,9 @@
       # notes
       joplin-desktop
       obsidian
+
+      # other tools
+      android-tools
     ];
   };
 
@@ -111,10 +112,10 @@
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
     # editors
-    neovim
+    # neovim
     nano
     emacs
-    gnome.gedit
+    # gnome.gedit
 
     # WM dependencies
     picom
@@ -135,23 +136,29 @@
     alacritty
 
     # utilities
+    coreutils
     wget
     htop
+    btop
     neofetch
     git
     tmux
     tmuxp
     brightnessctl
     pavucontrol
+    libnotify
+
+    keepassxc
     
     # shells (bash installed by default)
+    bash
     fish
     zsh
 
     # programming languages
     gcc
-    clang
-    llvm
+    # clang
+    # llvm
     rustup
     python3
     jdk
@@ -162,6 +169,17 @@
     enable = true;
     # remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    #plugins = with pkgs.vimPlugins; [
+      # coc-nvim
+    #  vim-nix
+    #];
+    #coc.enable = true;
   };
 
   programs.java.enable = true;
@@ -183,30 +201,6 @@
       persist = true;
     }];
   };
-
-# TODO same alias for fish?? (and others...)
-  programs.bash.shellAliases = {
-    # vim = "nvim";
-  };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
