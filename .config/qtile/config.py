@@ -162,7 +162,7 @@ screens = [
             24,
         ),
         # Wallpapers from NixOS/nixos-artwork on github
-        wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-dracula.png",
+        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-dracula.png",
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-nineish-dark-gray.png",
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-nineish.png",
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-blue.png",
@@ -173,6 +173,7 @@ screens = [
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-stripes-logo.png",
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-stripes.png",
         # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-mosaic-blue.png",
+        wallpaper="~/Pictures/wallpapers/nixos_logo.png",
 
         wallpaper_mode='fill',
         # wallpaper_mode='stretch',

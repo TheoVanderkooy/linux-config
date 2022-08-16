@@ -9,3 +9,4 @@
   - move/copy stuff to nix home manager if possible
 - restructure to put stuff in XDG standard  directories
   - note: some stuff like tmux only supports it in newer versions.
+  - Git: .config/git/config instead of .gitconfig!

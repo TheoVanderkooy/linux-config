@@ -2,8 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
+let
+  user = "theo";
+  name = "Theo Vanderkooy";
+in
 { config, pkgs, ... }:
-
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -77,9 +80,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.theo = {
+  users.users.${user} = {
     isNormalUser = true;
-    description = "Theo Vanderkooy";
+    description = "${name}";
     extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
     shell = pkgs.fish;
     packages = with pkgs; [
@@ -87,9 +90,9 @@
       firefox
       vivaldi
       brave
+      lynx
 
       # editors
-      # vscode
       vscodium
 
       # games
@@ -109,13 +112,17 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Experimental features
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+  };
+
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
     # editors
     # neovim
     nano
     emacs
-    # gnome.gedit
 
     # WM dependencies
     picom
@@ -140,6 +147,7 @@
     wget
     htop
     btop
+    bottom
     neofetch
     git
     tmux
@@ -157,8 +165,6 @@
 
     # programming languages
     gcc
-    # clang
-    # llvm
     rustup
     python3
     jdk
@@ -167,24 +173,10 @@
 
   programs.steam = {
     enable = true;
-    # remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    #plugins = with pkgs.vimPlugins; [
-      # coc-nvim
-    #  vim-nix
-    #];
-    #coc.enable = true;
-  };
-
   programs.java.enable = true;
-  
-  virtualisation.docker.enable = true;
   
   environment.variables = rec {
     # So touch screen will work with firefox...
@@ -196,7 +188,7 @@
   security.doas = {
     enable = true;
     extraRules = [{
-      users = [ "theo" ];
+      users = [ "${user}" ];
       keepEnv = true;
       persist = true;
     }];
@@ -209,5 +201,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
-
 }
