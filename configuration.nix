@@ -1,13 +1,8 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
+{ config, pkgs, ... }:
 let
   user = "theo";
   name = "Theo Vanderkooy";
-in
-{ config, pkgs, ... }:
-{
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -92,20 +87,10 @@ in
       brave
       lynx
 
-      # editors
-      vscodium
-
       # games
       steam
       lutris
       itch
-
-      # notes
-      joplin-desktop
-      obsidian
-
-      # other tools
-      android-tools
     ];
   };
 
@@ -120,9 +105,8 @@ in
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
     # editors
-    # neovim
     nano
-    emacs
+    emacs # doom emacs?
 
     # WM dependencies
     picom
@@ -151,7 +135,6 @@ in
     neofetch
     git
     tmux
-    tmuxp
     brightnessctl
     pavucontrol
     libnotify
