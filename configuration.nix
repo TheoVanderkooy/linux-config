@@ -38,7 +38,7 @@ in {
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
     sddm.enable = true; # (lightDM by default)
-    defaultSession = "plasma";
+    # defaultSession = "plasma"; # "none+qtile";
     autoLogin.enable = false;
   };
 
@@ -106,22 +106,24 @@ in {
   environment.systemPackages = with pkgs; [
     # editors
     nano
-    emacs # doom emacs?
+    emacs # TODO remove once set up with home.nix
 
     # WM dependencies
     picom
     # bars
     polybar
     lemonbar
+    # launchers
     rofi
     dmenu
+    # ??
     trayer
     dunst
     feh # image viewer (for background)
     # fonts
     nerdfonts
     inter
-    
+
     # terminals
     kitty
     alacritty
@@ -140,7 +142,7 @@ in {
     libnotify
 
     keepassxc
-    
+
     # shells (bash installed by default)
     bash
     fish
@@ -160,7 +162,7 @@ in {
   };
 
   programs.java.enable = true;
-  
+
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
