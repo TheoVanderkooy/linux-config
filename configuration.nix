@@ -74,6 +74,10 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -91,6 +95,9 @@ in {
       steam
       lutris
       itch
+
+      # other
+      keepassxc
     ];
   };
 
@@ -104,11 +111,12 @@ in {
 
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
-    # editors
-    nano
-    emacs # TODO remove once set up with home.nix
 
-    # WM dependencies
+    #######################
+    ##  WM dependencies  ##
+    #######################
+
+    # Xorg compositor, needed for some window managers that don't have it built in
     picom
     # bars
     polybar
@@ -116,13 +124,27 @@ in {
     # launchers
     rofi
     dmenu
-    # ??
+    # system trays
     trayer
+    # notification daemons
     dunst
-    feh # image viewer (for background)
+    # image viewer (for wallpaper)
+    feh
     # fonts
     nerdfonts
     inter
+
+    ###################
+    ##  Other tools  ##
+    ###################
+
+    # editors
+    nano
+
+    # shells (bash installed by default)
+    bash
+    fish
+    zsh
 
     # terminals
     kitty
@@ -140,20 +162,7 @@ in {
     brightnessctl
     pavucontrol
     libnotify
-
-    keepassxc
-
-    # shells (bash installed by default)
-    bash
-    fish
-    zsh
-
-    # programming languages
-    gcc
-    rustup
-    python3
-    jdk
-    ghc
+    killall
   ];
 
   programs.steam = {
@@ -161,13 +170,9 @@ in {
     dedicatedServer.openFirewall = true;
   };
 
-  programs.java.enable = true;
-
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
-
-    JAVA_HOME = "${pkgs.jdk.home}";
   };
 
   security.doas = {

@@ -28,20 +28,39 @@ in {
   ##################
   programs.bash = {
     enable = true;
-    # TODO bash config!
+    # enableCompletion = true; # TODO enable this eventually...
+    historySize = 1000;
+    historyFile = "${config.xdg.dataHome}/bash/history";
+    historyFileSize = 10000;
+    shellOptions = [
+      "histappend"
+      "checkwinsize"
+      "extglob"
+      "globstar"
+    ];
+    sessionVariables = {
+      # environment variables?
+    };
+
+    # goes in the various files directly.
+    profileExtra = "";
+    initExtra = "";
+    logoutExtra = "";
+    bashrcExtra = "";
   };
   programs.zsh = {
     enable = true;
     history = {
-      size = 10000;
-      save = 100000;
-      path = "${config.xdg.dataHome}/zsh/history";
+      size = 1000;
+      save = 10000;
+      # path = "${config.xdg.dataHome}/zsh/history"; # this doesn't work :/
+      path = ".local/share/zsh/history";
     };
-    # oh-my-zsh = {
-    #   enable = true;
-    #   plugins = [ "git" "sudo" "adb" ];
-    #   theme = ""; # TODO pick theme
-    # };
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "adb" ];
+      theme = ""; # TODO theme
+    };
   };
   programs.fish = {
     enable = true;
@@ -69,11 +88,11 @@ in {
     ];
   };
 
-  # # EMACS
-  # programs.emacs = {
-  #   enable = true;
-  # };
-  # TODO get nix plugin working with home-manager, then remove from system config.
+  # EMACS
+  programs.emacs = {
+    enable = true;
+    # TODO manage plugins/etc with home manager?
+  };
 
   # VS CODIUM
   programs.vscode = {
@@ -82,7 +101,7 @@ in {
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       jnoortheen.nix-ide
-      bmalehorn.vscode-fish
+      # bmalehorn.vscode-fish
     ];
     userSettings = {
       "nix.enableLanguageServer" = true;
