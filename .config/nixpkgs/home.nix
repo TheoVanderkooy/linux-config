@@ -28,7 +28,7 @@ in {
   ##################
   programs.bash = {
     enable = true;
-    # enableCompletion = true; # TODO enable this eventually...
+    # enableCompletion = true; # TODO enable this eventually (not in stable yet)
     historySize = 1000;
     historyFile = "${config.xdg.dataHome}/bash/history";
     historyFileSize = 10000;
@@ -38,14 +38,40 @@ in {
       "extglob"
       "globstar"
     ];
-    sessionVariables = {
-      # environment variables?
-    };
-
-    # goes in the various files directly.
+    # sessionVariables is only for *login* shells -- add to one of the "extra" variables below
+    sessionVariables = { };
+    # .profile (login shells only)
     profileExtra = "";
-    initExtra = "";
+    # .bashrc (interactive shells only)
+    initExtra = ''
+      source ${pkgs.git}/share/bash-completion/completions/git-prompt.sh
+
+      export GIT_PS1_SHOWDIRTYSTATE=1
+      export GIT_PS1_SHOWUNTRACKEDFILES=1
+      export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+      # output the exit code of the previous command in colour
+      status_code()
+      {
+          local ret=$?
+          local col="32" # green for success
+          if [[ $ret != 0 ]]; then
+              col="31" # red for failure
+          fi
+          printf '\001\e[01;%sm\002%s\001\e[00m\002' "$col" "$ret"
+      }
+
+      git_status_prompt()
+      {
+          local code=$(__git_ps1 " (%s)")
+          printf '\001\e[01;33m\002%s\001\e[00m\002' "$code"
+      }
+
+      PS1='\[\e[04;32m\]\u@\h\[\e[00m\]:$(status_code):\[\e[01;36m\]\w\[\e[00m\]$(git_status_prompt)> '
+    '';
+    # On logout
     logoutExtra = "";
+    # .bashrc (interactive and non-interactive shells)
     bashrcExtra = "";
   };
   programs.zsh = {
@@ -201,7 +227,6 @@ in {
 
   # TODO other stuff!
   # - desktop manager config: qtile and leftwm
-  # - environment variables!
   # - emacs: figure out plugins for nix highlighting
   # - games: steam/itch/lutris
 }
