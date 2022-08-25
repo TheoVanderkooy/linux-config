@@ -38,7 +38,6 @@ in {
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
     sddm.enable = true; # (lightDM by default)
-    # defaultSession = "plasma"; # "none+qtile";
     autoLogin.enable = false;
   };
 
@@ -88,7 +87,6 @@ in {
       # browsers
       firefox
       vivaldi
-      brave
       lynx
 
       # games
@@ -163,6 +161,7 @@ in {
     pavucontrol
     libnotify
     killall
+    nix-tree
   ];
 
   programs.steam = {
@@ -170,11 +169,17 @@ in {
     dedicatedServer.openFirewall = true;
   };
 
+  programs.ssh = {
+    startAgent = true;
+    forwardX11 = true;
+  };
+
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
   };
 
+  security.sudo.enable = true;
   security.doas = {
     enable = true;
     extraRules = [{

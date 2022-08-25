@@ -145,6 +145,10 @@ in {
   programs.rofi = {
     enable = true;
     theme = "Arc-Dark";
+    terminal = "${pkgs.kitty}/bin/kitty";
+    extraConfig = {
+      modi = "run,window";
+    };
     plugins = [];
   };
 
@@ -221,6 +225,21 @@ in {
     extraConfig = {
       grep.lineNumber = true;
     };
+  };
+
+  # LESS
+  programs.less = {
+    enable = true;
+    # colours: https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables
+    keys = ''
+      #env
+      LESS_TERMCAP_md = \e[1;32m
+      LESS_TERMCAP_me = \e[0m
+      LESS_TERMCAP_se = \e[0m
+      LESS_TERMCAP_so = \e[01;35m
+      LESS_TERMCAP_ue = \e[0m
+      LESS_TERMCAP_us = \e[1;4;36m
+    '';
   };
 
 
