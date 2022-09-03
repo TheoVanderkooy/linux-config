@@ -33,11 +33,12 @@ in {
       touchpad.naturalScrolling = true;
     };
   };
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
-    sddm.enable = true; # (lightDM by default)
+    # sddm.enable = true; # (lightDM by default)
+    lightdm.enable = true;
     autoLogin.enable = false;
   };
 
@@ -86,6 +87,7 @@ in {
     packages = with pkgs; [
       # browsers
       firefox
+      # librewolf
       vivaldi
       lynx
 
@@ -131,6 +133,14 @@ in {
     # fonts
     nerdfonts
     inter
+    # volume
+    pavucontrol # consider alternatives
+
+
+    # icons
+    paper-icon-theme
+    libsForQt5.breeze-icons
+
 
     ###################
     ##  Other tools  ##
@@ -162,6 +172,11 @@ in {
     libnotify
     killall
     nix-tree
+    dolphin # consider other file managers
+
+    # installation-related
+    # efibootmgr
+    # gparted
   ];
 
   programs.steam = {
@@ -174,9 +189,13 @@ in {
     forwardX11 = true;
   };
 
+  programs.qt5ct.enable = true;
+
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
+
+    QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   security.sudo.enable = true;

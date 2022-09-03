@@ -19,8 +19,10 @@ in {
     android-tools
 
     # notes
-    joplin-desktop
-    obsidian
+    # joplin-desktop
+
+    # books
+    calibre
   ];
 
   ##################
@@ -127,7 +129,6 @@ in {
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       jnoortheen.nix-ide
-      # bmalehorn.vscode-fish
     ];
     userSettings = {
       "nix.enableLanguageServer" = true;
@@ -233,6 +234,7 @@ in {
     # colours: https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables
     keys = ''
       #env
+      LESS_TERMCAP_mb = \e[30;47m
       LESS_TERMCAP_md = \e[1;32m
       LESS_TERMCAP_me = \e[0m
       LESS_TERMCAP_se = \e[0m
@@ -242,6 +244,12 @@ in {
     '';
   };
 
+  # SYNCTHING
+  services.syncthing = {
+    enable = true;
+    tray.enable = false;
+    # enable tray? need delayed start?
+  };
 
 
   # TODO other stuff!
