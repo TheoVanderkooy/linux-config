@@ -41,14 +41,14 @@ volume_widget = widget.Volume(
 
 # function to decrease brightness, but don't go below 10%
 def dec_brightness(qt):
-    try: 
+    try:
         with open('/sys/class/backlight/intel_backlight/brightness', 'r') as f:
             brightness = float(f.read().strip())
         with open('/sys/class/backlight/intel_backlight/max_brightness', 'r') as f:
             max_brightness = float(f.read().strip())
     except FileNotFoundException as e:
         logger.exception(e)
-    
+
     brightness_pct = brightness / max_brightness
     if brightness_pct > 0.15:
         qt.cmd_spawn("brightnessctl set 10%-")
@@ -87,7 +87,7 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'), 
+    Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
 
     # Launch a program:
@@ -157,7 +157,7 @@ screens = [
                 volume_widget,
                 widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#ffffff'), # 12-hour time: %I:%M %p    24-hour: %H:%M
                 widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff'),
-                widget.QuickExit(foreground='#df5050', countdown_start=3),
+                # widget.QuickExit(foreground='#df5050', countdown_start=3),
             ],
             24,
         ),

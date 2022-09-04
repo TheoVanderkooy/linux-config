@@ -33,13 +33,18 @@ in {
       touchpad.naturalScrolling = true;
     };
   };
-  # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
-    # sddm.enable = true; # (lightDM by default)
-    lightdm.enable = true;
-    autoLogin.enable = false;
+    lightdm = {
+      enable = true;
+      greeter.enable = false;
+    };
+    autoLogin = {
+      enable = true;
+      user = "${user}";
+    };
+    defaultSession = "none+qtile";
   };
 
   # Configure keymap in X11
