@@ -5,6 +5,10 @@ let
 in {
   programs.home-manager.enable = true;
 
+  home.stateVersion = "22.05";
+  home.username = "theo";
+  home.homeDirectory = "/home/theo";
+
   ###########################
   ###   Normal packages   ###
   ###########################
@@ -18,11 +22,11 @@ in {
     btop
     android-tools
 
-    # notes
-    # joplin-desktop
-
     # books
     calibre
+
+    # programming languages
+    rustup
   ];
 
   ##################
@@ -30,7 +34,7 @@ in {
   ##################
   programs.bash = {
     enable = true;
-    # enableCompletion = true; # TODO enable this eventually (not in stable yet)
+    enableCompletion = true;
     historySize = 1000;
     historyFile = "${config.xdg.dataHome}/bash/history";
     historyFileSize = 10000;

@@ -83,6 +83,8 @@ in {
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  powerManagement.powertop.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -99,19 +101,27 @@ in {
       # games
       steam
       lutris
-      itch
+      # itch
 
       # other
       keepassxc
     ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    # Allow unfree packages
+    allowUnfree = true;
+
+    # TODO remove this: itch depends on electron 11.5
+    permittedInsecurePackages = [
+      # "electron-11.5.0"
+    ];
+  };
 
   # Experimental features
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
   };
 
   # List packages installed in system profile
@@ -177,11 +187,12 @@ in {
     libnotify
     killall
     nix-tree
-    dolphin # consider other file managers
+    libsForQt5.dolphin # consider other file managers
 
     # installation-related
     # efibootmgr
     # gparted
+    powertop
   ];
 
   programs.steam = {
@@ -194,13 +205,13 @@ in {
     forwardX11 = true;
   };
 
-  programs.qt5ct.enable = true;
+  qt5.platformTheme = "qt5ct";
 
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
 
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+   QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   security.sudo.enable = true;
