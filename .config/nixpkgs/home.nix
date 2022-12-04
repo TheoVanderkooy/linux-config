@@ -101,6 +101,29 @@ in {
         body = "# do nothing";
         description = "Prints a message when fish starts";
       };
+      fish_right_prompt = {
+        body = ''
+          set -l d (set_color brgrey)(date "+%R")(set_color normal)
+
+          set -l duration "$CMD_DURATION"
+          if test $duration -gt 60000
+            set duration (set_color -i brgrep)(math -s 0 $duration / 60000)m (math -s 0 \( $duration / 1000 \) / 60)s(set_color normal)
+          else if test $duration -gt 100
+            set duration (set_color -i brgrey)(math -s 1 $duration / 1000)s(set_color normal)
+          else
+              set duration
+          end
+
+          set -q VIRTUAL_ENV_DISABLE_PROMPT
+          or set -g VIRTUAL_ENV_DISABLE_PROMPT true
+          set -q VIRTUAL_ENV
+          and set -l venv (string replace -r '.*/' ''' -- "$VIRTUAL_ENV")
+
+          set_color normal
+          string join " " -- $venv $duration $d
+        '';
+        description = "Print on the right when fish starts";
+      };
     };
 
   };
