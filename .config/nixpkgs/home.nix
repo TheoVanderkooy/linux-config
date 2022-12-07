@@ -17,7 +17,6 @@ in {
     rnix-lsp
 
     # Utilities
-    ripgrep
     bottom
     btop
     android-tools
@@ -27,6 +26,12 @@ in {
 
     # programming languages
     rustup
+
+    # rust versions of other programs
+    ripgrep   # grep
+    bat       # cat
+    exa       # ls
+    fd        # find
   ];
 
   ##################
@@ -107,7 +112,7 @@ in {
 
           set -l duration "$CMD_DURATION"
           if test $duration -gt 60000
-            set duration (set_color -i brgrep)(math -s 0 $duration / 60000)m (math -s 0 \( $duration / 1000 \) / 60)s(set_color normal)
+            set duration (set_color -i brgrey)(math -s 0 $duration / 60000)m (math -s 0 \( $duration / 1000 \) % 60)s(set_color normal)
           else if test $duration -gt 100
             set duration (set_color -i brgrey)(math -s 1 $duration / 1000)s(set_color normal)
           else
