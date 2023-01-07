@@ -17,12 +17,19 @@ in {
     rnix-lsp
 
     # Utilities
+    tldr
     bottom
     btop
     android-tools
+    powerstat
 
     # books
     calibre
+
+    # games
+    steam
+    lutris
+    # itch  # note: depends on electron 11.5 which is "insecure"
 
     # programming languages
     rustup
@@ -34,9 +41,12 @@ in {
     fd        # find
   ];
 
+
   ##################
   ###   SHELLS   ###
   ##################
+
+  # BASH
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -85,6 +95,8 @@ in {
     # .bashrc (interactive and non-interactive shells)
     bashrcExtra = "";
   };
+
+  # ZSH
   programs.zsh = {
     enable = true;
     history = {
@@ -99,6 +111,8 @@ in {
       theme = ""; # TODO theme
     };
   };
+
+  # FISH
   programs.fish = {
     enable = true;
     functions = {
@@ -132,6 +146,7 @@ in {
     };
 
   };
+
 
   ###################
   ###   EDITORS   ###
@@ -195,7 +210,6 @@ in {
       confirm_os_window_close = 0;
     };
   };
-
 
 
   #################

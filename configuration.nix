@@ -6,6 +6,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./system-specific.nix
     ];
 
   # Bootloader.
@@ -83,7 +84,10 @@ in {
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  powerManagement.powertop.enable = true;
+  powerManagement = {
+    powertop.enable = true;
+    scsiLinkPolicy = "medium_power";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
@@ -95,16 +99,15 @@ in {
       # browsers
       firefox
       # librewolf
-      vivaldi
+      # vivaldi
       lynx
-
-      # games
-      steam
-      lutris
-      # itch
 
       # other
       keepassxc
+
+      # general utilities
+      zip
+      unzip
     ];
   };
 
@@ -112,9 +115,8 @@ in {
     # Allow unfree packages
     allowUnfree = true;
 
-    # TODO remove this: itch depends on electron 11.5
     permittedInsecurePackages = [
-      # "electron-11.5.0"
+      # "electron-11.5.0"  # needed for: itch
     ];
   };
 
@@ -146,7 +148,7 @@ in {
     # image viewer (for wallpaper)
     feh
     # fonts
-    nerdfonts
+    # nerdfonts
     inter
     # volume
     pavucontrol # consider alternatives
@@ -211,7 +213,7 @@ in {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
 
-   QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   security.sudo.enable = true;
@@ -223,12 +225,4 @@ in {
       persist = true;
     }];
   };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
 }
