@@ -10,7 +10,9 @@ in {
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
@@ -59,6 +61,11 @@ in {
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # services.paperless = {
+  #   # enable = true;
+  #   extraConfig = { };
+  # };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -125,6 +132,8 @@ in {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
   };
+
+  # programs.nix-ld.enable = true;
 
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
