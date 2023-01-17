@@ -5,16 +5,21 @@ let
 in {
   programs.home-manager.enable = true;
 
+  # TODO move home.stateVersion to a separate file?
   home.stateVersion = "22.05";
   home.username = "theo";
   home.homeDirectory = "/home/theo";
+
+  home.sessionVariables = {
+    # Add flatpak exports to path
+    XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
+  };
 
   ###########################
   ###   Normal packages   ###
   ###########################
   home.packages = with pkgs; [
-    # nix language support (make system package?)
-    rnix-lsp
+    keepassxc
 
     # Utilities
     tldr
@@ -39,6 +44,10 @@ in {
     bat       # cat
     exa       # ls
     fd        # find
+
+    # rss
+    rssguard
+    thunderbird
   ];
 
 

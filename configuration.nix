@@ -56,16 +56,18 @@ in {
     xkbVariant = "eng";
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal
+    ];
+  };
+
   # Configure console keymap
   console.keyMap = "cf";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # services.paperless = {
-  #   # enable = true;
-  #   extraConfig = { };
-  # };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -100,22 +102,9 @@ in {
   users.users.${user} = {
     isNormalUser = true;
     description = "${name}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "video" "wireshark" ];
     shell = pkgs.fish;
-    packages = with pkgs; [
-      # browsers
-      firefox
-      # librewolf
-      # vivaldi
-      lynx
-
-      # other
-      keepassxc
-
-      # general utilities
-      zip
-      unzip
-    ];
+    packages = with pkgs; [ ];
   };
 
   nixpkgs.config = {
@@ -133,6 +122,21 @@ in {
     auto-optimise-store = true;
   };
 
+
+  services.flatpak.enable = true;
+
+  # services.nextcloud = {
+  #   enable = true;
+  # };
+  # services.paperless = {
+  #   enable = true;
+  #   extraConfig = { };
+  # };
+
+  # services.rss-bridge = {
+  #   enable = true;
+  #   # whitelist = [ ];
+  # };
   # programs.nix-ld.enable = true;
 
   # List packages installed in system profile
@@ -198,7 +202,10 @@ in {
     libnotify
     killall
     nix-tree
-    libsForQt5.dolphin # consider other file managers
+    libsForQt5.dolphin
+    zip
+    unzip
+    rnix-lsp
 
     # installation-related
     # efibootmgr
@@ -214,6 +221,26 @@ in {
   programs.ssh = {
     startAgent = true;
     forwardX11 = true;
+  };
+
+  programs.wireshark.enable = true;
+  programs.firefox = {
+    enable = true;
+    policies = {
+      DisablePocket = true;
+      DisableFirefoxAccount = true;
+      DisableFirefoxStudies = true;
+      DisableTelemetry = true;
+      DontCheckDefaultBrowser = true;
+      EnableTrackingProtection = {
+        Value = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+    };
+    preferences = {
+      # TODO how does this work?
+    };
   };
 
   qt5.platformTheme = "qt5ct";
