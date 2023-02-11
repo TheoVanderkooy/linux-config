@@ -238,9 +238,17 @@ in {
         Fingerprinting = true;
       };
     };
-    preferences = {
-      # TODO how does this work?
-    };
+    autoConfig = ''
+      // Disable various fingerprinting/tracking whitelists
+      defaultPref("urlclassifier.features.fingerprinting.annotate.whitelistTables","")
+      defaultPref("urlclassifier.features.fingerprinting.whitelistTables", "")
+      defaultPref("urlclassifier.features.emailtracking.allowlistTables", "")
+      defaultPref("urlclassifier.features.emailtracking.datacollection.allowlistTables", "")
+      defaultPref("urlclassifier.features.socialtracking.annotate.whitelistTables", "")
+      defaultPref("urlclassifier.features.socialtracking.whitelistTables", "")
+      defaultPref("urlclassifier.trackingWhitelistTable", "")
+      defaultPref("urlclassifier.trackingAnnotationWhitelistTable", "")
+      '';
   };
 
   qt5.platformTheme = "qt5ct";
