@@ -48,6 +48,9 @@ in {
     # rss
     rssguard
     thunderbird
+
+    # other tools...
+    ventoy-bin
   ];
 
 
@@ -190,6 +193,7 @@ in {
       "nix.enableLanguageServer" = true;
       "files.trimFinalNewlines" = true;
       "files.trimTrailingWhitespace" = true;
+      "git.confirmSync" = false;
     };
   };
 

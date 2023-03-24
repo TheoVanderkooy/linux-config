@@ -39,15 +39,20 @@ in {
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.displayManager = {
-    lightdm = {
-      enable = true;
-      greeter.enable = false;
-    };
+    # lightdm = {
+    #   enable = true;
+    #   greeter.enable = false;
+    # };
     autoLogin = {
-      enable = true;
+      # enable = true;
+      enable = false;
       user = "${user}";
     };
     defaultSession = "none+qtile";
+  };
+  services.xserver.desktopManager = {
+    plasma5.enable = true;
+    # cinnamon.enable = true;
   };
 
   # Configure keymap in X11
@@ -102,7 +107,14 @@ in {
   users.users.${user} = {
     isNormalUser = true;
     description = "${name}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "video" "wireshark" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "video"
+      "wireshark"
+      "terraria"
+    ];
     shell = pkgs.fish;
     packages = with pkgs; [ ];
   };
@@ -125,8 +137,15 @@ in {
 
   services.flatpak.enable = true;
 
+  # networking.firewall.allowedTCPPorts = [ 80 443 ];
   # services.nextcloud = {
   #   enable = true;
+  #   hostName = "localhost";
+  #   package = pkgs.nextcloud25;
+  #   config = {
+  #     adminpassFile = "/.config/nextcloud_adminpass";
+  #   };
+  #   enableBrokenCiphersForSSE = false;
   # };
   # services.paperless = {
   #   enable = true;
@@ -206,17 +225,26 @@ in {
     zip
     unzip
     rnix-lsp
+    gnupg
 
     # installation-related
     # efibootmgr
     # gparted
     powertop
+
+    # ...
+    # nextcloud-client
   ];
 
   programs.steam = {
     enable = true;
     dedicatedServer.openFirewall = true;
   };
+
+  # services.terraria = {
+  #   enable = true;
+  #   openFirewall = true;
+  # };
 
   programs.ssh = {
     startAgent = true;
@@ -248,19 +276,20 @@ in {
       defaultPref("urlclassifier.features.socialtracking.whitelistTables", "")
       defaultPref("urlclassifier.trackingWhitelistTable", "")
       defaultPref("urlclassifier.trackingAnnotationWhitelistTable", "")
+      defaultPref("privacy.resistFingerprinting", true)
       '';
   };
 
-  qt5.platformTheme = "qt5ct";
+  # qt5.platformTheme = "qt5ct";
 
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
 
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    # QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
-  security.sudo.enable = true;
+  security.sudo.enable = false;
   security.doas = {
     enable = true;
     extraRules = [{
