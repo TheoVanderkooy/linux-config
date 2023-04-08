@@ -35,6 +35,9 @@ in {
     steam
     lutris
     # itch  # note: depends on electron 11.5 which is "insecure"
+    # bottles  # broken :( use flatpak
+    antimicrox  # configure controller -> keyboard inputs
+    # TODO maybe mangohud and goverlay?
 
     # programming languages
     rustup
@@ -51,6 +54,14 @@ in {
 
     # other tools...
     ventoy-bin
+    wireshark-qt
+    gparted
+    lapce  # rust code editor
+
+
+    # Flatpaks
+    # com.usebottles.bottles
+    # org.localsend.localsend_app
   ];
 
 
@@ -128,10 +139,12 @@ in {
   programs.fish = {
     enable = true;
     functions = {
+      # Disable message on new terminal
       fish_greeting = {
         body = "# do nothing";
         description = "Prints a message when fish starts";
       };
+      # Show the time of previous commant on RHS
       fish_right_prompt = {
         body = ''
           set -l d (set_color brgrey)(date "+%R")(set_color normal)
