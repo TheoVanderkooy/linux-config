@@ -3,12 +3,10 @@ let
   name = "Theo Vanderkooy";
   email = "theo.vanderkooy@gmail.com";
 in {
+  imports = [
+    ./local.nix
+  ];
   programs.home-manager.enable = true;
-
-  # TODO move home.stateVersion to a separate file?
-  home.stateVersion = "22.05";
-  home.username = "theo";
-  home.homeDirectory = "/home/theo";
 
   home.sessionVariables = {
     # Add flatpak exports to path
@@ -327,5 +325,4 @@ in {
   # TODO other stuff!
   # - desktop manager config: qtile and leftwm
   # - emacs: figure out plugins for nix highlighting
-  # - games: steam/itch/lutris
 }
