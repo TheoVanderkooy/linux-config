@@ -1,6 +1,6 @@
 { ... }:
 {
-  home.stateVersion = "22.11";
-  home.username = "theo";
-  home.homeDirectory = "/home/theo";
+  home.stateVersion = "REPLACEME_VERSION";
+  home.username = "REPLACEME_USERNAME";
+  home.homeDirectory = "/home/REPLACEME_HOMEDIR";
 }

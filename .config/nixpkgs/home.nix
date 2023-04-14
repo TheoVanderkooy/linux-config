@@ -60,6 +60,7 @@ in {
     # Flatpaks
     # com.usebottles.bottles
     # org.localsend.localsend_app
+    # com.github.tchx84.Flatseal
   ];
 
 
