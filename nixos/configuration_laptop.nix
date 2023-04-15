@@ -2,6 +2,9 @@
 let
   user = "theo";
   name = "Theo Vanderkooy";
+  localnet = "192.168.0.0/24";
+  localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
+  localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
 in {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -15,9 +18,35 @@ in {
   networking.hostName = "nixos-laptop";
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    # Entries for other OSes installed on the system.
+    # Name starts with "nixos-generation" becuase it was not ordering it
+    # properly without that for some reason...
+    extraEntries = {
+      "nixos-generation-guix.conf" = ''
+        title Guix
+        efi /EFI/Guix/grubx64.efi
+      '';
+    };
+
+    # Least messed-up option for the boot menu
+    consoleMode = "max";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+
+  # Laptop power configuration
+  services.logind.lidSwitchExternalPower = "ignore";
+
+  # Special firewall rules
+  networking.firewall.extraCommands = ''
+    ${localsend-fw-up}
+  '';
+
+  networking.firewall.extraStopCommands = ''
+    ${localsend-fw-down}
+  '';
 
   # Enable the Desktop Environment and configure some things.
   services.xserver = {
