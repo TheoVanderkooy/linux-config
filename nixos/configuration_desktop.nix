@@ -11,6 +11,9 @@ in {
   # State version: do not change!
   system.stateVersion = "22.11";
 
+  # Hostname
+  networking.hostName = "nixos-desktop";
+
   # Required to boot for now...
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;
