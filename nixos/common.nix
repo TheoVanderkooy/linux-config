@@ -78,7 +78,7 @@
     kitty
     alacritty
 
-    # basic terminal utilities
+    # basic terminal/system utilities
     coreutils
     pciutils
     wget
@@ -89,6 +89,11 @@
     zip
     unzip
     libnotify
+    xorg.xdpyinfo
+    wayland-utils
+    vulkan-tools
+    virtualgl
+    aha
 
     # useful programs
     git

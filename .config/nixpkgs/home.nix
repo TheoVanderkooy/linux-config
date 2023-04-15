@@ -4,7 +4,7 @@ let
   email = "theo.vanderkooy@gmail.com";
 in {
   imports = [
-    ./local.nix
+    ~/.config/nixpkgs/local.nix
   ];
   programs.home-manager.enable = true;
 
@@ -35,7 +35,7 @@ in {
     # itch  # note: depends on electron 11.5 which is "insecure"
     # bottles  # broken :( use flatpak
     antimicrox  # configure controller -> keyboard inputs
-    # TODO maybe mangohud and goverlay?
+    goverlay
 
     # programming languages
     rustup
@@ -322,6 +322,9 @@ in {
     # enable tray? need delayed start?
   };
 
+  programs.mangohud = {
+    enable = true;
+  };
 
   # TODO other stuff!
   # - desktop manager config: qtile and leftwm
