@@ -1,3 +1,5 @@
+import os
+
 from libqtile import bar, layout, widget, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
@@ -12,6 +14,7 @@ volume_widget = widget.Volume(
     volume_app='pavucontrol',
 )
 
+is_laptop = 'laptop' in os.uname().nodename.lower()
 
 # function to decrease brightness, but don't go below 10%
 def dec_brightness(qt):
@@ -129,24 +132,15 @@ screens = [
                 # TODO figure out why this doesn't work...
                 # widget.Backlight(brightness_file='intel_backlight'),
                 volume_widget,
-                widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#ffffff'), # 12-hour time: %I:%M %p    24-hour: %H:%M
-                widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff'),
+                # laptop-only, not sure if there is a better way to make this conditional...
+                *([
+                    widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff')
+                ] if is_laptop else []),
+                widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#c0ff90'), # 12-hour time: %I:%M %p    24-hour: %H:%M
                 widget.QuickExit(foreground='#df5050', countdown_start=3),
             ],
             24,
         ),
-        # Wallpapers from NixOS/nixos-artwork on github
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-dracula.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-nineish-dark-gray.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-nineish.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-blue.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-dark-gray_bottom.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-dark-gray.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-light-gray.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-simple-red.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-stripes-logo.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-stripes.png",
-        # wallpaper="~/Pictures/wallpapers/nixos/nix-wallpaper-mosaic-blue.png",
         wallpaper="~/Pictures/wallpapers/nixos_logo.png",
 
         wallpaper_mode='fill',

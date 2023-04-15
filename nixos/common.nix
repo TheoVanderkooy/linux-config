@@ -138,6 +138,23 @@
       defaultPref("urlclassifier.trackingWhitelistTable", "")
       defaultPref("urlclassifier.trackingAnnotationWhitelistTable", "")
       defaultPref("privacy.resistFingerprinting", true)
+
+      // Open previous session on startup
+      defaultPref("browser.startup.page", 3)
+
+      // New tab configuration
+      defaultPref("browser.newtabpage.activity-stream.showSponsored", false)
+      defaultPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false)
+      defaultPref("browser.newtabpage.activity-stream.feeds.section.topstories", false)
+      defaultPref("browser.newtabpage.activity-stream.feeds.topsites", false) // "shortcuts" (recent/common sites)
+
+      // Don't save passwords
+      defaultPref("signon.rememberSignons", false)
+      defaultPref("extensions.formautofill.addresses.enabled", true)
+      defaultPref("extensions.formautofill.creditCards.enabled", false)
+
+      // HTTPS only
+      defaultPref("dom.security.https_only_mode", true)
       '';
   };
 
