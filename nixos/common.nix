@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
-
-{
+let
+  localnet = "192.168.0.0/24";
+  localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
+  localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
+in {
   # Networking
   networking.networkmanager.enable = true;
 
@@ -142,7 +145,8 @@
       defaultPref("urlclassifier.features.socialtracking.whitelistTables", "")
       defaultPref("urlclassifier.trackingWhitelistTable", "")
       defaultPref("urlclassifier.trackingAnnotationWhitelistTable", "")
-      defaultPref("privacy.resistFingerprinting", true)
+      // resist fingerprinting breaks remembering zoom levels :(
+      // defaultPref("privacy.resistFingerprinting", true)
 
       // Open previous session on startup
       defaultPref("browser.startup.page", 3)
@@ -169,4 +173,11 @@
     MOZ_USE_XINPUT2 = "1";
   };
 
+  # Firewall rules (localsend)
+  networking.firewall.extraCommands = ''
+    ${localsend-fw-up}
+  '';
+  networking.firewall.extraStopCommands = ''
+    ${localsend-fw-down}
+  '';
 }

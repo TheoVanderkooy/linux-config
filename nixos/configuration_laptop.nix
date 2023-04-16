@@ -2,9 +2,6 @@
 let
   user = "theo";
   name = "Theo Vanderkooy";
-  localnet = "192.168.0.0/24";
-  localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
-  localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
 in {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -38,15 +35,6 @@ in {
 
   # Laptop power configuration
   services.logind.lidSwitchExternalPower = "ignore";
-
-  # Special firewall rules
-  networking.firewall.extraCommands = ''
-    ${localsend-fw-up}
-  '';
-
-  networking.firewall.extraStopCommands = ''
-    ${localsend-fw-down}
-  '';
 
   # Enable the Desktop Environment and configure some things.
   services.xserver = {

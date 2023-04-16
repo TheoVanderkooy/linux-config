@@ -26,6 +26,23 @@ in {
     driSupport = true;
   };
 
+  # Swap file + hibernation
+  swapDevices = [
+    {
+      # Note: on BTRFS have to either manually create the swap file or at least
+      # manually set to not copy-on-write (chattr +C <file>)
+      # BTRFS docs: https://btrfs.readthedocs.io/en/latest/Swapfile.html
+      device = "/var/swapfile";
+      size = 32*1024;
+    }
+  ];
+  boot.resumeDevice = "/dev/disk/by-label/nixos";
+  boot.kernelParams = [
+    "resume=/var/swapfile"
+    "resume_offset=18621696"
+    # Callculate "resume_offset": https://unix.stackexchange.com/questions/521686/using-swapfile-for-hibernation-with-btrfs-and-kernel-5-0-16-gentoo
+    # (BTRFS version 6.1+ has a separate utility for this)
+  ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -45,6 +62,7 @@ in {
     description = "${name}";
     extraGroups = [
       "wheel" "networkmanager" "video"
+      "libvirtd"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [ ];
@@ -62,8 +80,21 @@ in {
   };
 
   # Extra system packages/programs
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
+  };
   environment.systemPackages = with pkgs; [
-    # ...
+    virt-manager
   ];
   programs.wireshark.enable = true;
+
+  # Virtualization
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    # dockerCompate = true;
+    # dockerSocket.enable = true;
+  };
 }
