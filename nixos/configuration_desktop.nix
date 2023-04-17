@@ -17,14 +17,14 @@ in {
   # Required to boot for now...
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl = {
-    extraPackages = with pkgs; [
-      amdvlk
-    ];
+  # services.xserver.videoDrivers = [ "amdgpu" ];
+  # hardware.opengl = {
+  #   extraPackages = with pkgs; [
+  #     amdvlk
+  #   ];
 
-    driSupport = true;
-  };
+  #   driSupport = true;
+  # };
 
   # Swap file + hibernation
   swapDevices = [

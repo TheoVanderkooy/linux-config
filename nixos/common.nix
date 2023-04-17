@@ -97,6 +97,7 @@ in {
     vulkan-tools
     virtualgl
     aha
+    lm_sensors
 
     # useful programs
     git
@@ -164,6 +165,9 @@ in {
 
       // HTTPS only
       defaultPref("dom.security.https_only_mode", true)
+
+      // Middle mouse scrolling
+      defaultPref("general.autoScroll", true)
       '';
   };
 

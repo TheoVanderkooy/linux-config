@@ -17,7 +17,10 @@ in {
   ###   Normal packages   ###
   ###########################
   home.packages = with pkgs; [
-    keepassxc
+    # File management
+    krusader
+    onedrive
+    rclone
 
     # Utilities
     tldr
@@ -25,11 +28,12 @@ in {
     btop
     android-tools
     powerstat
+    cifs-utils
 
-    # books
+    # Books
     calibre
 
-    # games
+    # Games
     steam
     lutris
     # itch  # note: depends on electron 11.5 which is "insecure"
@@ -37,24 +41,27 @@ in {
     antimicrox  # configure controller -> keyboard inputs
     goverlay
 
-    # programming languages
-    rustup
-
-    # rust versions of other programs
+    # Rust versions of other programs
     ripgrep   # grep
     bat       # cat
     exa       # ls
     fd        # find
 
-    # rss
-    rssguard
+    # Communication
     thunderbird
+    discord
 
-    # other tools...
+    # Remote desktop
+    remmina
+    rustdesk
+
+    # Other tools...
     ventoy-bin
     wireshark-qt
     gparted
     lapce  # rust code editor
+    headsetcontrol
+    keepassxc
 
 
     # Flatpaks
