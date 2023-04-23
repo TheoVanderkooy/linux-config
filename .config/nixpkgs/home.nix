@@ -19,6 +19,7 @@ in {
   home.packages = with pkgs; [
     # File management
     krusader
+    filelight
     onedrive
     rclone
 
@@ -29,6 +30,7 @@ in {
     android-tools
     powerstat
     cifs-utils
+    i2c-tools
 
     # Books
     calibre
@@ -36,6 +38,7 @@ in {
     # Games
     steam
     lutris
+    heroic
     # itch  # note: depends on electron 11.5 which is "insecure"
     # bottles  # broken :( use flatpak
     antimicrox  # configure controller -> keyboard inputs

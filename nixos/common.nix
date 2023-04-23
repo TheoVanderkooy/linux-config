@@ -107,6 +107,11 @@ in {
     rnix-lsp
     neofetch
 
+    # windows compatibility
+    cabextract
+    winetricks
+    # protontricks  # version from unstable imported in desktop config... or use flatpak
+
     # installation-related (not needed most of the time)
     # efibootmgr
     # gparted

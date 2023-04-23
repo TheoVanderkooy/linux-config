@@ -2,6 +2,7 @@
 let
   user = "theo";
   name = "Theo Vanderkooy";
+  unstable = import <unstable> { config = config.nixpkgs.config; };
 in {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -14,17 +15,12 @@ in {
   # Hostname
   networking.hostName = "nixos-desktop";
 
-  # Required to boot for now...
+  # Required for GUI to work for now... remove once LTS catches up
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;
-  # services.xserver.videoDrivers = [ "amdgpu" ];
-  # hardware.opengl = {
-  #   extraPackages = with pkgs; [
-  #     amdvlk
-  #   ];
-
-  #   driSupport = true;
-  # };
+  boot.kernelModules = [
+    # "i2c-dev"  # for openrgb to control GPU RGB
+  ];
 
   # Swap file + hibernation
   swapDevices = [
@@ -50,7 +46,10 @@ in {
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # Plasma Desktop Environment
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm = {
+    enable = true;
+    autoNumlock = true;
+  };
   services.xserver.desktopManager.plasma5.enable = true;
 
   # Enable bluetooth
@@ -84,8 +83,16 @@ in {
     daemon.enable = true;
     updater.enable = true;
   };
+  services.hardware.openrgb = {
+    enable = true;
+    motherboard = "amd";
+    # TODO figure out why this doesn't work...
+    # seemed to work better with just boot.kernelModules-["i2c-dev"]; and the openrgb package directly
+  };
   environment.systemPackages = with pkgs; [
     virt-manager
+
+    unstable.protontricks
   ];
   programs.wireshark.enable = true;
 
