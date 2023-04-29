@@ -80,19 +80,30 @@ in {
 
   # Extra system packages/programs
   services.clamav = {
-    daemon.enable = true;
-    updater.enable = true;
+    daemon =  {
+      enable = true;
+      settings = {
+        # LogSyslog = true;
+        ExtendedDetectionInfo = true;
+        # VirusEvent
+      };
+    };
+    updater = {
+      enable = true;
+      settings = {
+        # LogSyslog = true;
+      };
+    };
   };
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
-    # TODO figure out why this doesn't work...
-    # seemed to work better with just boot.kernelModules-["i2c-dev"]; and the openrgb package directly
   };
   environment.systemPackages = with pkgs; [
     virt-manager
 
     unstable.protontricks
+    unstable.steamtinkerlaunch
   ];
   programs.wireshark.enable = true;
 

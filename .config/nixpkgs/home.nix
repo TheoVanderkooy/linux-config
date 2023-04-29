@@ -2,6 +2,7 @@
 let
   name = "Theo Vanderkooy";
   email = "theo.vanderkooy@gmail.com";
+  # unstable = import <unstable> { config = config.nixpkgs.config; };
 in {
   imports = [
     ~/.config/nixpkgs/local.nix
@@ -43,6 +44,8 @@ in {
     # bottles  # broken :( use flatpak
     antimicrox  # configure controller -> keyboard inputs
     goverlay
+    # unstable.steamtinkerlaunch  # TODO why does unstable not work here?
+    # steamtinkerlaunch
 
     # Rust versions of other programs
     ripgrep   # grep
