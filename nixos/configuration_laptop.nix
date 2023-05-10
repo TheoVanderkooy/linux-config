@@ -43,7 +43,7 @@ in {
       touchpad.naturalScrolling = true;
     };
   };
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true; # TODO try this after 23.05...
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.displayManager = {
     # lightdm = {
