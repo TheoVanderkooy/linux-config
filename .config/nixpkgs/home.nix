@@ -64,7 +64,7 @@ in {
 
     # Remote desktop
     remmina
-    rustdesk
+    # rustdesk
 
     # Other tools...
     ventoy-bin
