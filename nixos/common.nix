@@ -56,6 +56,8 @@ in {
 
   # Programs
   services.flatpak.enable = true;
+  programs.xwayland.enable = true;
+  programs.firejail.enable = true;
   environment.systemPackages = with pkgs; [
     # for qtile
     rofi
@@ -98,6 +100,8 @@ in {
     virtualgl
     aha
     lm_sensors
+    waypipe
+    smartmontools
 
     # useful programs
     git

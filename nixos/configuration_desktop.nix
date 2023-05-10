@@ -69,12 +69,18 @@ in {
 
   # Security programs
   # security.sudo.enable = false;
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
   security.doas = {
     enable = true;
+    wheelNeedsPassword = false;
     extraRules = [{
       users = [ "${user}" ];
       keepEnv = true;
       persist = true;
+      # noPass = true;
     }];
   };
 

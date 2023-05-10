@@ -43,6 +43,7 @@ in {
       touchpad.naturalScrolling = true;
     };
   };
+  programs.hyprland.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.displayManager = {
     # lightdm = {
@@ -57,7 +58,7 @@ in {
     defaultSession = "none+qtile";
   };
   services.xserver.desktopManager = {
-    plasma5.enable = true;
+    # plasma5.enable = true;
   };
 
 

@@ -23,6 +23,7 @@ in {
     filelight
     onedrive
     rclone
+    ark
 
     # Utilities
     tldr
@@ -50,6 +51,10 @@ in {
     # Rust versions of other programs
     ripgrep   # grep
     bat       # cat
+    bat-extras.batgrep
+    bat-extras.batman
+    bat-extras.batwatch
+    bat-extras.batdiff
     exa       # ls
     fd        # find
 
