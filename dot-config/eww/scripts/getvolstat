@@ -1,0 +1,7 @@
+#!/bin/sh
+status=$(amixer sget Master | grep -oE '\[(on|off)\]' | head -1)
+case $status in
+  '[on]') echo 🔊 ;;
+  '[off]') echo 🔇 ;;
+  *) echo ?? ;;
+esac

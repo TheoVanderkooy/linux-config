@@ -1,17 +1,13 @@
 
-
 * {
   all: unset; //Unsets everything so you can style everything from scratch
 }
 
-//Global Styles
 .bar {
-  background-color: #3a3a3a;
+  background-color: #222;
   color: #b0b4bc;
   padding: 10px;
 }
-
-// Styles on classes (see eww.yuck for more information)
 
 .sidestuff {
   padding-right: 10px;
@@ -37,27 +33,6 @@
   margin-left: 10px;
   margin-right: 20px;
 }
-.metric scale trough highlight {
-  all: unset;
-  background-color: #D35D6E;
-  color: #000000;
-  border-radius: 10px;
-}
-.metric scale trough {
-  all: unset;
-  background-color: #4e4e4e;
-  border-radius: 50px;
-  min-height: 3px;
-  min-width: 50px;
-  margin-left: 10px;
-  margin-right: 20px;
-}
-.label-ram {
-  font-size: large;
-}
-.workspaces button:hover {
-  color: #D35D6E;
-}
 
 .workspace-entry {
   margin-top: 4px;
@@ -68,19 +43,22 @@
   padding-left: 4px;
   padding-right: 4px;
 
-  border: 1.5px solid #000088;
+  border: 1.5px solid #2244ff;
+}
+.workspace-eventbox:not(:hover) box {
   color: white;
 }
-
-
-.occupied {
+.workspace-eventbox:hover box {
+  color: #2c4;
+}
+.workspace-entry.occupied {
   background-color: #110022;
 }
-.empty {
+.workspace-entry.empty {
   background-color: #002244;
 }
-.current {
-  border: 1.5px solid #2244ff;
+.workspace-entry.current {
+  border: 1.5px solid #2f4;
   // outline: 2px solid #ff0000;
   // TODO why does outline not work??
 }

@@ -1,5 +1,11 @@
 
 
+;; bottom bar
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (window_w)
+    (sidestuff)))
 
 
 ;; workspaces list
@@ -12,10 +18,9 @@
          :spacing 0
       (label :text "${workspaces}${current_workspace}" :visible false)
       (for workspace in workspaces
-        ;; (button :onclick "hyperctl dispatch workspace ${workspace.id}"
-        ;;         :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}"
-        ;;   "${workspace.id}")
+        ;; note: css selectors don't seem to work well for box/button, use eventbox wrapper to capture the events
         (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
+                  :class "workspace-eventbox"
           (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}"
             (label :text "${workspace.id}")
             )
@@ -24,6 +29,7 @@
       )
     )
   )
+
 
 ;; active window title
 (deflisten window :initial "..." "sh ~/.config/eww/scripts/get-window-title")
@@ -34,56 +40,22 @@
   )
 
 
-;; eww example bar
-(defwidget bar []
-  (centerbox :orientation "h"
-    (workspaces)
-    (window_w)
-    ;; (music)
-    (sidestuff)))
-
+;; right side of the bar
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
-    (metric :label "🔊"
-            :value volume
-            :onchange "amixer -D pulse sset Master {}%")
+    (metric :label volume_status
+            :value volume_percent
+            :onchange "amixer sset Master {}%")
 ;; TODO click volume thing to open thingy... and/or mute
-    (metric :label battery_status ;;"🔋"
-            :value battery
+;; TODO swap back to percentages?
+    (metric :label battery_status
+            :value battery_percent
             :onchange "")
-    ;; (metric :label ""
-    ;;         :value {EWW_RAM.used_mem_perc}
-    ;;         :onchange "")
-    ;; (metric :label "💾"
-    ;;         :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-    ;;         :onchange "")
+;; TODO wifi widget?
     time))
 
-;; TODO update this based on the hyprland recommended stuff
-;; (defwidget workspaces []
-;;   (box :class "workspaces"
-;;        :orientation "h"
-;;        :space-evenly true
-;;        :halign "start"
-;;        :spacing 10
-;;     (button :onclick "wmctrl -s 0" 1)
-;;     (button :onclick "wmctrl -s 1" 2)
-;;     (button :onclick "wmctrl -s 2" 3)
-;;     (button :onclick "wmctrl -s 3" 4)
-;;     (button :onclick "wmctrl -s 4" 5)
-;;     (button :onclick "wmctrl -s 5" 6)
-;;     (button :onclick "wmctrl -s 6" 7)
-;;     (button :onclick "wmctrl -s 7" 8)
-;;     (button :onclick "wmctrl -s 8" 9)))
 
-;; (defwidget music []
-;;   (box :class "music"
-;;        :orientation "h"
-;;        :space-evenly false
-;;        :halign "center"
-;;     {music != "" ? "🎵${music}" : ""}))
-
-
+;; define generic metrics
 (defwidget metric [label value onchange]
   (box :orientation "h"
        :class "metric"
@@ -96,32 +68,26 @@
            :onchange onchange)))
 
 
-
-;; (deflisten music :initial ""
-;;   "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-
-(defpoll volume :interval "1s"
+;; define various metrics for right side
+(defpoll volume_percent :interval "0.1s"
   "scripts/getvol")
-
+(defpoll volume_status :interval "0.1s"
+  "scripts/getvolstat")
 (defpoll time :interval "1s"
   "date '+%H:%M %b %d, %Y'")
-
-;; TODO indicate whether charging or discharging?
-(defpoll battery :interval "5s"
+(defpoll battery_percent :interval "5s"
   "scripts/getbat")
 (defpoll battery_status :interval "5s"
   "scripts/getbatstat")
 
+
+;; declare the bar
 (defwindow bar
   :monitor 0
-  ;; :windowtype "dock"
   :exclusive true
   :geometry (geometry :x "0%"
                       :y "0%"
                       :width "100%"
                       :height "24px"
                       :anchor "bottom center")
-  ;; :reserve (struts :side "top" :distance "4%")
   (bar))
-
-;; TODO change the X11 stuff to wayland here!

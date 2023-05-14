@@ -1,0 +1,10 @@
+#!/bin/sh
+cur=$(cat /sys/class/backlight/intel_backlight/brightness)
+max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+pct=$((100*$cur/$max))
+
+if [ $pct -ge 20 ]; then
+    brightnessctl set 10%-
+else
+    brightnessctl set 10%
+fi
