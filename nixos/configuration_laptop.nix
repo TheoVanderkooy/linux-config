@@ -136,6 +136,14 @@ in {
     # volume
     pavucontrol # consider alternatives
 
+    # hyprland things
+    swaybg  # wallpaper
+    eww-wayland  # bar/widgets
+    waybar  # bar
+    wlogout  # logout
+    # eww script dependencies
+    gawk coreutils gnugrep socat jq bc
+
 
     # icons
     paper-icon-theme
@@ -147,6 +155,9 @@ in {
     # ...
     # nextcloud-client
   ];
+  programs.fish.enable = true;
+  programs.hyprland.enable = true;
+  programs.sway.enable = true;
 
   # services.terraria = {
   #   enable = true;

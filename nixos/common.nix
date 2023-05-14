@@ -56,8 +56,14 @@ in {
 
   # Programs
   services.flatpak.enable = true;
-  programs.xwayland.enable = true;
-  programs.firejail.enable = true;
+  programs = {
+    xwayland.enable = true;
+    firejail.enable = true;
+
+    # shells
+    fish.enable = true;
+    zsh.enable = true;
+  };
   environment.systemPackages = with pkgs; [
     # for qtile
     rofi
@@ -73,11 +79,6 @@ in {
     # editors
     nano
     neovim
-
-    # shells
-    bash
-    fish
-    zsh
 
     # terminals
     kitty

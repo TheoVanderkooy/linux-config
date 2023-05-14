@@ -1,0 +1,21 @@
+#!/bin/sh
+# now=$(cat /sys/class/power_supply/BAT0/energy_now)
+# full=$(cat /sys/class/power_supply/BAT0/energy_full)
+# pct="$((100*$now/$full))"
+pct=$(cat /sys/class/power_supply/BAT0/capacity)
+
+stat=$(cat /sys/class/power_supply/BAT0/status)
+case $stat in
+    Full|Charging|"Not charging") echo "⚡" ;;
+    Discharging)
+        if [ $pct -le 40 ]; then
+            echo 🪫
+        else
+            echo 🔋
+        fi ;;
+    *) echo "??" ;;
+esac
+
+# TODO different icon depending on battery state?
+# battery: 🪫 🔋 ⚡
+# ➕ 🔺 🔼 ⬆️ ➖ 🔻 🔽 ⬇️

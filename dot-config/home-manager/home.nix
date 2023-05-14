@@ -5,7 +5,7 @@ let
   # unstable = import <unstable> { config = config.nixpkgs.config; };
 in {
   imports = [
-    ~/.config/nixpkgs/local.nix
+    ~/.config/home-manager/local.nix
   ];
   programs.home-manager.enable = true;
 
@@ -215,9 +215,11 @@ in {
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
+    mutableExtensionsDir = true;
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       jnoortheen.nix-ide
+      # eww-yuck.yuck  # not packaged?
     ];
     userSettings = {
       "nix.enableLanguageServer" = true;

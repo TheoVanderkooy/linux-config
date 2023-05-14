@@ -1,0 +1,6 @@
+#!/bin/sh
+# now=$(cat /sys/class/power_supply/BAT0/energy_now)
+# full=$(cat /sys/class/power_supply/BAT0/energy_full)
+# echo "$((100*$now/$full))"
+#echo "scale=0;100*$now/$full" | bc
+cat /sys/class/power_supply/BAT0/capacity

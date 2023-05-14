@@ -7,7 +7,7 @@ from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
 
 mod = "mod4"
-terminal = guess_terminal(['kitty'])
+terminal = guess_terminal(['alacritty', 'kitty'])
 
 # declare volume widget here so keyboard controls can be set up
 volume_widget = widget.Volume(
