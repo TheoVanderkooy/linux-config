@@ -16,8 +16,8 @@ in {
   networking.hostName = "nixos-desktop";
 
   # Required for GUI to work for now... remove once LTS catches up
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;  # non-latest is not cached, stick with "latest" until new LTS
   boot.kernelModules = [
     # "i2c-dev"  # for openrgb to control GPU RGB
   ];

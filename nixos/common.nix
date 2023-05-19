@@ -79,6 +79,7 @@ in {
     # editors
     nano
     neovim
+    kate
 
     # terminals
     kitty
@@ -103,6 +104,7 @@ in {
     lm_sensors
     waypipe
     smartmontools
+    nix-index
 
     # useful programs
     git

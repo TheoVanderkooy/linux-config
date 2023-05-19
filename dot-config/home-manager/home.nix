@@ -33,6 +33,7 @@ in {
     powerstat
     cifs-utils
     i2c-tools
+    systemdgenie
 
     # Books
     calibre
@@ -73,12 +74,14 @@ in {
     lapce  # rust code editor
     headsetcontrol
     keepassxc
+    mpv  # video player
 
 
     # Flatpaks
     # com.usebottles.bottles
     # org.localsend.localsend_app
     # com.github.tchx84.Flatseal
+    # md.obsidian.Obsidian
   ];
 
 
