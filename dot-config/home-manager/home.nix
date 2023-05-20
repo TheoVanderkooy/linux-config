@@ -190,6 +190,17 @@ in {
       };
     };
 
+    # Style the git prompt
+    interactiveShellInit = ''
+      set __fish_git_prompt_showuntrackedfiles  true
+      set __fish_git_prompt_showdirtystate      true
+      set __fish_git_prompt_showcolorhints      true
+      set __fish_git_prompt_color               yellow
+      set __fish_git_prompt_color_branch        yellow
+      set __fish_git_prompt_color_flags         yellow
+      set __fish_git_prompt_color_dirtystate    yellow
+    '';
+
   };
 
 
