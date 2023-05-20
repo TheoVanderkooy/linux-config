@@ -61,7 +61,7 @@ in {
 
     # Communication
     thunderbird
-    discord
+    # discord
 
     # Remote desktop
     remmina
@@ -77,11 +77,14 @@ in {
     mpv  # video player
 
 
-    # Flatpaks
+    # Flatpaks: (flathub)
     # com.usebottles.bottles
     # org.localsend.localsend_app
     # com.github.tchx84.Flatseal
     # md.obsidian.Obsidian
+    # com.outerwildsmods.owmods_gui
+    # com.discordapp.Discord
+    # io.github.hakandundar34coding.system-monitoring-center
   ];
 
 
