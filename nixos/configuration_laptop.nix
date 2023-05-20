@@ -43,7 +43,9 @@ in {
       touchpad.naturalScrolling = true;
     };
   };
-  # programs.hyprland.enable = true; # TODO try this after 23.05...
+
+  programs.hyprland.enable = true;
+  programs.sway.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
   services.xserver.displayManager = {
     # lightdm = {
@@ -51,11 +53,10 @@ in {
     #   greeter.enable = false;
     # };
     autoLogin = {
-      # enable = true;
       enable = false;
       user = "${user}";
     };
-    defaultSession = "none+qtile";
+    defaultSession = "hyprland";
   };
   services.xserver.desktopManager = {
     # plasma5.enable = true;
@@ -86,28 +87,6 @@ in {
     shell = pkgs.fish;
     packages = with pkgs; [ ];
   };
-
-
-  # networking.firewall.allowedTCPPorts = [ 80 443 ];
-  # services.nextcloud = {
-  #   enable = true;
-  #   hostName = "localhost";
-  #   package = pkgs.nextcloud25;
-  #   config = {
-  #     adminpassFile = "/.config/nextcloud_adminpass";
-  #   };
-  #   enableBrokenCiphersForSSE = false;
-  # };
-  # services.paperless = {
-  #   enable = true;
-  #   extraConfig = { };
-  # };
-
-  # services.rss-bridge = {
-  #   enable = true;
-  #   # whitelist = [ ];
-  # };
-  # programs.nix-ld.enable = true;
 
   # Extra system packages/programs
   environment.systemPackages = with pkgs; [
@@ -155,16 +134,6 @@ in {
     # ...
     # nextcloud-client
   ];
-  programs.fish.enable = true;
-  programs.hyprland.enable = true;
-  programs.sway.enable = true;
-
-  # services.terraria = {
-  #   enable = true;
-  #   openFirewall = true;
-  # };
-
-
   programs.wireshark.enable = true;
 
   # Security programs

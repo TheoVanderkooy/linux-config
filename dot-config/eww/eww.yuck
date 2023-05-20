@@ -91,3 +91,6 @@
                       :height "24px"
                       :anchor "bottom center")
   (bar))
+
+
+;; TODO system tray! once it is supported...

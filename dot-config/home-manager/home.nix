@@ -226,6 +226,7 @@ in {
     ];
     userSettings = {
       "nix.enableLanguageServer" = true;
+      "nix.serverPath" = "nil";
       "files.trimFinalNewlines" = true;
       "files.trimTrailingWhitespace" = true;
       "git.confirmSync" = false;

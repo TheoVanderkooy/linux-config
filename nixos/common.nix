@@ -113,6 +113,7 @@ in {
     nix-tree
     rnix-lsp
     neofetch
+    nil
 
     # windows compatibility
     cabextract
