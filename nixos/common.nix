@@ -4,6 +4,10 @@ let
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
   localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
 in {
+  boot.kernel.sysctl = {
+    "kernel.sysrq" = 1; # enable sysrq commands
+  };
+
   # Networking
   networking.networkmanager.enable = true;
 
@@ -24,6 +28,7 @@ in {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal
+      pkgs.xdg-desktop-portal-gtk
     ];
   };
 
@@ -111,7 +116,7 @@ in {
     tmux
     gnupg
     nix-tree
-    rnix-lsp
+    # rnix-lsp
     neofetch
     nil
 

@@ -48,6 +48,7 @@ in {
     goverlay
     # unstable.steamtinkerlaunch  # TODO why does unstable not work here?
     # steamtinkerlaunch
+    prismlauncher
 
     # Rust versions of other programs
     ripgrep   # grep
@@ -56,6 +57,7 @@ in {
     bat-extras.batman
     bat-extras.batwatch
     bat-extras.batdiff
+    bat-extras.prettybat
     exa       # ls
     fd        # find
 
@@ -224,7 +226,7 @@ in {
 
   # EMACS
   programs.emacs = {
-    enable = true;
+    # enable = true;
     # TODO manage plugins/etc with home manager?
   };
 

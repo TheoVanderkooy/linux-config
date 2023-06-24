@@ -84,6 +84,13 @@ in {
     }];
   };
 
+  # Printing
+  services.printing = {
+    drivers = with pkgs; [
+      hplipWithPlugin
+    ];
+  };
+
   # Extra system packages/programs
   services.clamav = {
     daemon =  {
@@ -108,8 +115,17 @@ in {
   environment.systemPackages = with pkgs; [
     virt-manager
 
-    unstable.protontricks
-    unstable.steamtinkerlaunch
+    # unstable.protontricks
+    # unstable.steamtinkerlaunch
+
+    # protontricks  # flatpak version?
+    steamtinkerlaunch  # does this work at all?
+
+    vivaldi
+    jdk17
+
+    # BTRF tools
+    duperemove
   ];
   programs.wireshark.enable = true;
 
