@@ -47,6 +47,11 @@ in {
   programs.hyprland.enable = true;
   programs.sway.enable = true;
   services.xserver.windowManager.leftwm.enable = true;
+  services.xserver.windowManager.qtile = {
+    enable = true;
+    # backend = "wayland";  # screen resolution issues...
+  };
+
   services.xserver.displayManager = {
     # lightdm = {
     #   enable = true;

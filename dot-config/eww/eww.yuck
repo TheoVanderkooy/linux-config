@@ -74,7 +74,7 @@
 (defpoll volume_status :interval "0.1s"
   "scripts/getvolstat")
 (defpoll time :interval "1s"
-  "date '+%H:%M %b %d, %Y'")
+  "date '+%H:%M %b %d'")
 (defpoll battery_percent :interval "5s"
   "scripts/getbat")
 (defpoll battery_status :interval "5s"

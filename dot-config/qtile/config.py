@@ -135,7 +135,7 @@ screens = [
                 volume_widget,
                 # laptop-only, not sure if there is a better way to make this conditional...
                 *([
-                    widget.Battery(format="{char} {percent:2.0%}", charge_char='+', discharge_char='-', foreground='#a0a0ff')
+                    widget.Battery(format="{char} {percent:2.0%}", charge_char='⚡', discharge_char='🔋', foreground='#a0a0ff')
                 ] if is_laptop else []),
                 widget.Clock(format="%Y-%m-%d %a  %H:%M", foreground='#c0ff90'), # 12-hour time: %I:%M %p    24-hour: %H:%M
                 widget.QuickExit(foreground='#df5050', countdown_start=3),
