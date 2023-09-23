@@ -89,6 +89,10 @@ in {
     # io.github.hakandundar34coding.system-monitoring-center
   ];
 
+  # programs.thunderbird = {
+  #   enable = true;
+  # };
+
 
   ##################
   ###   SHELLS   ###
@@ -238,7 +242,7 @@ in {
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       jnoortheen.nix-ide
-      # eww-yuck.yuck  # not packaged?
+      arrterian.nix-env-selector
     ];
     userSettings = {
       "nix.enableLanguageServer" = true;
@@ -336,6 +340,7 @@ in {
 
     extraConfig = {
       grep.lineNumber = true;
+      init.defaultBranch = "main";
     };
   };
 

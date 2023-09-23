@@ -28,7 +28,7 @@ in {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal
-      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gtk  # needed for GTK flatpaks to render correctly
     ];
   };
 
@@ -44,6 +44,14 @@ in {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+  };
+
+  # Fonts
+  fonts = {
+    enableDefaultFonts = true;
+    packages = with pkgs; [
+      inter  # what was this for??
+    ];
   };
 
   # Nix config
@@ -78,9 +86,6 @@ in {
     pavucontrol
     brightnessctl
 
-    # fonts
-    inter
-
     # editors
     nano
     neovim
@@ -90,9 +95,13 @@ in {
     kitty
     alacritty
 
+    # various system things
+    sshfs
+
     # basic terminal/system utilities
     coreutils
     pciutils
+    usbutils
     wget
     htop
     btop
@@ -110,6 +119,8 @@ in {
     waypipe
     smartmontools
     nix-index
+    lsof
+    duperemove
 
     # useful programs
     git
@@ -126,7 +137,7 @@ in {
     # protontricks  # version from unstable imported in desktop config... or use flatpak
 
     # installation-related (not needed most of the time)
-    # efibootmgr
+    efibootmgr
     # gparted
   ];
 
@@ -186,6 +197,9 @@ in {
 
       // Middle mouse scrolling
       defaultPref("general.autoScroll", true)
+
+      // Prevent disabling extensions...
+      defaultPref("extensions.quarantinedDomains.enabled", false)
       '';
   };
 

@@ -5,6 +5,7 @@ let
   unstable = import <unstable> { config = config.nixpkgs.config; };
 in {
   imports = [
+    # <nixpkgs/nixos/modules/services/hardware/sane_extra_backends/brscan4.nix>  # I think this was related to the scanner...
     /etc/nixos/hardware-configuration.nix
     ./common.nix
   ];
@@ -17,9 +18,10 @@ in {
 
   # Required for GUI to work for now... remove once LTS catches up
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_2;  # non-latest is not cached, stick with "latest" until new LTS
   boot.kernelModules = [
     # "i2c-dev"  # for openrgb to control GPU RGB
+    # kernel modules for zswap
+    "lz4" "z3fold"
   ];
 
   # Swap file + hibernation
@@ -30,20 +32,42 @@ in {
       # BTRFS docs: https://btrfs.readthedocs.io/en/latest/Swapfile.html
       device = "/var/swapfile";
       size = 32*1024;
+      priority = 0;  # number in 0-2^16, higher priority used more. (should set low priority with high priority zswap...)
     }
   ];
   boot.resumeDevice = "/dev/disk/by-label/nixos";
   boot.kernelParams = [
+    # Enable swapfile
+    # Callculate "resume_offset": https://unix.stackexchange.com/questions/521686/using-swapfile-for-hibernation-with-btrfs-and-kernel-5-0-16-gentoo
+    # btrfs inspect-internal map-swapfile -r /var/swapfile
     "resume=/var/swapfile"
     "resume_offset=18621696"
-    # Callculate "resume_offset": https://unix.stackexchange.com/questions/521686/using-swapfile-for-hibernation-with-btrfs-and-kernel-5-0-16-gentoo
-    # (BTRFS version 6.1+ has a separate utility for this)
+
+    # enable zswap
+    # TODO: lz4 and z3fold apparently not available, figure out why not...
+    "zswap.enabled=1" "zswap.compressor=lz4" "zswap.zpool=z3fold"
   ];
+  boot.initrd.availableKernelModules = [ "lz4" "z3fold" ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+
+  # mount NAS
+  system.fsPackages = [ pkgs.sshfs ];
+  fileSystems."/mnt/nas" =
+    { device = "admin@10.0.0.2:/mnt/data";
+      fsType = "sshfs";
+      options = [
+        "allow_other" "_netdev"
+        "x-systemd.automount" "noauto" # lazy mount
+        "x-systemd.idle-timeout=300" # auto disconnect
+        # "reconnect"              # handle connection drops
+        "ServerAliveInterval=15" # keep connections alive
+        "IdentityFile=/root/nas_key"
+      ];
+    };
 
   # Plasma Desktop Environment
   services.xserver.displayManager.sddm = {
@@ -61,7 +85,7 @@ in {
     description = "${name}";
     extraGroups = [
       "wheel" "networkmanager" "video"
-      "libvirtd"
+      "libvirtd" "scanner" "lp"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [ ];
@@ -84,12 +108,35 @@ in {
     }];
   };
 
-  # Printing
-  services.printing = {
-    drivers = with pkgs; [
-      hplipWithPlugin
-    ];
-  };
+
+  # printing/scanning doesn't seem to work... just use windows!
+
+  # # Printing
+  # services.printing = {
+  #   enable = true;
+  #   drivers = with pkgs; [
+  #     hplipWithPlugin
+  #   ];
+  # };
+  # services.avahi = {
+  #   enable = true;
+  #   nssmdns = true;
+  # };
+  # # Scanning
+  # hardware.sane = {
+  #   enable = true;
+  #    brscan4 = {
+  #     enable = true;
+  #     #   netDevices = {
+  #     #   home = { model = "DS"; ip = "192.168.178.23"; };
+  #     # };
+  #   };
+  # };
+  services.ipp-usb.enable=true;
+
+
+  # VPN config
+  programs.openvpn3.enable = true;
 
   # Extra system packages/programs
   services.clamav = {
@@ -114,6 +161,7 @@ in {
   };
   environment.systemPackages = with pkgs; [
     virt-manager
+    virtiofsd
 
     # unstable.protontricks
     # unstable.steamtinkerlaunch
@@ -128,6 +176,7 @@ in {
     duperemove
   ];
   programs.wireshark.enable = true;
+  programs.kdeconnect.enable = true;
 
   # Virtualization
   virtualisation.libvirtd.enable = true;
