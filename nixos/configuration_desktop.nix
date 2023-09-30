@@ -60,11 +60,15 @@ in {
     { device = "admin@10.0.0.2:/mnt/data";
       fsType = "sshfs";
       options = [
-        "allow_other" "_netdev"
-        "x-systemd.automount" "noauto" # lazy mount
-        "x-systemd.idle-timeout=300" # auto disconnect
+        "_netdev" # network FS
+        # "x-systemd.automount" "x-systemd.idle-timeout=300" # create auto-mount to try mounting on access... dolphin (and maybe other file managers?) will constantly try to remount! so not good...
+        "noauto" # don't mount at boot, start manually with `systemctl start mnt-nas.mount` or `mount /mnt/nas`
+
+        "allow_other" # let users other than root use the mount
+
+        # SSH options
         # "reconnect"              # handle connection drops
-        "ServerAliveInterval=15" # keep connections alive
+        "ServerAliveInterval=15"
         "IdentityFile=/root/nas_key"
       ];
     };
@@ -171,9 +175,6 @@ in {
 
     vivaldi
     jdk17
-
-    # BTRF tools
-    duperemove
   ];
   programs.wireshark.enable = true;
   programs.kdeconnect.enable = true;

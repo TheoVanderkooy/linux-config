@@ -49,9 +49,9 @@ in {
   # Fonts
   fonts = {
     enableDefaultFonts = true;
-    packages = with pkgs; [
-      inter  # what was this for??
-    ];
+    # packages = with pkgs; [  # TODO: enable in 23.11, currently unstable-only
+    #   inter  # what was this for??
+    # ];
   };
 
   # Nix config
@@ -120,7 +120,7 @@ in {
     smartmontools
     nix-index
     lsof
-    duperemove
+    duperemove # BTRFS deduplication
 
     # useful programs
     git
