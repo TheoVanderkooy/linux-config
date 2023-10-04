@@ -98,6 +98,9 @@ in {
     # various system things
     sshfs
 
+    # backup
+    borgbackup
+
     # basic terminal/system utilities
     coreutils
     pciutils
@@ -121,6 +124,7 @@ in {
     nix-index
     lsof
     duperemove # BTRFS deduplication
+    ncdu
 
     # useful programs
     git

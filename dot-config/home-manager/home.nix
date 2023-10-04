@@ -62,7 +62,7 @@ in {
     fd        # find
 
     # Communication
-    thunderbird
+    thunderbird  # TODO: try BetterBird?
     # discord
 
     # Remote desktop
@@ -250,6 +250,7 @@ in {
       "files.trimFinalNewlines" = true;
       "files.trimTrailingWhitespace" = true;
       "git.confirmSync" = false;
+      "explorer.confirmDelete" = false;
     };
   };
 

@@ -56,22 +56,57 @@ in {
 
   # mount NAS
   system.fsPackages = [ pkgs.sshfs ];
-  fileSystems."/mnt/nas" =
-    { device = "admin@10.0.0.2:/mnt/data";
-      fsType = "sshfs";
-      options = [
-        "_netdev" # network FS
-        # "x-systemd.automount" "x-systemd.idle-timeout=300" # create auto-mount to try mounting on access... dolphin (and maybe other file managers?) will constantly try to remount! so not good...
-        "noauto" # don't mount at boot, start manually with `systemctl start mnt-nas.mount` or `mount /mnt/nas`
+  fileSystems."/mnt/nas" = {
+    device = "admin@10.0.0.2:/mnt/data";
+    fsType = "sshfs";
+    options = [
+      "_netdev" # network FS
+      # "x-systemd.automount" "x-systemd.idle-timeout=300" # create auto-mount to try mounting on access... dolphin (and maybe other file managers?) will constantly try to remount! so not good...
+      "noauto" # don't mount at boot, start manually with `systemctl start mnt-nas.mount` or `mount /mnt/nas`
 
-        "allow_other" # let users other than root use the mount
+      "allow_other" # let users other than root use the mount
 
-        # SSH options
-        # "reconnect"              # handle connection drops
-        "ServerAliveInterval=15"
-        "IdentityFile=/root/nas_key"
+      # SSH options
+      # "reconnect"              # handle connection drops
+      "ServerAliveInterval=15"
+      "IdentityFile=/root/nas_key"
+    ];
+  };
+
+  # Backups to NAS
+  services.borgbackup.jobs = {
+    desktop-home = rec {
+      paths = "/home/${user}/";
+      repo = "/mnt/nas/backups/desktop-home/";
+      # repo = "admin@10.0.0.2:/mnt/data/backups/desktop-home/";  # TODO: this needs borg installed on the remote machine... figure that out later!
+      encryption.mode = "none";
+      extraCreateArgs = "--stats";
+      compression = "auto,lzma";  # could turn off compression, and let remote FS handle it?
+      doInit = false;
+      removableDevice = true;
+      startAt = [];  # only run manually
+      environment = {
+        BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+        # BORG_RSH = "ssh -i /root/nas_key";
+      };
+      prune.keep = {
+        within = "1w";  # everything in the last week
+        daily = 7;      # then one a day for 7 days (only days with backups, e.g. if backup is every other day then there will be 7 backups over 14 days)
+        weekly = 4;     # then one a week for 4 weeks
+        monthly = 12;   # then one a month for 12 months
+        yearly = -1;    # then at least one a year going back forever
+      };
+      exclude = map (x: paths + x) [
+        # see `borg help patterns` for syntax
+        # it seems like the paths are absolute, not relative to repo
+        ".cache"
+        ".local/share/Trash"
+        # don't back up games
+        ".local/share/Steam"
+        "Games"
       ];
     };
+  };
 
   # Plasma Desktop Environment
   services.xserver.displayManager.sddm = {
