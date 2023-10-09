@@ -125,6 +125,7 @@ in {
     lsof
     duperemove # BTRFS deduplication
     ncdu
+    xxd
 
     # useful programs
     git
@@ -140,15 +141,13 @@ in {
     winetricks
     # protontricks  # version from unstable imported in desktop config... or use flatpak
 
+    # office tools
+    drawio
+
     # installation-related (not needed most of the time)
     efibootmgr
     # gparted
   ];
-
-  programs.steam = {
-    enable = true;
-    dedicatedServer.openFirewall = true;
-  };
 
   programs.ssh = {
     startAgent = true;

@@ -80,7 +80,7 @@ in {
       repo = "/mnt/nas/backups/desktop-home/";
       # repo = "admin@10.0.0.2:/mnt/data/backups/desktop-home/";  # TODO: this needs borg installed on the remote machine... figure that out later!
       encryption.mode = "none";
-      extraCreateArgs = "--stats";
+      extraCreateArgs = "--stats --exclude-caches";
       compression = "auto,lzma";  # could turn off compression, and let remote FS handle it?
       doInit = false;
       removableDevice = true;
@@ -96,9 +96,17 @@ in {
         monthly = 12;   # then one a month for 12 months
         yearly = -1;    # then at least one a year going back forever
       };
-      exclude = map (x: paths + x) [
-        # see `borg help patterns` for syntax
-        # it seems like the paths are absolute, not relative to repo
+      # see `borg help patterns` for exclude syntax
+      exclude = [
+        # absolute paths
+        # won't be included anyways since `paths` is only home folder, these are included here anyways as a template for future backup jobs
+        "/nix"
+        "/dev"
+        "/proc"
+        "/run"
+        "/sys"
+      ] ++ map (x: paths + x) [
+        # paths within home directory
         ".cache"
         ".local/share/Trash"
         # don't back up games
@@ -157,25 +165,8 @@ in {
   #     hplipWithPlugin
   #   ];
   # };
-  # services.avahi = {
-  #   enable = true;
-  #   nssmdns = true;
-  # };
-  # # Scanning
-  # hardware.sane = {
-  #   enable = true;
-  #    brscan4 = {
-  #     enable = true;
-  #     #   netDevices = {
-  #     #   home = { model = "DS"; ip = "192.168.178.23"; };
-  #     # };
-  #   };
-  # };
   services.ipp-usb.enable=true;
 
-
-  # VPN config
-  programs.openvpn3.enable = true;
 
   # Extra system packages/programs
   services.clamav = {
@@ -221,5 +212,12 @@ in {
     enable = true;
     # dockerCompate = true;
     # dockerSocket.enable = true;
+  };
+
+  # Gaming
+  programs.steam = {
+    enable = true;
+    dedicatedServer.openFirewall = true;
+    remotePlay.openFirewall = true;
   };
 }
