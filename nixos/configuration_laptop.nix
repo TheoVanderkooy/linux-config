@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, options, ... }:
 let
   user = "theo";
   name = "Theo Vanderkooy";
@@ -21,6 +21,18 @@ in {
     # Name starts with "nixos-generation" becuase it was not ordering it
     # properly without that for some reason...
     extraEntries = {
+      "nixos-generation-arch.conf" = ''
+        title Arch
+        linux /vmlinuz-linux
+        initrd /initramfs-linux.img
+        options root="LABEL=Arch OS" rw
+      '';
+      "nixos-generation-arch-fallback.conf" = ''
+        title Arch fallback
+        linux /vmlinuz-linux
+        initrd /initramfs-linux-fallback.img
+        options root="LABEL=Arch OS" rw
+      '';
       "nixos-generation-guix.conf" = ''
         title Guix
         efi /EFI/Guix/grubx64.efi
@@ -51,6 +63,22 @@ in {
     enable = true;
     # backend = "wayland";  # screen resolution issues...
   };
+
+  # configuring overlays
+  nix.nixPath = options.nix.nixPath.default ++ [
+    # See: nixos.wiki/wiki/Overlays#Using_overlays
+    "nixpkgs-overlay=/etc/nixos/overlays/"
+  ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      # Use local qtile repo: for testing changes (remove this once done)
+      qtile-unwrapped = prev.qtile-unwrapped.overrideAttrs (old: {
+        version = "local version";
+        src = /home/theo/qtile;
+      });
+
+    })
+  ];
 
   services.xserver.displayManager = {
     # lightdm = {
