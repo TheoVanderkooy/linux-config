@@ -116,6 +116,25 @@ in {
     };
   };
 
+  # Configure UPS
+  services.apcupsd = {
+    enable = true;
+    configText = ''
+      UPSTYPE usb
+      UPSCABLE usb
+      DEVICE
+      BATTERYLEVEL 10
+      MINUTES 5
+    '';
+    hooks = {
+      # hibernate instead of shutdown
+      doshutdown = ''
+        /run/current-system/sw/bin/systemctl hibernate
+        exit 99
+      '';
+    };
+  };
+
   # Plasma Desktop Environment
   services.xserver.displayManager.sddm = {
     enable = true;

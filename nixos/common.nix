@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 let
   localnet = "192.168.0.0/24";
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
@@ -65,6 +65,14 @@ in {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
+  };
+  # Automatic cleanup of old generations
+  nix.gc = {
+    automatic = lib.mkDefault true;
+    dates = "weekly";
+    persistent = true;
+    randomizedDelaySec = "1h";
+    options = "--delete-older-than 7d";
   };
 
   # Programs

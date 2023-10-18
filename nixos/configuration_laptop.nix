@@ -64,6 +64,9 @@ in {
     # backend = "wayland";  # screen resolution issues...
   };
 
+  # Nix settings
+  nix.gc.automatic = false;  # GC is expensive on old HDD...
+
   # configuring overlays
   nix.nixPath = options.nix.nixPath.default ++ [
     # See: nixos.wiki/wiki/Overlays#Using_overlays
