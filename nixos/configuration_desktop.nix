@@ -75,8 +75,12 @@ in {
 
   # Backups to NAS
   services.borgbackup.jobs = {
+    # TODO back up other locations:
+    #  - /etc? (mostly generated from nix store...)
+    #  - /var? (virtual machine images /var/lib/libvirt)
+
     desktop-home = rec {
-      paths = "/home/${user}/";
+      paths = "/home/";
       repo = "/mnt/nas/backups/desktop-home/";
       # repo = "admin@10.0.0.2:/mnt/data/backups/desktop-home/";  # TODO: this needs borg installed on the remote machine... figure that out later!
       encryption.mode = "none";
@@ -97,18 +101,23 @@ in {
         yearly = -1;    # then at least one a year going back forever
       };
       # see `borg help patterns` for exclude syntax
+      # paths are absolute
       exclude = [
-        # absolute paths
-        # won't be included anyways since `paths` is only home folder, these are included here anyways as a template for future backup jobs
+        # exclude nix store
         "/nix"
-        "/dev"
-        "/proc"
-        "/run"
-        "/sys"
-      ] ++ map (x: paths + x) [
+        # exclude system directories
+        "/dev" "/proc" "/sys" "/run"
+        # temp directories
+        "/tmp" "/logs"
+        # external drives
+        "/mnt" "/media"
+        # /var? definitely exlucde /var/lock, /var/run, /var/cache, /var/swapfile
+        "/var"
+      ] ++ map (x: "sh:/home/*/${x}") [
         # paths within home directory
         ".cache"
         ".local/share/Trash"
+        ".local/share/baloo"  # file indexer, frequently updates the index while running backup causing a warning and there is really no reason to keep a backup of this...
         # don't back up games
         ".local/share/Steam"
         "Games"
