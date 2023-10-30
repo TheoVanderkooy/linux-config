@@ -77,6 +77,7 @@ in {
     headsetcontrol
     keepassxc
     mpv  # video player
+    yt-dlp  # youtube downloader
 
 
     # Flatpaks: (flathub)

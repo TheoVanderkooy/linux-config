@@ -74,17 +74,11 @@ in {
   };
 
   # Backups to NAS
-  services.borgbackup.jobs = {
-    # TODO back up other locations:
-    #  - /etc? (mostly generated from nix store...)
-    #  - /var? (virtual machine images /var/lib/libvirt)
-
-    desktop-home = rec {
-      paths = "/home/";
-      repo = "/mnt/nas/backups/desktop-home/";
-      # repo = "admin@10.0.0.2:/mnt/data/backups/desktop-home/";  # TODO: this needs borg installed on the remote machine... figure that out later!
+  services.borgbackup.jobs = let
+    # Common args for all jobs
+    borgCommonArgs = {
       encryption.mode = "none";
-      extraCreateArgs = "--stats --exclude-caches";
+      extraCreateArgs = "--stats --exclude-caches --checkpoint-interval 600";
       compression = "auto,lzma";  # could turn off compression, and let remote FS handle it?
       doInit = false;
       removableDevice = true;
@@ -93,8 +87,20 @@ in {
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
         # BORG_RSH = "ssh -i /root/nas_key";
       };
+    };
+  in {
+    # TODO back up other locations:
+    #  - /etc? nearly all generated from nix, no need to backup
+    #  - other parts of /var?
+
+
+    # Home folder
+    desktop-home = borgCommonArgs // {
+      paths = "/home/";
+      repo = "/mnt/nas/backups/desktop-home/";
       prune.keep = {
         within = "1w";  # everything in the last week
+        # Other options: last/secondly, minutely, hourly
         daily = 7;      # then one a day for 7 days (only days with backups, e.g. if backup is every other day then there will be 7 backups over 14 days)
         weekly = 4;     # then one a week for 4 weeks
         monthly = 12;   # then one a month for 12 months
@@ -107,12 +113,11 @@ in {
         "/nix"
         # exclude system directories
         "/dev" "/proc" "/sys" "/run"
+        "/var"  # definitely exlucde /var/lock, /var/run, /var/cache, /var/swapfile
         # temp directories
         "/tmp" "/logs"
         # external drives
         "/mnt" "/media"
-        # /var? definitely exlucde /var/lock, /var/run, /var/cache, /var/swapfile
-        "/var"
       ] ++ map (x: "sh:/home/*/${x}") [
         # paths within home directory
         ".cache"
@@ -123,6 +128,40 @@ in {
         "Games"
       ];
     };
+
+    # System files
+    desktop-system = borgCommonArgs // {
+      paths = [
+        # consider more things in /etc or /var?
+        "/var/lib/"  # Primarily virtual machine images/config
+      ];
+      repo = "/mnt/nas/backups/desktop-system/";
+      # only keep a few historical versions
+      prune.keep = {
+        daily = 1;
+        weekly = 1;
+        monthly = 1;
+        yearly = 1;
+      };
+      exclude = [];
+    };
+
+    # Games
+    desktop-games = borgCommonArgs // {
+      paths = [
+        "/home/${user}/.local/share/Steam/"
+        "/home/${user}/Games/"
+      ];
+      repo = "/mnt/nas/backups/desktop-games/";
+      # only keep a few historical versions
+      prune.keep = {
+        daily = 1;
+        weekly = 1;
+        monthly = 1;
+        yearly = 1;
+      };
+    };
+
   };
 
   # Configure UPS
