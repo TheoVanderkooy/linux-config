@@ -2,7 +2,7 @@
 let
   name = "Theo Vanderkooy";
   email = "theo.vanderkooy@gmail.com";
-  # unstable = import <unstable> { config = config.nixpkgs.config; };
+  unstable = import <unstable> { };
 in {
   imports = [
     ~/.config/home-manager/local.nix
@@ -42,12 +42,8 @@ in {
     steam
     lutris
     heroic
-    # itch  # note: depends on electron 11.5 which is "insecure"
-    # bottles  # broken :( use flatpak
     antimicrox  # configure controller -> keyboard inputs
     goverlay
-    # unstable.steamtinkerlaunch  # TODO why does unstable not work here?
-    # steamtinkerlaunch
     prismlauncher
 
     # Rust versions of other programs
@@ -58,7 +54,7 @@ in {
     bat-extras.batwatch
     bat-extras.batdiff
     bat-extras.prettybat
-    exa       # ls
+    unstable.eza       # ls -- TODO: remove unstable after 23.11
     fd        # find
 
     # Communication
@@ -77,7 +73,6 @@ in {
     headsetcontrol
     keepassxc
     mpv  # video player
-    yt-dlp  # youtube downloader
 
 
     # Flatpaks: (flathub)
@@ -88,6 +83,9 @@ in {
     # com.outerwildsmods.owmods_gui
     # com.discordapp.Discord
     # io.github.hakandundar34coding.system-monitoring-center
+    # io.missioncenter.MissionCenter
+    # org.jitsi.jitsi-meet
+    # io.freetubeapp.FreeTube
   ];
 
   # programs.thunderbird = {
@@ -371,6 +369,14 @@ in {
 
   programs.mangohud = {
     enable = true;
+  };
+
+  programs.yt-dlp = {
+    enable = true;
+    settings = {
+      output = ''"~/Downloads/YT videos/%(uploader)s_%(title)s.%(ext)s"'';
+      format = ''best[height<=720]'';
+    };
   };
 
   # TODO other stuff!
