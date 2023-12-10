@@ -48,10 +48,10 @@ in {
 
   # Fonts
   fonts = {
-    enableDefaultFonts = true;
-    # packages = with pkgs; [  # TODO: enable in 23.11, currently unstable-only
-    #   inter  # what was this for??
-    # ];
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      inter  # what was this for??
+    ];
   };
 
   # Nix config

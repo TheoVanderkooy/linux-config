@@ -76,6 +76,7 @@ in {
 
 
     # Flatpaks: (flathub)
+    # TODO: consider using https://github.com/gmodena/nix-flatpak
     # com.usebottles.bottles
     # org.localsend.localsend_app
     # com.github.tchx84.Flatseal

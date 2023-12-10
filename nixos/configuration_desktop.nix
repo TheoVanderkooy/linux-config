@@ -17,7 +17,8 @@ in {
   networking.hostName = "nixos-desktop";
 
   # Required for GUI to work for now... remove once LTS catches up
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;  # LTS, remove once default catches up
   boot.kernelModules = [
     # "i2c-dev"  # for openrgb to control GPU RGB
     # kernel modules for zswap
@@ -193,6 +194,9 @@ in {
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
+  # Specific hardware
+  hardware.wooting.enable = true;
+
   # User account
   users.users.${user} = {
     isNormalUser = true;
@@ -257,7 +261,6 @@ in {
     motherboard = "amd";
   };
   environment.systemPackages = with pkgs; [
-    virt-manager
     virtiofsd
 
     # unstable.protontricks
@@ -273,12 +276,16 @@ in {
   programs.kdeconnect.enable = true;
 
   # Virtualization
-  virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  virtualisation.podman = {
-    enable = true;
-    # dockerCompate = true;
-    # dockerSocket.enable = true;
+  programs.virt-manager.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+    podman = {
+      enable = true;
+      # dockerCompat = true;
+      # dockerSocket.enable = true;
+    };
   };
 
   # Gaming
