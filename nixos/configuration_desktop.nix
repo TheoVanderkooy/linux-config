@@ -58,7 +58,7 @@ in {
   # mount NAS
   system.fsPackages = [ pkgs.sshfs ];
   fileSystems."/mnt/nas" = {
-    device = "admin@10.0.0.2:/mnt/data";
+    device = "theo@10.0.0.2:/data";
     fsType = "sshfs";
     options = [
       "_netdev" # network FS

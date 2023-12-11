@@ -1,0 +1,171 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, lib, modulesPath, ... }:
+
+{
+  ####################################
+  ##  BEGIN HARDWARE CONFIGURATION  ##
+  ####################################
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
+
+  boot.initrd.availableKernelModules = [ "ahci" "ohci_pci" "ehci_pci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sr_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/3c795513-38a4-49c3-879e-857938c0ab7c";
+      fsType = "btrfs";
+      options = [ "subvol=@" ];
+    };
+
+  fileSystems."/boot/efi" =
+    { device = "/dev/disk/by-uuid/308E-F080";
+      fsType = "vfat";
+    };
+
+  swapDevices = [ ];
+
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp10s0.useDHCP = lib.mkDefault true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  ##################################
+  ##  END HARDWARE CONFIGURATION  ##
+  ##################################
+
+
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  boot.zfs.devNodes = "/dev/disk/by-path";
+  boot.zfs.extraPools = [ "data" ];
+
+  # Bootloader
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
+
+  networking.hostName = "nas-nixos";
+  networking.networkmanager.enable = true;
+  networking.hostId = "af53ac53";
+
+  # Localization
+  time.timeZone = "America/Toronto";
+  i18n.defaultLocale = "en_CA.UTF-8";
+  services.xserver = {
+    layout = "us";
+    xkbVariant = "";
+  };
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.theo = {
+    isNormalUser = true;
+    description = "Theo Vanderkooy";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+  };
+
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      trusted-users = [ "theo" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      randomizedDelaySec = "5min";
+      options = "--delete-older-than 7d";
+    };
+  };
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
+
+  # Packages
+  environment.systemPackages = with pkgs; [
+    vim nano
+    wget
+    waypipe  # wayland-forwarding of local apps
+
+    coreutils
+    pciutils
+    usbutils
+
+    htop
+    btop
+    bottom
+
+    killall
+    lsof
+
+    zip unzip
+
+    ncdu
+    tmux
+  ];
+
+  programs = {
+    git.enable = true;
+    tmux = {
+      enable = true;
+      baseIndex = 1;
+      terminal = "tmux-256color";
+    };
+    xwayland.enable = true;
+  };
+
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+
+  services.openssh.enable = true;
+
+  # services.clamav = {
+  #   daemon.enable = true;
+  #   updater.enable = true;
+  # };
+
+
+  # TODO borg setup!
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "23.11"; # Did you read the comment?
+}
+
+
+
+# HOW TO DEPLOY:
+#  - `export NIXOS_CONFIG=/home/theo/Documents/linux-config/nixos/configuration_nas.nix`
+#  - `nixos-rebuild --target-host nas --use-remote-sudo switch`
