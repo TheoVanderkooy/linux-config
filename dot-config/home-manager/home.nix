@@ -197,6 +197,12 @@ in {
         '';
         description = "Print on the right when fish starts";
       };
+      rebuild_nas = {
+        body = ''
+          set --export NIXOS_CONFIG $HOME/Documents/linux-config/nixos/configuration_nas.nix
+          nixos-rebuild --target-host nas --use-remote-sudo switch
+        '';
+      };
     };
 
     # Style the git prompt

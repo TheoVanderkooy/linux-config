@@ -74,6 +74,7 @@ in {
     randomizedDelaySec = "1h";
     options = "--delete-older-than 7d";
   };
+  system.copySystemConfiguration = true;
 
   # Programs
   services.flatpak.enable = true;

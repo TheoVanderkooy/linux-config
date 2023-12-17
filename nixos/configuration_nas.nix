@@ -4,7 +4,12 @@
 
 { config, pkgs, lib, modulesPath, ... }:
 
-{
+let
+  hostname = "10.0.0.2";
+  port-gitea = 3000;
+  port-syncthing = 8384;
+  port-paperless = 28981;
+in {
   ####################################
   ##  BEGIN HARDWARE CONFIGURATION  ##
   ####################################
@@ -44,6 +49,9 @@
   ##################################
 
 
+  # unfortunately doesn't seem to work, when building with --remote-target...
+  system.copySystemConfiguration = true;
+
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
@@ -72,6 +80,7 @@
     isNormalUser = true;
     description = "Theo Vanderkooy";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.fish;
     packages = with pkgs; [];
   };
 
@@ -119,6 +128,10 @@
     tmux
   ];
 
+  programs.fish = {
+    enable = true;
+  };
+
   programs = {
     git.enable = true;
     tmux = {
@@ -130,27 +143,58 @@
   };
 
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-
   services.openssh.enable = true;
 
-  # services.clamav = {
-  #   daemon.enable = true;
-  #   updater.enable = true;
-  # };
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
+  };
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    guiAddress = "${hostname}:${toString port-syncthing}";
+  };
+
+  services.gitea = {
+    enable = true;
+    stateDir = "/data/gitea";
+    settings = {
+      server = {
+        PROTOCOL = "http";  # TODO convert to https
+        DOMAIN = hostname;
+        HTTP_PORT = port-gitea;  # default value
+      };
+    };
+  };
+
+  services.paperless = {
+    enable = true;
+    dataDir = "/data/paperless";
+    address = hostname;
+    port = port-paperless;  # default value
+    extraConfig = {
+      PAPERLESS_CONSUMER_RECURSIVE = true;
+      PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true;
+    };
+  };
 
 
-  # TODO borg setup!
+
+  # TODO: other things to try:
+  # - [ ] nextclound
+  # - [x] paperless-ngx
+  # - [x] gitea
+  # - [ ] NGINX proxy for accessing above services??
+
+
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    port-gitea
+    port-paperless
+    port-syncthing
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
