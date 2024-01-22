@@ -1,6 +1,6 @@
 { lib, config, pkgs, ... }:
 let
-  localnet = "192.168.0.0/24";
+  localnet = "192.168.0.0/24";  # TODO this is not accurate on new internet... maybe multiple rules for 10.0.0.0/24 as well?
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
   localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
 in {
@@ -71,8 +71,8 @@ in {
     automatic = lib.mkDefault true;
     dates = "weekly";
     persistent = true;
-    randomizedDelaySec = "1h";
-    options = "--delete-older-than 7d";
+    randomizedDelaySec = lib.mkDefault "1h";
+    options = "--delete-older-than 30d";
   };
   system.copySystemConfiguration = true;
 
@@ -135,6 +135,17 @@ in {
     duperemove # BTRFS deduplication
     ncdu
     xxd
+
+    # Rust versions of other programs
+    ripgrep   # grep
+    bat       # cat
+    bat-extras.batgrep
+    bat-extras.batman
+    bat-extras.batwatch
+    bat-extras.batdiff
+    bat-extras.prettybat
+    eza       # ls
+    fd        # find
 
     # useful programs
     git

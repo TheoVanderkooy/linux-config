@@ -86,7 +86,6 @@ in {
       startAt = [];  # only run manually
       environment = {
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
-        # BORG_RSH = "ssh -i /root/nas_key";
       };
     };
   in {
@@ -123,7 +122,8 @@ in {
         # paths within home directory
         ".cache"
         ".local/share/Trash"
-        ".local/share/baloo"  # file indexer, frequently updates the index while running backup causing a warning and there is really no reason to keep a backup of this...
+        ".local/share/baloo"  # file indexer, frequently updates the index while running backup causing a warning/"failed" backup
+        # ".mozilla/firefox/*/cookies.*" (.sqlite-wal and .sqlite)
         # don't back up games
         ".local/share/Steam"
         "Games"
@@ -206,11 +206,17 @@ in {
       "libvirtd" "scanner" "lp"
     ];
     shell = pkgs.fish;
-    packages = with pkgs; [ ];
+    packages = with pkgs; [
+      (wrapOBS {
+        plugins = with obs-studio-plugins; [
+          wlrobs
+          obs-pipewire-audio-capture
+        ];
+      })
+    ];
   };
 
   # Security programs
-  # security.sudo.enable = false;
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;
@@ -262,18 +268,9 @@ in {
   };
   environment.systemPackages = with pkgs; [
     virtiofsd
-
-    # unstable.protontricks
-    # unstable.steamtinkerlaunch
-
-    # protontricks  # flatpak version?
-    steamtinkerlaunch  # does this work at all?
-
-    vivaldi
-    jdk17
   ];
   programs.wireshark.enable = true;
-  programs.kdeconnect.enable = true;
+  # programs.kdeconnect.enable = true;
 
   # Virtualization
   programs.dconf.enable = true;
@@ -286,6 +283,7 @@ in {
       # dockerCompat = true;
       # dockerSocket.enable = true;
     };
+    waydroid.enable = true;
   };
 
   # Gaming

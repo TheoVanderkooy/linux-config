@@ -54,6 +54,11 @@ in {
 
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelParams = [
+    "zfs.zfs_scan_checkpoint_intval=600"  # checkpoint scrubs more frequently
+    "zfs.zfs_scan_mem_lim_fact=120"  # ZFS scans are stupid w.r.t. checkpointing -- after the interval is reached it finished handling *everything in the queue* (hundreds of GB worth!) before the checkpoint is done, so just increasing the frequency is not enough. Also reduce size of the queue to force more frequent checkpoints
+    "zfs.zfs_scan_mem_lim_soft_fact=10"
+  ];
   boot.zfs.forceImportRoot = false;
   boot.zfs.devNodes = "/dev/disk/by-path";
   boot.zfs.extraPools = [ "data" ];
@@ -92,6 +97,7 @@ in {
     gc = {
       automatic = true;
       dates = "weekly";
+      persistent = true;
       randomizedDelaySec = "5min";
       options = "--delete-older-than 7d";
     };
@@ -126,6 +132,20 @@ in {
 
     ncdu
     tmux
+
+    # Rust versions of other programs
+    ripgrep   # grep
+    bat       # cat
+    bat-extras.batgrep
+    bat-extras.batman
+    bat-extras.batwatch
+    bat-extras.batdiff
+    bat-extras.prettybat
+    eza       # ls
+    fd        # find
+
+    # monitoring & data/drive maintenance
+    smartmontools
   ];
 
   programs.fish = {
@@ -157,7 +177,7 @@ in {
   };
 
   services.gitea = {
-    enable = true;
+    # enable = true;
     stateDir = "/data/gitea";
     settings = {
       server = {
@@ -179,10 +199,23 @@ in {
     };
   };
 
+  # environment.etc."nextcloud-admin-pass".text = "...";  # TODO sort out what to do with this...
+  services.nextcloud = {
+    # enable = true;
+    home = "/data/nextcloud";
+    # hostName = "localhost";
+    # hostName = hostname;
+    hostName = "${hostname}/nextcloud";
+    extraApps = { };
+    config = {
+      adminuser = "admin";
+      adminpassFile = "/etc/nextcloud-admin-pass";
+    };
+  };
 
 
   # TODO: other things to try:
-  # - [ ] nextclound
+  # - [x] nextclound
   # - [x] paperless-ngx
   # - [x] gitea
   # - [ ] NGINX proxy for accessing above services??
@@ -191,6 +224,7 @@ in {
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
+    # 80 443  # http & https
     port-gitea
     port-paperless
     port-syncthing

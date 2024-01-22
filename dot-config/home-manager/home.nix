@@ -54,7 +54,7 @@ in {
     bat-extras.batwatch
     bat-extras.batdiff
     bat-extras.prettybat
-    unstable.eza       # ls -- TODO: remove unstable after 23.11
+    eza       # ls
     fd        # find
 
     # Communication
@@ -201,6 +201,34 @@ in {
         body = ''
           set --export NIXOS_CONFIG $HOME/Documents/linux-config/nixos/configuration_nas.nix
           nixos-rebuild --target-host nas --use-remote-sudo switch
+        '';
+      };
+      run_backups = {
+        body = ''
+          # ensure NAS is connected
+          sudo systemctl start mnt-nas.mount || exit 1
+
+          # find all borg jobs
+          set -l jobs (systemctl list-unit-files "borgbackup-job-*.service" | grep -o "borgbackup-job.*\.service")
+
+          # start them if not running
+          for job in $jobs
+            systemctl is-active --quiet $job || sudo systemctl start $job
+          end
+
+          # wait until each is done
+          for job in $jobs
+            while systemctl is-active --quiet $job;
+              echo waiting for $job
+              sleep 5
+            end
+            echo
+            echo $job complete!
+            journalctl --no-pager --lines=30 --unit=$job
+            echo
+          end
+
+          echo all backup jobs completed!
         '';
       };
     };
