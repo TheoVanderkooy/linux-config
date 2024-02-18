@@ -6,11 +6,9 @@ monitor=,preferred,auto,auto
 # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
 # Execute your favorite apps at launch
+# TODO Try waybar again
+exec-once = eww open bar
 exec-once = swaybg -i ~/Pictures/wallpapers/nixos_logo.png
-exec-once = dunst
-exec-once = /run/wrappers/bin/polkit-agent-helper-1
-exec-once = waybar
-
 
 # Source a file (multi-file configs)
 # source = ~/.config/hypr/myColors.conf
@@ -26,10 +24,16 @@ input {
     kb_options =
     kb_rules =
 
+    # 0 = cursor movement will not change focus
+    # 1 = always change focus to window under cursor
+    # 2 = only change focus when clicking on a window
+    # 4 = clicking does not change focus (how is this different from 0??)
     follow_mouse = 1
 
+    numlock_by_default = true
+
     touchpad {
-        natural_scroll = no
+        natural_scroll = yes
     }
 
     sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
@@ -38,28 +42,26 @@ input {
 general {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
-    gaps_in = 0
-    gaps_out = 0
+    gaps_in = 0  # between windows
+    gaps_out = 0  # outer edges
     border_size = 2
-    col.active_border = rgba(33ccffee) #rgba(00ff99ee) 45deg
-    col.inactive_border = rgba(595959aa)
+    col.active_border = rgb(0077ff)
+    col.inactive_border = rgb(303030)
+
+    # resize_on_border = true
+    # extend_border_grab_area = 80
 
     layout = dwindle
-
-    # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-    allow_tearing = false
 }
 
 decoration {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
     rounding = 0
-    
-    blur {
-        enabled = false
-        size = 3
-        passes = 1
-    }
+    blur = no
+    blur_size = 3
+    blur_passes = 1
+    blur_new_optimizations = on
 
     drop_shadow = no
     shadow_range = 4
@@ -68,23 +70,24 @@ decoration {
 }
 
 animations {
-    enabled = yes
+    # enabled = yes
+    enabled = no
 
     # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
     bezier = myBezier, 0.05, 0.9, 0.1, 1.05
 
-    animation = windows, 1, 3, myBezier
-    animation = windowsOut, 1, 1, default, popin 80%
-    animation = border, 1, 5, default
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
     animation = borderangle, 1, 8, default
-    animation = fade, 1, 2, default
-    animation = workspaces, 1, 3, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
 }
 
 dwindle {
     # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-    pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + K in the keybinds section below
     preserve_split = yes # you probably want this
 }
 
@@ -95,21 +98,10 @@ master {
 
 gestures {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
-    workspace_swipe = on  # doesn't work very well on laptop
-    workspace_swipe_distance = 20
-    workspace_swipe_min_speed_to_force = 20
+    workspace_swipe = on
+    workspace_swipe_distance = 100
 }
 
-misc {
-    # See https://wiki.hyprland.org/Configuring/Variables/ for more
-    force_default_wallpaper = 0 # Set to 0 to disable the anime mascot wallpapers
-}
-
-# Example per-device config
-# See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-device:epic-mouse-v1 {
-    sensitivity = -0.5
-}
 
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
@@ -121,18 +113,17 @@ device:epic-mouse-v1 {
 # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 $mainMod = SUPER
 
-# Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-# bind = $mainMod, Q, exec, kitty
+# Misc binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+bind = $mainMod, Q, killactive,
+bind = $mainMod, M, exit,
+bind = $mainMod, T, togglefloating,
+bind = $mainMod, F, fullscreen, 0  # 0 = fullscreen, 1 = maximize
+bind = $mainMod, P, exec, rofi -show run
+# bind = $mainMod, return, exec, alacritty
 bind = $mainMod, return, exec, kitty
-bind = $mainMod, W, killactive, 
-bind = $mainMod, M, exit, 
-bind = $mainMod, E, exec, dolphin
-bind = $mainMod, V, togglefloating, 
-bind = $mainMod, P, exec, rofi -show combi run drun
-bind = $mainMod, R, exec, rofi -show combi run drun
 
+bind = $mainMod, K, pseudo, # dwindle
 bind = $mainMod, J, togglesplit, # dwindle
-bind = $mainMod, F, fullscreen, 0
 
 # Move focus with mainMod + arrow keys
 bind = $mainMod, left, movefocus, l
@@ -140,8 +131,30 @@ bind = $mainMod, right, movefocus, r
 bind = $mainMod, up, movefocus, u
 bind = $mainMod, down, movefocus, d
 
-# TODO: mod + shift to move current window
-# TODO: mox + control to resize
+# Move window with neighbour
+# TODO what is the difference between `movewindow` and `swapwindow`? (swap needs v0.25+)
+# bind = $mainMod SHIFT, left, swapwindow, l
+# bind = $mainMod SHIFT, right, swapwindow, r
+# bind = $mainMod SHIFT, up, swapwindow, u
+# bind = $mainMod SHIFT, down, swapwindow, d
+bind = $mainMod SHIFT, left, movewindow, l
+bind = $mainMod SHIFT, right, movewindow, r
+bind = $mainMod SHIFT, up, movewindow, u
+bind = $mainMod SHIFT, down, movewindow, d
+
+# Resizing windows
+bind = $mainMod CONTROL, left, resizeactive, -10 0
+bind = $mainMod CONTROL, right, resizeactive, 10 0
+bind = $mainMod CONTROL, up, resizeactive, 0 -10
+bind = $mainMod CONTROL, down, resizeactive, 0 10
+
+
+# Groups
+
+bind = $mainMod CONTROL, return, togglegroup
+# TODO "move into group"
+# TODO "next in group"
+
 
 # Switch workspaces with mainMod + [0-9]
 bind = $mainMod, 1, workspace, 1
@@ -167,27 +180,28 @@ bind = $mainMod SHIFT, 8, movetoworkspace, 8
 bind = $mainMod SHIFT, 9, movetoworkspace, 9
 bind = $mainMod SHIFT, 0, movetoworkspace, 10
 
-# Example special workspace (scratchpad)
-bind = $mainMod, S, togglespecialworkspace, magic
-bind = $mainMod SHIFT, S, movetoworkspace, special:magic
-
 # Scroll through existing workspaces with mainMod + scroll
-bind = $mainMod, mouse_down, workspace, e+1
-bind = $mainMod, mouse_up, workspace, e-1
-
-bind = $mainMod SHIFT, left, workspace, r-1
-bind = $mainMod SHIFT, right, workspace, r+1
-bind = $mainMod CONTROL SHIFT, left, movetoworkspace, r-1
-bind = $mainMod CONTROL SHIFT, right, movetoworkspace, r+1
+bind = $mainMod, mouse_down, workspace, e-1
+bind = $mainMod, mouse_up, workspace, e+1
 
 # Move/resize windows with mainMod + LMB/RMB and dragging
 bindm = $mainMod, mouse:272, movewindow
 bindm = $mainMod, mouse:273, resizewindow
 
-bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
-bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-bindl=, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+# Volume controls
+bind = , XF86AudioRaiseVolume, exec, amixer -q sset Master 5%+
+bind = , XF86AudioLowerVolume, exec, amixer -q sset Master 5%-
+bind = , XF86AudioMute, exec, amixer -q sset Master toggle
+
+# Brightneww controls
+bind = , XF86MonBrightnessUp, exec, brightnessctl set 10%+
+bind = , XF86MonBrightnessDown, exec, ~/.config/hypr/scripts/dec_brightness
 
 
-bindel = , XF86MonBrightnessUp, exec, brightnessctl -c backlight set 10%+
-bindel = , XF86MonBrightnessDown, exec, brightnessctl -c backlight set 10%-
+
+# Also: layouts = columns, max ??
+# TODO: bar: layout | groups | prompt(?) | window name | system tray | volume widget | battery | clock | exit
+
+#     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+#     # Toggle between different layouts as defined below
+#     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),

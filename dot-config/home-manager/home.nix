@@ -13,6 +13,8 @@ in {
     # Add flatpak exports to path
     XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
   };
+  
+  nixpkgs.config.allowUnfree = true;
 
   ###########################
   ###   Normal packages   ###
@@ -296,6 +298,7 @@ in {
   # ROFI
   programs.rofi = {
     enable = true;
+    package = pkgs.rofi-wayland;
     theme = "Arc-Dark";
     terminal = "${pkgs.kitty}/bin/kitty";
     extraConfig = {
@@ -311,6 +314,7 @@ in {
   programs.kitty = {
     enable = true;
     settings = {
+      mouse_hide_wait = "0.5";
       confirm_os_window_close = 0;
     };
   };

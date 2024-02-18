@@ -5,8 +5,8 @@
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    background-color: rgba(43, 48, 59, 1.0);
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
     color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;
@@ -58,7 +58,7 @@ button:hover {
     background: rgba(0, 0, 0, 0.2);
 }
 
-#workspaces button.focused {
+#workspaces button.active {
     background-color: #64727D;
     box-shadow: inset 0 -3px #ffffff;
 }
@@ -108,17 +108,20 @@ button:hover {
 }
 
 #clock {
-    background-color: #64727D;
+    background-color: #324040;
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
 }
 
 #battery {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #324040;
+    color: #ffffff;
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
 }
 
 #battery.charging, #battery.plugged {
     color: #ffffff;
-    background-color: #26A65B;
+    background-color: #324040;
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
 }
 
 @keyframes blink {
@@ -160,7 +163,12 @@ label:focus {
 }
 
 #network {
-    background-color: #2980b9;
+    /* background-color: #2980b9; */
+    background-color: #324040;
+    /* box-shadow: inset 0 -3px transparent; */  
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
+
+    /* margin: 0 4px; */
 }
 
 #network.disconnected {
@@ -168,8 +176,10 @@ label:focus {
 }
 
 #pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
+    background-color: #324040;
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
+    /* background-color: #f1c40f; */
+    /* color: #000000; */
 }
 
 #pulseaudio.muted {
@@ -209,7 +219,9 @@ label:focus {
 }
 
 #tray {
-    background-color: #2980b9;
+    background-color: #324040;
+    /* background-color: #2980b9; */
+    border-bottom: 3px solid rgba(100, 114, 125, 1.0);
 }
 
 #tray > .passive {
