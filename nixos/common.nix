@@ -1,6 +1,6 @@
 { lib, config, pkgs, ... }:
 let
-  localnet = "192.168.0.0/24";  # TODO this is not accurate on new internet... maybe multiple rules for 10.0.0.0/24 as well?
+  localnet = "10.0.0.0/24";
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
   localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
 in {

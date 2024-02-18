@@ -53,7 +53,10 @@ in {
   system.copySystemConfiguration = true;
 
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = [ 
+    "zfs"
+    "ntfs" # for importing old drives
+  ];
   boot.kernelParams = [
     "zfs.zfs_scan_checkpoint_intval=600"  # checkpoint scrubs more frequently
     "zfs.zfs_scan_mem_lim_fact=120"  # ZFS scans are stupid w.r.t. checkpointing -- after the interval is reached it finished handling *everything in the queue* (hundreds of GB worth!) before the checkpoint is done, so just increasing the frequency is not enough. Also reduce size of the queue to force more frequent checkpoints
@@ -99,7 +102,7 @@ in {
       dates = "weekly";
       persistent = true;
       randomizedDelaySec = "5min";
-      options = "--delete-older-than 7d";
+      options = "--delete-older-than 30d";
     };
   };
 

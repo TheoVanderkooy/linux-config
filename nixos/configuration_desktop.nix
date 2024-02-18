@@ -235,13 +235,14 @@ in {
 
   # printing/scanning doesn't seem to work... just use windows!
 
-  # # Printing
-  # services.printing = {
-  #   enable = true;
+  # Printing
+  services.printing = {
+    enable = true;
   #   drivers = with pkgs; [
+  #     hplip
   #     hplipWithPlugin
   #   ];
-  # };
+  };
   services.ipp-usb.enable=true;
 
 
@@ -268,6 +269,7 @@ in {
   };
   environment.systemPackages = with pkgs; [
     virtiofsd
+    distrobox
   ];
   programs.wireshark.enable = true;
   # programs.kdeconnect.enable = true;
