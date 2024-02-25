@@ -389,8 +389,24 @@ in {
     ];
 
     extraConfig = {
+      core = {
+        editor = "hx";
+        # pager = "bat";
+      };
+      # diff.tool = "batdiff";
+      fetch = {
+        prune = true;
+      };
       grep.lineNumber = true;
+      help.autocorrect = "prompt";
       init.defaultBranch = "main";
+      merge = {
+        conflictstyle = "zdiff3";
+      };
+      pull = {
+        rebase = true;
+      };
+      rerere.enable = true;
     };
   };
 
