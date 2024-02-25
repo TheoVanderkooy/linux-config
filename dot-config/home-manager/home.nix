@@ -264,6 +264,17 @@ in {
     ];
   };
 
+  programs.helix = {
+    enable = true;
+    settings = {
+      theme = "noctis";
+      editor = {
+        mouse = true;
+        rulers = [80 120];
+      };
+    };
+  };
+
   # EMACS
   programs.emacs = {
     # enable = true;
