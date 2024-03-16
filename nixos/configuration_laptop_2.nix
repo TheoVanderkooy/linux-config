@@ -33,12 +33,7 @@ in {
   boot.initrd.luks.devices."luks-d73b546f-8bea-4ea0-a505-909cc3ae4b1a".keyFile = "/crypto_keyfile.bin";
 
   networking.hostName = "theo-laptop"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+ 
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -119,8 +114,8 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    wget
+
     alacritty kitty
     lapce nano neovim kate
     git tmux
@@ -135,7 +130,7 @@ in {
     coreutils
     pciutils usbutils
     htop btop bottom killall
-    zip unzip
+    zip unzip rar unrar
     libnotify
     wayland-utils
     aha lm_sensors smartmontools lsof
@@ -145,6 +140,8 @@ in {
     
     ncdu xxd
     
+    kdiff3
+
     ripgrep bat eza fd
     
     keepassxc

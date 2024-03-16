@@ -14,4 +14,3 @@
 
 
 Running random binaries on nixos: [stack exchange](https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos)
- - want to get [veloren](https://veloren.net) running...

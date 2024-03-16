@@ -63,18 +63,16 @@ in {
     thunderbird  # TODO: try BetterBird?
     # discord
 
-    # Remote desktop
-    remmina
-    # rustdesk
-
     # Other tools...
     ventoy-bin
     wireshark-qt
     gparted
     lapce  # rust code editor
+    libsForQt5.kate
     headsetcontrol
     keepassxc
     mpv  # video player
+
 
 
     # Flatpaks: (flathub)
@@ -264,13 +262,14 @@ in {
     ];
   };
 
+  # HELIX
   programs.helix = {
     enable = true;
     settings = {
       theme = "noctis";
       editor = {
         mouse = true;
-        rulers = [80 120];
+        rulers = [ 120 ];
       };
     };
   };

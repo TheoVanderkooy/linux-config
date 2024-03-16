@@ -119,8 +119,8 @@ in {
     btop
     bottom
     killall
-    zip
-    unzip
+    zip unzip
+    rar unrar
     libnotify
     xorg.xdpyinfo
     wayland-utils
@@ -135,6 +135,7 @@ in {
     duperemove # BTRFS deduplication
     ncdu
     xxd
+    kdiff3
 
     # Rust versions of other programs
     ripgrep   # grep
