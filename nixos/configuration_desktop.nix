@@ -45,10 +45,10 @@ in {
     "resume_offset=18621696"
 
     # enable zswap
-    # TODO: lz4 and z3fold apparently not available, figure out why not...
-    "zswap.enabled=1" "zswap.compressor=lz4" "zswap.zpool=z3fold"
+    # TODO: decide on zram config
+    "zswap.enabled=1" # "zswap.compressor=lz4" "zswap.zpool=z3fold"
   ];
-  boot.initrd.availableKernelModules = [ "lz4" "z3fold" ];
+  # boot.initrd.availableKernelModules = [ "lz4" "z3fold" ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
