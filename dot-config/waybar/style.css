@@ -199,10 +199,10 @@ label:focus {
     /* color: #000000; */
 }
 
-#pulseaudio.muted {
+/*#pulseaudio.muted {
     background-color: #90b1b1;
     color: #2a5c45;
-}
+}*/
 
 #wireplumber {
     background-color: #fff0f5;
