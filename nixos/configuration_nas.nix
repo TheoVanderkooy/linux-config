@@ -52,7 +52,8 @@ in {
   # unfortunately doesn't seem to work, when building with --remote-target...
   system.copySystemConfiguration = true;
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;  # LTS, remove once default catches up
+  # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;  # For latest kernel
   boot.supportedFilesystems = [ 
     "zfs"
     "ntfs" # for importing old drives
