@@ -387,12 +387,22 @@ in {
       ".*.swap"
     ];
 
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        line-numbers = true;
+        # side-by-side = true;
+      };
+    };
+
     extraConfig = {
       core = {
         editor = "hx";
-        # pager = "bat";
       };
-      # diff.tool = "batdiff";
+      diff = {
+        colorMoved = "default";
+      };
       fetch = {
         prune = true;
       };
