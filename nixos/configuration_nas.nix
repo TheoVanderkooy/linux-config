@@ -181,11 +181,11 @@ in {
   };
 
   services.gitea = {
-    # enable = true;
+    enable = true;
     stateDir = "/data/gitea";
     settings = {
       server = {
-        PROTOCOL = "http";  # TODO convert to https
+        PROTOCOL = "http";  # TODO convert to https (or put behind nginx?)
         DOMAIN = hostname;
         HTTP_PORT = port-gitea;  # default value
       };
