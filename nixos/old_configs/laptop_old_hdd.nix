@@ -1,3 +1,5 @@
+# Old laptop pre-replacing HDD
+
 { config, pkgs, options, ... }:
 let
   user = "theo";

@@ -22,7 +22,6 @@ in {
 
   # Common DE settings
   services.xserver.enable = true;
-  services.xserver.windowManager.qtile.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -98,7 +97,7 @@ in {
     # editors
     nano
     neovim
-    kate
+    hx
 
     # terminals
     kitty

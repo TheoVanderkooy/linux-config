@@ -117,7 +117,7 @@ in {
 
   # Packages
   environment.systemPackages = with pkgs; [
-    vim nano
+    vim nano helix
     wget
     waypipe  # wayland-forwarding of local apps
 
@@ -220,10 +220,7 @@ in {
 
   # TODO: other things to try:
   # - [x] nextclound
-  # - [x] paperless-ngx
-  # - [x] gitea
   # - [ ] NGINX proxy for accessing above services??
-
 
 
   # Open ports in the firewall.
@@ -234,8 +231,6 @@ in {
     port-syncthing
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
