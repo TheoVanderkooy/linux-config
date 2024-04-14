@@ -78,7 +78,7 @@ in {
     isNormalUser = true;
     description = "Theo Vanderkooy";
     extraGroups = [ 
-      "networkmanager" "wheel" "input"
+      "networkmanager" "wheel" "input" "video"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [];
@@ -124,6 +124,9 @@ in {
     dunst
     libsForQt5.polkit-kde-agent
     swaybg
+    grim slurp # screenshots
+    wl-clipboard
+    mako
     
     pavucontrol brightnessctl
     
@@ -151,6 +154,10 @@ in {
 
   programs = {
     hyprland.enable = true;
+    sway = {
+      enable = true;
+      wrapperFeatures.gtk = true;
+    };
     waybar.enable = true;
     fish.enable = true;
     firefox = {

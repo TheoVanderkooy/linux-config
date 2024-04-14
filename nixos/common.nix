@@ -93,6 +93,7 @@ in {
     feh
     pavucontrol
     brightnessctl
+    wl-clipboard
 
     # editors
     nano
