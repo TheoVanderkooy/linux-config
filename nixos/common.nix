@@ -98,7 +98,7 @@ in {
     # editors
     nano
     neovim
-    hx
+    helix
 
     # terminals
     kitty

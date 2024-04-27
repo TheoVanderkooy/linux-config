@@ -61,7 +61,8 @@ in {
 
     # Communication
     thunderbird  # TODO: try BetterBird?
-    # discord
+    # discord  # installed as flatpak instead
+    mullvad-browser
 
     # Other tools...
     ventoy-bin
