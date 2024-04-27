@@ -227,6 +227,8 @@ in {
       '';
   };
 
+  securit.polkit.enable = true;
+
   # Environment variables
   environment.variables = rec {
     # So touch screen will work with firefox...

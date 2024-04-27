@@ -73,7 +73,7 @@ in {
     headsetcontrol
     keepassxc
     mpv  # video player
-
+    piper  # configuring "gaming devices"
 
 
     # Flatpaks: (flathub)

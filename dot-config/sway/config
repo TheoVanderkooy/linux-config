@@ -221,5 +221,7 @@ bindsym $mod+r mode "resize"
 
 
 exec waybar --config ~/.config/waybar/config_sway
+exec /run/wrappers/bin/polkit-agent-helper-1
+exec keepassxc
 
 include /etc/sway/config.d/*
