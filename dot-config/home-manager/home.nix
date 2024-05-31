@@ -14,6 +14,10 @@ in {
     XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
   };
   
+  home = {
+    file.".local/share/fonts".source = "/run/current-system/sw/share/X11/fonts";
+  };
+  
   nixpkgs.config.allowUnfree = true;
 
   ###########################
@@ -47,6 +51,15 @@ in {
     antimicrox  # configure controller -> keyboard inputs
     goverlay
     prismlauncher
+    # steamtinkerlaunch
+    # # steamtinkerlaunch dependencies:
+    #   yad
+    #   xdotool
+    #   jq
+    #   # wine64
+    #   wineWow64Packages.full
+    # protonup-qt
+    parsec-bin
 
     # Rust versions of other programs
     ripgrep   # grep
@@ -441,6 +454,15 @@ in {
     enable = true;
     tray.enable = false;
     # enable tray? need delayed start?
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    settings = {
+      # ...
+    };
   };
 
   programs.mangohud = {

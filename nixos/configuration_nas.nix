@@ -54,7 +54,7 @@ in {
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;  # LTS, remove once default catches up
   # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;  # For latest kernel
-  boot.supportedFilesystems = [ 
+  boot.supportedFilesystems = [
     "zfs"
     "ntfs" # for importing old drives
   ];
@@ -216,6 +216,19 @@ in {
       adminpassFile = "/etc/nextcloud-admin-pass";
     };
   };
+
+  services.matrix-conduit = {
+    # enable = true;
+    settings = {
+      global = {
+        allow_federation = false;
+        allow_registration = true;
+        # server_name = "theo.todo";
+      };
+    };
+  };
+
+  # TODO: nginx! or other reverse proxy
 
 
   # TODO: other things to try:

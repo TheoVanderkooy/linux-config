@@ -33,7 +33,7 @@ in {
   boot.initrd.luks.devices."luks-d73b546f-8bea-4ea0-a505-909cc3ae4b1a".keyFile = "/crypto_keyfile.bin";
 
   networking.hostName = "theo-laptop"; # Define your hostname.
- 
+
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -44,14 +44,14 @@ in {
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
-  
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  
+
   sound.enable = true;
   services.pipewire = {
     enable = true;
@@ -59,11 +59,11 @@ in {
     pulse.enable = true;
     alsa.enable = true;
   };
-  
+
   powerManagement = {
     powertop.enable = true;
   };
-  
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -77,7 +77,7 @@ in {
   users.users.${user} = {
     isNormalUser = true;
     description = "Theo Vanderkooy";
-    extraGroups = [ 
+    extraGroups = [
       "networkmanager" "wheel" "input" "video"
     ];
     shell = pkgs.fish;
@@ -96,7 +96,7 @@ in {
     randomizedDelaySec = "1h";
     options = "--delete-older-than 7d";
   };
-  
+
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
@@ -110,7 +110,7 @@ in {
       nerdfonts
     ];
   };
-  
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -119,7 +119,7 @@ in {
     alacritty kitty
     lapce nano neovim kate
     git tmux
-    
+
     rofi-wayland
     dunst
     libsForQt5.polkit-kde-agent
@@ -127,9 +127,9 @@ in {
     grim slurp # screenshots
     wl-clipboard
     mako
-    
+
     pavucontrol brightnessctl
-    
+
     coreutils
     pciutils usbutils
     htop btop bottom killall
@@ -137,19 +137,19 @@ in {
     libnotify
     wayland-utils
     aha lm_sensors smartmontools lsof
-    
+
     waypipe
     gnupg
-    
+
     ncdu xxd
-    
+
     kdiff3
 
     ripgrep bat eza fd
-    
+
     keepassxc
   ];
-  
+
   services.flatpak.enable = true;
 
   programs = {
@@ -177,27 +177,27 @@ in {
       autoConfig = ''
         // Open previous session on startup
         defaultPref("browser.startup.page", 3)
-  
+
         // New tab configuration
         defaultPref("browser.newtabpage.activity-stream.showSponsored", false)
         defaultPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false)
         defaultPref("browser.newtabpage.activity-stream.feeds.section.topstories", false)
         defaultPref("browser.newtabpage.activity-stream.feeds.topsites", false) // "shortcuts" (recent/common sites)
-  
+
         // Don't save passwords
         defaultPref("signon.rememberSignons", false)
         defaultPref("extensions.formautofill.addresses.enabled", true)
         defaultPref("extensions.formautofill.creditCards.enabled", false)
-  
+
         // HTTPS only
         defaultPref("dom.security.https_only_mode", true)
-  
+
         // Middle mouse scrolling
         defaultPref("general.autoScroll", true)
       '';
     };
   };
-  
+
   security = {
     doas = {
       enable = true;
@@ -208,12 +208,12 @@ in {
       }];
     };
   };
-  
+
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
-  
-  
+
+
   # Firewall rules (localsend)
   networking.firewall.extraCommands = ''
     ${localsend-fw-up}

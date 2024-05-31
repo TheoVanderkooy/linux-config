@@ -48,8 +48,11 @@ in {
   # Fonts
   fonts = {
     enableDefaultPackages = true;
+    fontDir.enable = true;
     packages = with pkgs; [
       inter  # what was this for??
+      nerdfonts
+      font-awesome  # for yazi icons
     ];
   };
 
@@ -154,7 +157,6 @@ in {
     gnupg
     nix-tree
     # rnix-lsp
-    neofetch
     nil
 
     # windows compatibility
@@ -168,6 +170,11 @@ in {
     # installation-related (not needed most of the time)
     efibootmgr
     # gparted
+
+    # virtualization
+    distrobox
+    podman-tui
+    podman-compose
   ];
 
   programs.ssh = {
