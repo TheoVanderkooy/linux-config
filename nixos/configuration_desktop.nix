@@ -18,7 +18,7 @@ in {
 
   # Required for GUI to work for now... remove once LTS catches up
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;  # LTS, remove once default catches up
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   boot.kernelModules = [
     # "i2c-dev"  # for openrgb to control GPU RGB
     # kernel modules for zswap
@@ -185,11 +185,14 @@ in {
   };
 
   # Plasma Desktop Environment
-  services.xserver.displayManager.sddm = {
+  services.displayManager.sddm = {
     enable = true;
     autoNumlock = true;
+    # wayland = {
+    #   enable = true;
+    # };
   };
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;

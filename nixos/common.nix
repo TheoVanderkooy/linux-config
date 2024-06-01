@@ -14,9 +14,9 @@ in {
   # Localization settings
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.utf8";
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "ca";
-    xkbVariant = "eng";
+    variant = "eng";
   };
   console.keyMap = "cf";
 
@@ -234,7 +234,7 @@ in {
       '';
   };
 
-  securit.polkit.enable = true;
+  security.polkit.enable = true;
 
   # Environment variables
   environment.variables = rec {

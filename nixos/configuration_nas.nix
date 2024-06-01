@@ -52,7 +52,7 @@ in {
   # unfortunately doesn't seem to work, when building with --remote-target...
   system.copySystemConfiguration = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;  # LTS, remove once default catches up
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;  # For latest kernel
   boot.supportedFilesystems = [
     "zfs"
@@ -79,9 +79,9 @@ in {
   # Localization
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.UTF-8";
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
