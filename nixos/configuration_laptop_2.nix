@@ -127,6 +127,7 @@ in {
     grim slurp # screenshots
     wl-clipboard
     mako
+    yambar
 
     pavucontrol brightnessctl
 
@@ -207,6 +208,10 @@ in {
         persist = true;
       }];
     };
+  };
+
+  powerManagement = {
+    powertop.enable = true;
   };
 
   environment.sessionVariables = {
