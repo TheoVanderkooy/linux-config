@@ -150,6 +150,9 @@ in {
 
     # monitoring & data/drive maintenance
     smartmontools
+
+    # terminals, only to get terminfo data
+    kitty
   ];
 
   programs.fish = {
@@ -197,7 +200,7 @@ in {
     dataDir = "/data/paperless";
     address = hostname;
     port = port-paperless;  # default value
-    extraConfig = {
+    settings = {
       PAPERLESS_CONSUMER_RECURSIVE = true;
       PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true;
     };

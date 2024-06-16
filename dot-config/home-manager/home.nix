@@ -9,15 +9,20 @@ in {
   ];
   programs.home-manager.enable = true;
 
-  home.sessionVariables = {
-    # Add flatpak exports to path
-    XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
+  home = {
+    sessionPath = [
+      "$HOME/.local/bin"
+    ];
+    sessionVariables = {
+      # Add flatpak exports to path
+      XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
+    };
   };
-  
+
   home = {
     file.".local/share/fonts".source = "/run/current-system/sw/share/X11/fonts";
   };
-  
+
   nixpkgs.config.allowUnfree = true;
 
   ###########################
@@ -75,6 +80,7 @@ in {
     # Communication
     thunderbird  # TODO: try BetterBird?
     # discord  # installed as flatpak instead
+    kdePackages.neochat
     mullvad-browser
 
     # Other tools...
@@ -461,6 +467,14 @@ in {
     enableBashIntegration = true;
     enableFishIntegration = true;
     settings = {
+      # ...
+    };
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config = {
       # ...
     };
   };
