@@ -8,7 +8,7 @@
 awesome: &awesome Font Awesome 6 Free:style=solid:pixelsize=14
 awesome_brands: &awesome_brands Font Awesome 6 Brands:pixelsize=16
 
-std_underline: &std_underline {underline: { size: 2, color: ff0000ff}}
+std_underline: &std_underline {underline: { size: 2, color: 00a0a0ff}}
 
 # This is THE bar configuration
 bar:
@@ -40,7 +40,7 @@ bar:
           - string: &mail    {<<: *i3_common, text: , font: *awesome}
           - string: &music   {<<: *i3_common, text: , font: *awesome}
           - focused: &focused
-              deco: {stack: [background: {color: ffa0a04c}, <<: *std_underline]}
+              deco: {stack: [background: {color: a0c0c04c}, <<: *std_underline]}
           - invisible: &invisible {foreground: ffffff55}
           - urgent: &urgent
               foreground: 000000ff
