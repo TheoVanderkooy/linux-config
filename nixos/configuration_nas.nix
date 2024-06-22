@@ -9,6 +9,7 @@ let
   port-gitea = 3000;
   port-syncthing = 8384;
   port-paperless = 28981;
+  port-scrutiny = 6875;
 in {
   ####################################
   ##  BEGIN HARDWARE CONFIGURATION  ##
@@ -181,6 +182,21 @@ in {
     enable = true;
     openDefaultPorts = true;
     guiAddress = "${hostname}:${toString port-syncthing}";
+  };
+
+  services.scrutiny = {
+    enable = true;
+    collector = {
+      enable = true;
+      schedule = "*:0/15";
+    };
+    openFirewall = true;
+    settings = {
+      web.listen = {
+        # host = hostname;
+        port = port-scrutiny;
+      };
+    };
   };
 
   services.gitea = {
