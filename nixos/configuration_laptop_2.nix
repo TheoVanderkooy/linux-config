@@ -93,7 +93,7 @@ in {
     automatic = true;
     dates = "weekly";
     persistent = true;
-    randomizedDelaySec = "1h";
+    randomizedDelaySec = "10m";
     options = "--delete-older-than 7d";
   };
 
@@ -152,6 +152,7 @@ in {
   ];
 
   services.flatpak.enable = true;
+  services.tlp.enable = true;
 
   programs = {
     hyprland.enable = true;
@@ -196,6 +197,9 @@ in {
         // Middle mouse scrolling
         defaultPref("general.autoScroll", true)
       '';
+    };
+    steam = {
+      enable = true;
     };
   };
 
