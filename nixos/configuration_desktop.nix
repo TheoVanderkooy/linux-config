@@ -252,7 +252,7 @@ in {
   # Extra system packages/programs
   services.clamav = {
     daemon =  {
-      enable = true;
+      # enable = true;
       settings = {
         # LogSyslog = true;
         ExtendedDetectionInfo = true;
@@ -260,7 +260,7 @@ in {
       };
     };
     updater = {
-      enable = true;
+      # enable = true;
       settings = {
         # LogSyslog = true;
       };
@@ -273,6 +273,7 @@ in {
     enable = true;
     motherboard = "amd";
   };
+  services.ratbagd.enable = true; # configuring gaming devices
   environment.systemPackages = with pkgs; [
     virtiofsd
     distrobox

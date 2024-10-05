@@ -34,7 +34,7 @@ in {
     filelight
     onedrive
     rclone
-    ark
+    kdePackages.ark
 
     # Utilities
     tldr
@@ -47,7 +47,10 @@ in {
     systemdgenie
 
     # Books
-    calibre
+    (calibre.overrideAttrs (oldAttrs: {
+      unrarSupport=true;
+      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ python3Packages.pycryptodome ];  # for DeDRM
+    }))
 
     # Games
     steam
@@ -80,7 +83,7 @@ in {
     # Communication
     thunderbird  # TODO: try BetterBird?
     # discord  # installed as flatpak instead
-    kdePackages.neochat
+    # kdePackages.neochat
     mullvad-browser
 
     # Other tools...
@@ -88,11 +91,12 @@ in {
     wireshark-qt
     gparted
     lapce  # rust code editor
-    libsForQt5.kate
+    kdePackages.kate
     headsetcontrol
     keepassxc
     mpv  # video player
     piper  # configuring "gaming devices"
+    libreoffice-qt-fresh
 
 
     # Flatpaks: (flathub)
@@ -240,7 +244,7 @@ in {
           for job in $jobs
             while systemctl is-active --quiet $job;
               echo waiting for $job
-              sleep 5
+              sleep 30
             end
             echo
             echo $job complete!
