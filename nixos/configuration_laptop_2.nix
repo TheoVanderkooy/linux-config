@@ -64,6 +64,16 @@ in {
     powertop.enable = true;
   };
 
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # libva
+      intel-media-driver
+      #intel-vaapi-driver
+      #libvdpau-va-gl
+    ];
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
