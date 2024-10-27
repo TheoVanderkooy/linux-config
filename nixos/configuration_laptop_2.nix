@@ -8,6 +8,36 @@ let
   localnet = "10.0.0.0/16";
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
   localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
+
+  py_libdecsync = (with pkgs.python3Packages;
+    buildPythonPackage rec {
+      propagatedBuildInputs = [
+        pkgs.libxcrypt  # TODO! complains about missing "libcryp.so.1"
+      ];
+      pname = "libdecsync";
+      version = "2.2.1";
+      src = fetchPypi {
+        inherit pname version;
+        sha256 = "32e923ce3ba6bfd54bf80d26694d0afd29625ab81e46301e88474de5af371b42";
+      };
+    });
+
+  radicale_descsync = (with pkgs.python3Packages;
+    buildPythonPackage rec {
+
+      propagatedBuildInputs = with pkgs.python3Packages; [
+        # TODO: radicale, can use the existing package or need the python separately?
+        py_libdecsync # libdescsync binding
+      ];
+
+      pname = "radicale_storage_decsync";
+      version = "2.1.0";
+      # format = "setuptools";
+      src = fetchPypi {
+        inherit pname version; # format;
+        sha256 = "5fed0c4f9a363e3b0ac5c6b910323ead8c900e652d6d1a042c3afa7b86172828";
+      };
+    });
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -236,6 +266,19 @@ in {
   networking.firewall.extraStopCommands = ''
     ${localsend-fw-down}
   '';
+
+# TESTING radicale + decsync plugin
+# TODO transfer to desktop once it's working
+  services.radicale = {
+    enable = true;
+    package = (pkgs.radicale.overrideAttrs (oldAttrs: {
+      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
+        radicale_descsync
+       ];
+    }));
+  };
+
+
 
 
   # This value determines the NixOS release from which the default
