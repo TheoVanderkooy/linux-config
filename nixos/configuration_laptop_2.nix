@@ -52,7 +52,6 @@ in {
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  sound.enable = true;
   services.pipewire = {
     enable = true;
     wireplumber.enable = true;
