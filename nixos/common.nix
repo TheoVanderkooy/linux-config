@@ -35,7 +35,6 @@ in {
   services.printing.enable = true;
 
   # Sound
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -139,6 +138,8 @@ in {
     ncdu
     xxd
     kdiff3
+    opensnitch-ui
+    ddcutil # controlling monitor brightness
 
     # Rust versions of other programs
     ripgrep   # grep
@@ -165,7 +166,7 @@ in {
     # protontricks  # version from unstable imported in desktop config... or use flatpak
 
     # office tools
-    drawio
+    # drawio
 
     # installation-related (not needed most of the time)
     efibootmgr
@@ -249,4 +250,9 @@ in {
   networking.firewall.extraStopCommands = ''
     ${localsend-fw-down}
   '';
+
+  services.opensnitch = {
+    # firewall/network monitoring
+    enable = true;
+  };
 }

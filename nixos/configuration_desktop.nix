@@ -101,10 +101,10 @@ in {
       prune.keep = {
         within = "1w";  # everything in the last week
         # Other options: last/secondly, minutely, hourly
-        daily = 7;      # then one a day for 7 days (only days with backups, e.g. if backup is every other day then there will be 7 backups over 14 days)
-        weekly = 4;     # then one a week for 4 weeks
-        monthly = 12;   # then one a month for 12 months
-        yearly = -1;    # then at least one a year going back forever
+        daily = 1;      # then one a day for N days (only days with backups, e.g. if backup is every other day then there will be 7 backups over 14 days)
+        weekly = 4;     # then one a week for N weeks
+        monthly = 6;   # then one a month for N months
+        yearly = 1;    # then one a year for N years (-1 for "forever")
       };
       # see `borg help patterns` for exclude syntax
       # paths are absolute
@@ -141,8 +141,8 @@ in {
       prune.keep = {
         daily = 1;
         weekly = 1;
-        monthly = 1;
-        yearly = 1;
+        monthly = 0;
+        yearly = 0;
       };
       exclude = [];
     };
@@ -277,9 +277,20 @@ in {
   environment.systemPackages = with pkgs; [
     virtiofsd
     distrobox
+    android-tools
+
+    python3  # for ddc widget
+    # ocs-url  # for installing open-desktop apps
   ];
   programs.wireshark.enable = true;
   # programs.kdeconnect.enable = true;
+
+  services.udev = {
+    enable = true;
+    packages = with pkgs; [
+      android-udev-rules
+    ];
+  };
 
   # Virtualization
   programs.dconf.enable = true;

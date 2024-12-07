@@ -495,6 +495,8 @@ in {
     };
   };
 
+  programs.chromium.enable = true;
+
   # TODO other stuff!
   # - desktop manager config: qtile and leftwm
   # - emacs: figure out plugins for nix highlighting
