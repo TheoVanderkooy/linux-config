@@ -159,6 +159,7 @@ in {
     nix-tree
     # rnix-lsp
     nil
+    poppler_utils  # pdftotext
 
     # windows compatibility
     cabextract

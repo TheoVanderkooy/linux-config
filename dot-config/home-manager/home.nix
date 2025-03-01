@@ -45,6 +45,7 @@ in {
     cifs-utils
     i2c-tools
     systemdgenie
+    dig
 
     # Books
     (calibre.overrideAttrs (oldAttrs: {
@@ -97,6 +98,12 @@ in {
     mpv  # video player
     piper  # configuring "gaming devices"
     libreoffice-qt-fresh
+
+
+    # programming languages
+    gcc
+    gdb
+    llvmPackages_19.clang-tools
 
 
     # Flatpaks: (flathub)
@@ -425,10 +432,14 @@ in {
         editor = "hx";
       };
       diff = {
-        colorMoved = "default";
+        algorithm = "histogram";
+        colorMoved = "plain";
+        renames = true;
+        mnemonicPrefix = true;
       };
       fetch = {
         prune = true;
+        pruneTags = true;
       };
       grep.lineNumber = true;
       help.autocorrect = "prompt";
@@ -439,7 +450,17 @@ in {
       pull = {
         rebase = true;
       };
-      rerere.enable = true;
+      rerere = {
+        enable = true;
+        autoupdate = true;
+      };
+      rebase = {
+        updateRefs = true;
+      };
+      push = {
+        autoSetupRemote = true;
+        followTags = true;
+      };
     };
   };
 

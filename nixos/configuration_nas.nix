@@ -253,6 +253,10 @@ in {
   # TODO: other things to try:
   # - [x] nextclound
   # - [ ] NGINX proxy for accessing above services??
+  # - [ ] it-tools (https://it-tools.tech / https://github.com/CorentinTh/it-tools) -- random misc things
+  # - [ ] planka (https://planka.app/) -- project tracking
+  # - [ ] pangolin (https://github.com/fosrl/pangolin) -- reverse proxy for wireguard
+  # - [ ] wireguard (https://www.wireguard.com/quickstart/) -- VPN/encrypted tunnel
 
 
   # Open ports in the firewall.

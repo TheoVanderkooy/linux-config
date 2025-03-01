@@ -113,7 +113,7 @@ in {
         "/nix"
         # exclude system directories
         "/dev" "/proc" "/sys" "/run"
-        "/var"  # definitely exlucde /var/lock, /var/run, /var/cache, /var/swapfile
+        "/var"  # definitely exclude /var/lock, /var/run, /var/cache, /var/swapfile
         # temp directories
         "/tmp" "/logs"
         # external drives
@@ -124,6 +124,8 @@ in {
         ".local/share/Trash"
         ".local/share/baloo"  # file indexer, frequently updates the index while running backup causing a warning/"failed" backup
         # ".mozilla/firefox/*/cookies.*" (.sqlite-wal and .sqlite)
+        ".mozilla/firefox/*/*.sqlite"
+        ".mozilla/firefox/*/*.sqlite-wal"
         # don't back up games
         ".local/share/Steam"
         "Games"
