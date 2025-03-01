@@ -8,6 +8,8 @@ let
   localnet = "10.0.0.0/16";
   localsend-fw-up   = "iptables -A nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept";
   localsend-fw-down = "iptables -D nixos-fw -p tcp --source ${localnet} --dport 53317 -j nixos-fw-accept || true";
+  wireguard-fw-up   = "iptables -A nixos-fw -p tcp --dport 51820 -j nixos-fw-accept";
+  wireguard-fw-down = "iptables -D nixos-fw -p tcp --dport 51820 -j nixos-fw-accept || true";
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -63,7 +65,7 @@ in {
     powertop.enable = true;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       # libva
@@ -231,9 +233,11 @@ in {
   # Firewall rules (localsend)
   networking.firewall.extraCommands = ''
     ${localsend-fw-up}
+    ${wireguard-fw-up}
   '';
   networking.firewall.extraStopCommands = ''
     ${localsend-fw-down}
+    ${wireguard-fw-down}
   '';
 
 
