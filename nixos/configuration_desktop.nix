@@ -25,6 +25,10 @@ in {
     "lz4" "z3fold"
   ];
 
+  boot.blacklistedKernelModules = [
+    # "ftdi_sio"  # conflicts with D2XX driver for brightness sensor thingy
+  ];
+
   # Swap file + hibernation
   swapDevices = [
     {
@@ -46,7 +50,7 @@ in {
 
     # enable zswap
     # TODO: decide on zram config
-    "zswap.enabled=1" # "zswap.compressor=lz4" "zswap.zpool=z3fold"
+    # "zswap.enabled=1" # "zswap.compressor=lz4" "zswap.zpool=z3fold"
   ];
   # boot.initrd.availableKernelModules = [ "lz4" "z3fold" ];
 
@@ -238,15 +242,15 @@ in {
   };
 
 
-  # printing/scanning doesn't seem to work... just use windows!
+  # printing/scanning doesn't seem to work...
 
   # Printing
   services.printing = {
     enable = true;
-  #   drivers = with pkgs; [
-  #     hplip
-  #     hplipWithPlugin
-  #   ];
+    drivers = with pkgs; [
+      # hplip
+      # hplipWithPlugin
+    ];
   };
   services.ipp-usb.enable=true;
 
@@ -292,6 +296,14 @@ in {
     packages = with pkgs; [
       android-udev-rules
     ];
+    # These are for brightness adafruit FTDI board
+    extraRules = ''
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
+    '';
   };
 
   # Virtualization

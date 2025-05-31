@@ -31,7 +31,7 @@ in {
   home.packages = with pkgs; [
     # File management
     krusader
-    filelight
+    kdePackages.filelight
     onedrive
     rclone
     kdePackages.ark
@@ -88,7 +88,7 @@ in {
     mullvad-browser
 
     # Other tools...
-    ventoy-bin
+    # ventoy-bin   # marked as insecure
     wireshark-qt
     gparted
     lapce  # rust code editor
@@ -98,6 +98,7 @@ in {
     mpv  # video player
     piper  # configuring "gaming devices"
     libreoffice-qt-fresh
+    libsForQt5.kolourpaint
 
 
     # programming languages
@@ -316,18 +317,20 @@ in {
     enable = true;
     package = pkgs.vscodium;
     mutableExtensionsDir = true;
-    extensions = with pkgs.vscode-extensions; [
-      ms-python.python
-      jnoortheen.nix-ide
-      arrterian.nix-env-selector
-    ];
-    userSettings = {
-      "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "nil";
-      "files.trimFinalNewlines" = true;
-      "files.trimTrailingWhitespace" = true;
-      "git.confirmSync" = false;
-      "explorer.confirmDelete" = false;
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        ms-python.python
+        jnoortheen.nix-ide
+        arrterian.nix-env-selector
+      ];
+      userSettings = {
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+        "files.trimFinalNewlines" = true;
+        "files.trimTrailingWhitespace" = true;
+        "git.confirmSync" = false;
+        "explorer.confirmDelete" = false;
+      };
     };
   };
 

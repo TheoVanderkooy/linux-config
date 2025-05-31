@@ -13,7 +13,7 @@ in {
 
   # Localization settings
   time.timeZone = "America/Toronto";
-  i18n.defaultLocale = "en_CA.utf8";
+  i18n.defaultLocale = "en_CA.UTF-8";
   services.xserver.xkb = {
     layout = "ca";
     variant = "eng";
@@ -35,7 +35,7 @@ in {
   services.printing.enable = true;
 
   # Sound
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -50,9 +50,8 @@ in {
     fontDir.enable = true;
     packages = with pkgs; [
       inter  # what was this for??
-      nerdfonts
       font-awesome  # for yazi icons
-    ];
+    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
 
   # Nix config
@@ -151,6 +150,7 @@ in {
     bat-extras.prettybat
     eza       # ls
     fd        # find
+    television # "tv" == "fuzzy finder TUI"
 
     # useful programs
     git
@@ -232,7 +232,10 @@ in {
       defaultPref("general.autoScroll", true)
 
       // Prevent disabling extensions...
-      defaultPref("extensions.quarantinedDomains.enabled", false)
+      // defaultPref("extensions.quarantinedDomains.enabled", false)
+
+      // Tab group configuration
+      defaultPref("browser.tabs.groups.enabled", true)
       '';
   };
 
