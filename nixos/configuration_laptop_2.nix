@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   user = "theo";
   localnet = "10.0.0.0/16";
@@ -40,7 +40,11 @@ in {
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Toronto";
+  # time.timeZone = "America/Toronto";
+
+  # TODO theo -- figure out which of these makes more sense for auto timezone setting
+  services.automatic-timezoned.enable = lib.mkDefault true;
+  # services.tzupdate.enable = lib.mkDefault true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
@@ -118,8 +122,7 @@ in {
       inter
       noto-fonts noto-fonts-emoji
       proggyfonts
-      nerdfonts
-    ];
+    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
 
   # List packages installed in system profile. To search, run:
@@ -128,7 +131,7 @@ in {
     wget
 
     alacritty kitty
-    lapce nano neovim kate
+    lapce nano neovim kdePackages.kate
     git tmux
 
     rofi-wayland
@@ -149,6 +152,7 @@ in {
     libnotify
     wayland-utils
     aha lm_sensors smartmontools lsof
+    networkmanagerapplet
 
     waypipe
     gnupg
@@ -171,7 +175,7 @@ in {
       enable = true;
       wrapperFeatures.gtk = true;
     };
-    waybar.enable = true;
+    # waybar.enable = true;
     fish.enable = true;
     firefox = {
       enable = true;

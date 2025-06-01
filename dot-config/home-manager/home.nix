@@ -101,10 +101,12 @@ in {
     libsForQt5.kolourpaint
 
 
-    # programming languages
+    # programming languages/tools
     gcc
     gdb
     llvmPackages_19.clang-tools
+    nil
+    direnv
 
 
     # Flatpaks: (flathub)
@@ -322,6 +324,7 @@ in {
         ms-python.python
         jnoortheen.nix-ide
         arrterian.nix-env-selector
+        mkhl.direnv
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
