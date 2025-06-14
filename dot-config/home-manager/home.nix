@@ -3,6 +3,8 @@ let
   name = "Theo Vanderkooy";
   email = "theo.vanderkooy@gmail.com";
   unstable = import <unstable> { };
+  sysconfig = (import <nixpkgs/nixos> {}).config;
+  adaptive-brightness = (builtins.getFlake "path:/home/theo/Documents/git/adaptive-brightness/rust").packages.x86_64-linux.default;
 in {
   imports = [
     ~/.config/home-manager/local.nix
@@ -17,9 +19,7 @@ in {
       # Add flatpak exports to path
       XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
     };
-  };
 
-  home = {
     file.".local/share/fonts".source = "/run/current-system/sw/share/X11/fonts";
   };
 
@@ -127,6 +127,26 @@ in {
   #   enable = true;
   # };
 
+  systemd.user.services = {
+    # no non-system-specific user services
+  } // (if (sysconfig.networking.hostName == "nixos-desktop") then {
+    adaptive-brightness = {
+      Unit = {
+        Description = "Adaptive brightness service";
+        Wants = "graphical.target";
+      };
+
+      Service = {
+        Type = "exec";
+        ExecStart = "${adaptive-brightness}/bin/adaptive-brightness";
+        Restart = "always";
+      };
+
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
+  } else {});
 
   ##################
   ###   SHELLS   ###
