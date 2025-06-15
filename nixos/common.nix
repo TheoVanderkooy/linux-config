@@ -245,6 +245,7 @@ in {
   environment.variables = rec {
     # So touch screen will work with firefox...
     MOZ_USE_XINPUT2 = "1";
+    EDITOR = "hx";
   };
 
   # Firewall rules (localsend)

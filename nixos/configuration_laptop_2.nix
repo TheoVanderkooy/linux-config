@@ -79,6 +79,8 @@ in {
     ];
   };
 
+  hardware.i2c.enable = true;
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -142,6 +144,7 @@ in {
     wl-clipboard
     mako
     yambar
+    swaylock
 
     pavucontrol brightnessctl
 
@@ -164,6 +167,8 @@ in {
     ripgrep bat eza fd
 
     keepassxc
+
+    ddcutil
   ];
 
   services.flatpak.enable = true;
@@ -175,6 +180,7 @@ in {
       enable = true;
       wrapperFeatures.gtk = true;
     };
+    niri.enable = true;
     # waybar.enable = true;
     fish.enable = true;
     firefox = {
@@ -230,7 +236,8 @@ in {
   };
 
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
+    EDITOR = "hx";
   };
 
 

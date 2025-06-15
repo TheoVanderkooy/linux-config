@@ -5,20 +5,20 @@
 # the sway-xkb module with the xkb module.
 
 # fonts we'll be re-using here and there
-awesome: &awesome Font Awesome 6 Free:style=solid:pixelsize=14
-awesome_brands: &awesome_brands Font Awesome 6 Brands:pixelsize=16
+awesome: &awesome Font Awesome 6 Free:style=solid:pixelsize=24
+awesome_brands: &awesome_brands Font Awesome 6 Brands:pixelsize=26
 
 std_underline: &std_underline {underline: { size: 2, color: 00a0a0ff}}
 
 # This is THE bar configuration
 bar:
-  height: 26
+  height: 40
   location: bottom
   spacing: 10
   margin: 7
 
   # Default font
-  font: Adobe Helvetica:pixelsize=16
+  font: Adobe Helvetica:pixelsize=26
 
   foreground: ffffffff
   background: 111111cc
