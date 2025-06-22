@@ -1,0 +1,11 @@
+(
+monitors: [
+    (
+    identifier: Bus(6),
+    curve: [
+        (0, 10),
+        (250, 100),
+    ],
+    ),
+]
+)

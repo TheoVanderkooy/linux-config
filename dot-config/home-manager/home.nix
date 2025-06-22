@@ -345,6 +345,7 @@ in {
         jnoortheen.nix-ide
         arrterian.nix-env-selector
         mkhl.direnv
+        # vadimcn.vscode-lldb
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
