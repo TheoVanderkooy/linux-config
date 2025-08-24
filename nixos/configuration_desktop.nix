@@ -130,6 +130,7 @@ in {
         # ".mozilla/firefox/*/cookies.*" (.sqlite-wal and .sqlite)
         ".mozilla/firefox/*/*.sqlite"
         ".mozilla/firefox/*/*.sqlite-wal"
+        ".mozilla/firefox/*/storage"
         # don't back up games
         ".local/share/Steam"
         "Games"
@@ -296,13 +297,16 @@ in {
     packages = with pkgs; [
       android-udev-rules
     ];
-    # These are for brightness adafruit FTDI board
     extraRules = ''
+      # Adafruit FTDI board
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6011", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
+
+      # Logitech G533
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0a66", TAG+="uaccess"
     '';
   };
 

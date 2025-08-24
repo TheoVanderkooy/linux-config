@@ -1,9 +1,9 @@
 (
 monitors: [
     (
-    identifier: Bus(6),
+    identifier: ModelSerial("GBT", "G27Q", "23232B002075"),
     curve: [
-        (0, 10),
+        (10, 10),
         (250, 100),
     ],
     ),

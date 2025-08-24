@@ -4,7 +4,8 @@ let
   email = "theo.vanderkooy@gmail.com";
   unstable = import <unstable> { };
   sysconfig = (import <nixpkgs/nixos> {}).config;
-  adaptive-brightness = (builtins.getFlake "path:/home/theo/Documents/git/adaptive-brightness/rust").packages.x86_64-linux.default;
+  adaptive-brightness = (builtins.getFlake "path:/home/theo/Documents/git/adaptive-brightness").packages.x86_64-linux.default;
+  is-desktop = (sysconfig.networking.hostName == "nixos-desktop");
 in {
   imports = [
     ~/.config/home-manager/local.nix
@@ -121,29 +122,60 @@ in {
     # io.missioncenter.MissionCenter
     # org.jitsi.jitsi-meet
     # io.freetubeapp.FreeTube
-  ];
+  ] ++ (if is-desktop then [
+    adaptive-brightness
+  ] else []);
 
   # programs.thunderbird = {
   #   enable = true;
   # };
 
-  systemd.user.services = {
+  systemd.user = {
     # no non-system-specific user services
-  } // (if (sysconfig.networking.hostName == "nixos-desktop") then {
-    adaptive-brightness = {
-      Unit = {
-        Description = "Adaptive brightness service";
-        Wants = "graphical.target";
+  } // (if is-desktop then {
+    services = {
+      adaptive-brightness = {
+        Unit = {
+          Description = "Adaptive brightness service";
+          Wants = "graphical.target";
+          Requires = "brightness-server.socket";
+        };
+
+        Service = {
+          Type = "exec";
+          # ExecStart = "${adaptive-brightness}/bin/abc daemon";
+          ExecStart = "${adaptive-brightness}/bin/abc daemon -s /tmp/abc.sock";
+          Restart = "always";
+        };
+
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
       };
 
-      Service = {
-        Type = "exec";
-        ExecStart = "${adaptive-brightness}/bin/adaptive-brightness";
-        Restart = "always";
-      };
+      brightness-server = {
+        Unit = {
+          Description = "Brightness server";
+          Requires = "brightness-server.socket";
+        };
 
-      Install = {
-        WantedBy = [ "default.target" ];
+        Service = {
+          Type = "exec";
+          ExecStart = "${adaptive-brightness}/bin/brightness-server";
+          # Sockets = ... # implicitly matches the name
+        };
+      };
+    };
+
+    sockets = {
+      brightness-server = {
+        Unit = {
+          Description = "Socket for brightness server";
+        };
+
+        Socket = {
+          ListenStream = "/tmp/abc.sock";
+        };
       };
     };
   } else {});
@@ -322,6 +354,7 @@ in {
     settings = {
       theme = "noctis";
       editor = {
+        # auto-save = true;
         mouse = true;
         rulers = [ 120 ];
       };
