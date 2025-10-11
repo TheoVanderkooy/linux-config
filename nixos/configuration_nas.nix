@@ -5,7 +5,7 @@
 { config, pkgs, lib, modulesPath, ... }:
 
 let
-  hostname = "10.0.0.2";
+  hostname = "10.88.111.6";
   port-gitea = 3000;
   port-syncthing = 8384;
   port-paperless = 28981;

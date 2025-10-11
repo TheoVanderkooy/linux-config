@@ -58,6 +58,7 @@ in {
     steam
     lutris
     heroic
+    itch
     antimicrox  # configure controller -> keyboard inputs
     goverlay
     prismlauncher
@@ -371,6 +372,7 @@ in {
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
+    # package = pkgs.vscodium-fhs;
     mutableExtensionsDir = true;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
@@ -378,7 +380,7 @@ in {
         jnoortheen.nix-ide
         arrterian.nix-env-selector
         mkhl.direnv
-        # vadimcn.vscode-lldb
+        vadimcn.vscode-lldb
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
