@@ -56,7 +56,7 @@ in {
 
     # Games
     steam
-    lutris
+    # lutris  #insecure, reenable later
     heroic
     itch
     antimicrox  # configure controller -> keyboard inputs

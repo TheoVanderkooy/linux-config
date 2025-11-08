@@ -20,7 +20,7 @@ in {
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   boot.kernelModules = [
-    # "i2c-dev"  # for openrgb to control GPU RGB
+    "i2c-dev"  # for openrgb to control GPU RGB, & brightness control
     # kernel modules for zswap
     "lz4" "z3fold"
   ];
@@ -207,13 +207,15 @@ in {
   # Specific hardware
   hardware.wooting.enable = true;
 
+  hardware.i2c.enable = true;
+
   # User account
   users.users.${user} = {
     isNormalUser = true;
     description = "${name}";
     extraGroups = [
       "wheel" "networkmanager" "video"
-      "libvirtd" "scanner" "lp"
+      "libvirtd" "scanner" "lp" "i2c"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
@@ -277,7 +279,7 @@ in {
     enable = true;
   };
   services.hardware.openrgb = {
-    enable = true;
+    # enable = true; # insecure package, re-enable later
     motherboard = "amd";
   };
   services.ratbagd.enable = true; # configuring gaming devices
@@ -296,7 +298,19 @@ in {
     enable = true;
     packages = with pkgs; [
       android-udev-rules
+      (pkgs.writeTextFile {
+        # uaccess workaround: https://github.com/NixOS/nixpkgs/issues/308681
+        # https://wiki.archlinux.org/title/Udev#Allowing_regular_users_to_use_devices
+        name = "uaccess-rules";
+        destination = "/etc/udev/rules.d/70-custom-uaccess.rules";
+        text = ''
+          # Logitech G533
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0a66", TAG+="uaccess"
+        '';
+      })
     ];
+    # TODO probably makes sense to move the light sensor rules to uaccess
+    # (specific one needed is product id=6014)
     extraRules = ''
       # Adafruit FTDI board
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", GROUP="plugdev", MODE="0666"
@@ -304,9 +318,6 @@ in {
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
-
-      # Logitech G533
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0a66", TAG+="uaccess"
     '';
   };
 
