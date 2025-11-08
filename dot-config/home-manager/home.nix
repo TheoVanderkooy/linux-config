@@ -49,10 +49,10 @@ in {
     dig
 
     # Books
-    (calibre.overrideAttrs (oldAttrs: {
-      unrarSupport=true;
-      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ python3Packages.pycryptodome ];  # for DeDRM
-    }))
+    # (calibre.overrideAttrs (oldAttrs: {
+    #   unrarSupport=true;
+    #   nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ python3Packages.pycryptodome ];  # for DeDRM
+    # }))
 
     # Games
     steam

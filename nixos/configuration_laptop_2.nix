@@ -136,6 +136,8 @@ in {
     lapce nano neovim kdePackages.kate
     git tmux
 
+    xwayland-satellite
+
     rofi-wayland
     dunst
     libsForQt5.polkit-kde-agent
@@ -181,6 +183,7 @@ in {
       wrapperFeatures.gtk = true;
     };
     niri.enable = true;
+    xwayland.enable = true;
     # waybar.enable = true;
     fish.enable = true;
     firefox = {
