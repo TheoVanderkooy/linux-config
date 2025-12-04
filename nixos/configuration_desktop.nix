@@ -261,7 +261,7 @@ in {
   # Extra system packages/programs
   services.clamav = {
     daemon =  {
-      # enable = true;
+      enable = true;
       settings = {
         # LogSyslog = true;
         ExtendedDetectionInfo = true;
@@ -269,7 +269,7 @@ in {
       };
     };
     updater = {
-      # enable = true;
+      enable = true;
       settings = {
         # LogSyslog = true;
       };

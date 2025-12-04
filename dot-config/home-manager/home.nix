@@ -58,7 +58,7 @@ in {
     steam
     # lutris  #insecure, reenable later
     heroic
-    itch
+    # itch # broken?
     antimicrox  # configure controller -> keyboard inputs
     goverlay
     prismlauncher
@@ -139,14 +139,17 @@ in {
         Unit = {
           Description = "Adaptive brightness service";
           Wants = "graphical.target";
-          Requires = "brightness-server.socket";
+          Requires = [
+            "abc-control.socket"
+            "brightness-server.socket"
+          ];
         };
 
         Service = {
           Type = "exec";
-          # ExecStart = "${adaptive-brightness}/bin/abc daemon";
-          ExecStart = "${adaptive-brightness}/bin/abc daemon -s /tmp/abc.sock";
+          ExecStart = "${adaptive-brightness}/bin/abc daemon -b /tmp/abc-brightness.sock";
           Restart = "always";
+          Sockets = [ "abc-control.socket" ];
         };
 
         Install = {
@@ -175,7 +178,18 @@ in {
         };
 
         Socket = {
-          ListenStream = "/tmp/abc.sock";
+          ListenStream = "/tmp/abc-brightness.sock";
+        };
+      };
+
+      abc-control = {
+        Unit = {
+          Description = "Socket for adaptive brightness daemon control";
+        };
+
+        Socket = {
+          ListenStream = "/tmp/abc-control.sock";
+          Service = "adaptive-brightness.service";
         };
       };
     };
@@ -389,6 +403,7 @@ in {
         "files.trimTrailingWhitespace" = true;
         "git.confirmSync" = false;
         "explorer.confirmDelete" = false;
+        "diffEditor.ignoreTrimWhitespace" = false;
       };
     };
   };
