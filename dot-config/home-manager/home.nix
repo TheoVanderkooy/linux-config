@@ -19,6 +19,8 @@ in {
     sessionVariables = {
       # Add flatpak exports to path
       XDG_DATA_DIRS = "\${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:\${HOME}/.local/share/flatpak/exports/share";
+
+      RUST_BACKTRACE = 1;
     };
 
     file.".local/share/fonts".source = "/run/current-system/sw/share/X11/fonts";
@@ -41,6 +43,7 @@ in {
     tldr
     bottom
     btop
+    nvtopPackages.full
     android-tools
     powerstat
     cifs-utils
@@ -56,9 +59,9 @@ in {
 
     # Games
     steam
-    # lutris  #insecure, reenable later
+    lutris
     heroic
-    # itch # broken?
+    itch
     antimicrox  # configure controller -> keyboard inputs
     goverlay
     prismlauncher
@@ -100,7 +103,7 @@ in {
     mpv  # video player
     piper  # configuring "gaming devices"
     libreoffice-qt-fresh
-    libsForQt5.kolourpaint
+    kdePackages.kolourpaint
 
 
     # programming languages/tools
@@ -125,7 +128,14 @@ in {
     # io.freetubeapp.FreeTube
   ] ++ (if is-desktop then [
     adaptive-brightness
+    lmstudio
   ] else []);
+
+  # AI stuff
+  services.ollama = (if is-desktop then {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+  } else { enable = false; });
 
   # programs.thunderbird = {
   #   enable = true;
@@ -150,6 +160,9 @@ in {
           ExecStart = "${adaptive-brightness}/bin/abc daemon -b /tmp/abc-brightness.sock";
           Restart = "always";
           Sockets = [ "abc-control.socket" ];
+          Environment = [
+            "RUST_BACKTRACE=1"
+          ];
         };
 
         Install = {
@@ -167,6 +180,9 @@ in {
           Type = "exec";
           ExecStart = "${adaptive-brightness}/bin/brightness-server";
           # Sockets = ... # implicitly matches the name
+          Environment = [
+            "RUST_BACKTRACE=1"
+          ];
         };
       };
     };
@@ -255,8 +271,7 @@ in {
     history = {
       size = 1000;
       save = 10000;
-      # path = "${config.xdg.dataHome}/zsh/history"; # this doesn't work :/
-      path = ".local/share/zsh/history";
+      path = "${config.xdg.dataHome}/zsh/history";
     };
     oh-my-zsh = {
       enable = true;
@@ -395,6 +410,8 @@ in {
         arrterian.nix-env-selector
         mkhl.direnv
         vadimcn.vscode-lldb
+        continue.continue
+        rust-lang.rust-analyzer
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
@@ -416,7 +433,6 @@ in {
   # ROFI
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
     theme = "Arc-Dark";
     terminal = "${pkgs.kitty}/bin/kitty";
     extraConfig = {
@@ -488,23 +504,16 @@ in {
   # GIT
   programs.git = {
     enable = true;
-    userName = "${name}";
-    userEmail = "${email}";
 
     ignores = [
       ".*.swap"
     ];
 
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        line-numbers = true;
-        # side-by-side = true;
+    settings = {
+      user = {
+        name = "${name}";
+        email = "${email}";
       };
-    };
-
-    extraConfig = {
       core = {
         editor = "hx";
       };
@@ -541,11 +550,21 @@ in {
     };
   };
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      line-numbers = true;
+      # side-by-side = true;
+    };
+  };
+
   # LESS
   programs.less = {
     enable = true;
     # colours: https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables
-    keys = ''
+    config = ''
       #env
       LESS_TERMCAP_mb = \e[30;47m
       LESS_TERMCAP_md = \e[1;32m

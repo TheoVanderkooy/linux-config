@@ -138,7 +138,7 @@ in {
 
     xwayland-satellite
 
-    rofi-wayland
+    rofi
     dunst
     libsForQt5.polkit-kde-agent
     swaybg

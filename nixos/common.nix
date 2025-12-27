@@ -159,7 +159,7 @@ in {
     nix-tree
     # rnix-lsp
     nil
-    poppler_utils  # pdftotext
+    poppler-utils  # pdftotext
 
     # windows compatibility
     cabextract
@@ -236,6 +236,9 @@ in {
 
       // Tab group configuration
       defaultPref("browser.tabs.groups.enabled", true)
+
+      // Security things
+      defaultPref("network.IDN_show_punycode", true)
       '';
   };
 

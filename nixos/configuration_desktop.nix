@@ -215,7 +215,7 @@ in {
     description = "${name}";
     extraGroups = [
       "wheel" "networkmanager" "video"
-      "libvirtd" "scanner" "lp" "i2c"
+      "libvirtd" "scanner" "lp" "i2c" "plugdev"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
@@ -226,6 +226,10 @@ in {
         ];
       })
     ];
+  };
+
+  users.groups = {
+    plugdev = {};
   };
 
   # Security programs
@@ -297,7 +301,6 @@ in {
   services.udev = {
     enable = true;
     packages = with pkgs; [
-      android-udev-rules
       (pkgs.writeTextFile {
         # uaccess workaround: https://github.com/NixOS/nixpkgs/issues/308681
         # https://wiki.archlinux.org/title/Udev#Allowing_regular_users_to_use_devices
