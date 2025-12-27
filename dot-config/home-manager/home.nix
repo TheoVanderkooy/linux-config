@@ -316,7 +316,7 @@ in {
       rebuild_nas = {
         body = ''
           set --export NIXOS_CONFIG $HOME/Documents/linux-config/nixos/configuration_nas.nix
-          nixos-rebuild --target-host nas --use-remote-sudo switch
+          nixos-rebuild --target-host nas --sudo switch
         '';
       };
       run_backups = {
@@ -362,6 +362,14 @@ in {
 
   };
 
+  programs.command-not-found.enable = true;
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
+  };
 
   ###################
   ###   EDITORS   ###

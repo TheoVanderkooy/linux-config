@@ -122,7 +122,7 @@ in {
       liberation_ttf
       mplus-outline-fonts.githubRelease
       inter
-      noto-fonts noto-fonts-emoji
+      noto-fonts noto-fonts-color-emoji
       proggyfonts
     ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
@@ -140,7 +140,7 @@ in {
 
     rofi
     dunst
-    libsForQt5.polkit-kde-agent
+    kdePackages.polkit-kde-agent-1
     swaybg
     grim slurp # screenshots
     wl-clipboard
