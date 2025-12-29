@@ -410,16 +410,24 @@ in {
     enable = true;
     package = pkgs.vscodium;
     # package = pkgs.vscodium-fhs;
-    mutableExtensionsDir = true;
+    mutableExtensionsDir = false;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        ms-python.python
+
+        # nix-related
         jnoortheen.nix-ide
         arrterian.nix-env-selector
         mkhl.direnv
+
+        # rust
         vadimcn.vscode-lldb
-        continue.continue
         rust-lang.rust-analyzer
+
+        # Other languages
+        ms-python.python
+
+        # AI
+        continue.continue
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
@@ -429,6 +437,8 @@ in {
         "git.confirmSync" = false;
         "explorer.confirmDelete" = false;
         "diffEditor.ignoreTrimWhitespace" = false;
+        "extensions.autoUpdate" = false;
+        "continue.telemetryEnabled" = false;
       };
     };
   };
