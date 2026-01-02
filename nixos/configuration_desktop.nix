@@ -92,15 +92,22 @@ in {
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
       };
     };
+
+    # List of system directories to exclude (currently not used, maybe useful for future system-level backups)
+    _syslevel-excludes = [
+      # exclude nix store
+      "/nix"
+      # exclude system directories
+      "/dev" "/proc" "/sys" "/run"
+      "/var"  # definitely exclude /var/lock, /var/run, /var/cache, /var/swapfile
+      # temp directories
+      "/tmp" "/logs"
+      # external drives
+      "/mnt" "/media"
+    ];
   in {
-    # TODO back up other locations:
-    #  - /etc? nearly all generated from nix, no need to backup
-    #  - other parts of /var?
-
-
     # Home folder
     desktop-home = borgCommonArgs // {
-      paths = "/home/";
       repo = "/mnt/nas/backups/desktop-home/";
       prune.keep = {
         within = "1w";  # everything in the last week
@@ -110,39 +117,29 @@ in {
         monthly = 6;   # then one a month for N months
         yearly = 1;    # then one a year for N years (-1 for "forever")
       };
+      paths = "/home/";
       # see `borg help patterns` for exclude syntax
       # paths are absolute
-      exclude = [
-        # exclude nix store
-        "/nix"
-        # exclude system directories
-        "/dev" "/proc" "/sys" "/run"
-        "/var"  # definitely exclude /var/lock, /var/run, /var/cache, /var/swapfile
-        # temp directories
-        "/tmp" "/logs"
-        # external drives
-        "/mnt" "/media"
-      ] ++ map (x: "sh:/home/*/${x}") [
+      # `sh` prefix is for "shell-style" patterns
+      exclude = map (x: "sh:/home/*/${x}") [
         # paths within home directory
         ".cache"
         ".local/share/Trash"
         ".local/share/baloo"  # file indexer, frequently updates the index while running backup causing a warning/"failed" backup
-        # ".mozilla/firefox/*/cookies.*" (.sqlite-wal and .sqlite)
         ".mozilla/firefox/*/*.sqlite"
         ".mozilla/firefox/*/*.sqlite-wal"
         ".mozilla/firefox/*/storage"
+        # AI models (large & can be re-downloaded)
+        ".ollama/models"
         # don't back up games
         ".local/share/Steam"
         "Games"
+        ".config/itch"
       ];
     };
 
     # System files
     desktop-system = borgCommonArgs // {
-      paths = [
-        # consider more things in /etc or /var?
-        "/var/lib/"  # Primarily virtual machine images/config
-      ];
       repo = "/mnt/nas/backups/desktop-system/";
       # only keep a few historical versions
       prune.keep = {
@@ -151,6 +148,10 @@ in {
         monthly = 0;
         yearly = 0;
       };
+      paths = [
+        # consider more things in /etc or /var?
+        "/var/lib/"  # Primarily virtual machine images/config
+      ];
       exclude = [];
     };
 
@@ -159,7 +160,9 @@ in {
       paths = [
         "/home/${user}/.local/share/Steam/"
         "/home/${user}/Games/"
+        "/home/${user}/.config/itch/"
       ];
+      exclude = [];
       repo = "/mnt/nas/backups/desktop-games/";
       # only keep a few historical versions
       prune.keep = {

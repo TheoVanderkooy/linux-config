@@ -65,15 +65,7 @@ in {
     antimicrox  # configure controller -> keyboard inputs
     goverlay
     prismlauncher
-    # steamtinkerlaunch
-    # # steamtinkerlaunch dependencies:
-    #   yad
-    #   xdotool
-    #   jq
-    #   # wine64
-    #   wineWow64Packages.full
-    # protonup-qt
-    parsec-bin
+
 
     # Rust versions of other programs
     ripgrep   # grep
@@ -134,7 +126,8 @@ in {
   # AI stuff
   services.ollama = (if is-desktop then {
     enable = true;
-    package = pkgs.ollama-vulkan;
+    # newest version needed to support certain models
+    package = unstable.ollama-vulkan;
   } else { enable = false; });
 
   # programs.thunderbird = {
