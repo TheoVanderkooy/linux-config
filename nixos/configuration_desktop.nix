@@ -299,11 +299,12 @@ in {
     # ocs-url  # for installing open-desktop apps
   ];
   programs.wireshark.enable = true;
+  programs.sniffnet.enable = true;
   # programs.kdeconnect.enable = true;
 
   services.udev = {
     enable = true;
-    packages = with pkgs; [
+    packages = [
       (pkgs.writeTextFile {
         # uaccess workaround: https://github.com/NixOS/nixpkgs/issues/308681
         # https://wiki.archlinux.org/title/Udev#Allowing_regular_users_to_use_devices
@@ -325,6 +326,22 @@ in {
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6014", GROUP="plugdev", MODE="0666"
       SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6015", GROUP="plugdev", MODE="0666"
     '';
+  };
+
+  services.prometheus = {
+    enable = true;
+    globalConfig = {
+      scrape_interval = "60s";
+    };
+    scrapeConfigs = [
+      {
+        # brightness from local sensor
+        job_name = "brightness";
+        static_configs = [
+          { targets = ["localhost:52127"]; }
+        ];
+      }
+    ];
   };
 
   # Virtualization

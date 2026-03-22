@@ -102,7 +102,7 @@ in {
     gcc
     gdb
     llvmPackages_19.clang-tools
-    nil
+    nixd
     direnv
 
 
@@ -150,7 +150,7 @@ in {
 
         Service = {
           Type = "exec";
-          ExecStart = "${adaptive-brightness}/bin/abc daemon -b /tmp/abc-brightness.sock";
+          ExecStart = "${adaptive-brightness}/bin/abc daemon -b /tmp/abc-brightness.sock -m 52127";
           Restart = "always";
           Sockets = [ "abc-control.socket" ];
           Environment = [
@@ -418,13 +418,14 @@ in {
 
         # Other languages
         ms-python.python
+        llvm-vs-code-extensions.vscode-clangd
 
         # AI
         continue.continue
       ];
       userSettings = {
         "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "nil";
+        "nix.serverPath" = "nixd";
         "files.trimFinalNewlines" = true;
         "files.trimTrailingWhitespace" = true;
         "git.confirmSync" = false;
@@ -562,12 +563,19 @@ in {
   };
 
   programs.delta = {
-    enable = true;
+    # enable = true;  # delta and difftastic are mutually exclusive
     enableGitIntegration = true;
     options = {
       navigate = true;
       line-numbers = true;
       # side-by-side = true;
+    };
+  };
+  programs.difftastic = {
+    enable = true;
+    git = {
+      enable = true;
+      diffToolMode = true;
     };
   };
 
@@ -625,7 +633,10 @@ in {
 
   programs.chromium.enable = true;
 
-  # TODO other stuff!
-  # - desktop manager config: qtile and leftwm
-  # - emacs: figure out plugins for nix highlighting
+  programs.asciinema.enable = true;
+
+  # AI nonsense
+  programs.opencode = {
+    enable = true;
+  };
 }
