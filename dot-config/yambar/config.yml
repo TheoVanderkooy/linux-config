@@ -5,8 +5,8 @@
 # the sway-xkb module with the xkb module.
 
 # fonts we'll be re-using here and there
-awesome: &awesome Font Awesome 6 Free:style=solid:pixelsize=24
-awesome_brands: &awesome_brands Font Awesome 6 Brands:pixelsize=26
+awesome: &awesome Font Awesome 7 Free:style=solid:pixelsize=24
+awesome_brands: &awesome_brands Font Awesome 7 Brands:pixelsize=26
 
 std_underline: &std_underline {underline: { size: 2, color: 00a0a0ff}}
 
