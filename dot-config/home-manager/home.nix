@@ -43,7 +43,6 @@ in {
     tldr
     bottom
     btop
-    nvtopPackages.full
     android-tools
     powerstat
     cifs-utils
@@ -56,6 +55,7 @@ in {
     #   unrarSupport=true;
     #   nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ python3Packages.pycryptodome ];  # for DeDRM
     # }))
+    zotero
 
     # Games
     steam
@@ -104,6 +104,7 @@ in {
     llvmPackages_19.clang-tools
     nixd
     direnv
+    devenv
 
 
     # Flatpaks: (flathub)
@@ -121,6 +122,7 @@ in {
   ] ++ (if is-desktop then [
     adaptive-brightness
     lmstudio
+    nvtopPackages.full
   ] else []);
 
   # AI stuff
@@ -384,10 +386,14 @@ in {
     enable = true;
     settings = {
       theme = "noctis";
+      bufferline = "always";
       editor = {
         # auto-save = true;
         mouse = true;
         rulers = [ 120 ];
+        lsp = {
+          display-inlay-hints = true;
+        };
       };
     };
   };

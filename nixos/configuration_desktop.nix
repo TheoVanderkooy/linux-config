@@ -302,6 +302,13 @@ in {
   programs.sniffnet.enable = true;
   # programs.kdeconnect.enable = true;
 
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      # TODO: see https://wiki.nixos.org/wiki/Nix-ld
+    ];
+  };
+
   services.udev = {
     enable = true;
     packages = [
@@ -330,6 +337,7 @@ in {
 
   services.prometheus = {
     enable = true;
+    retentionTime = "100y";
     globalConfig = {
       scrape_interval = "60s";
     };
