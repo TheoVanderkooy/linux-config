@@ -375,6 +375,8 @@ in {
     enable = true;
     viAlias = true;
     vimAlias = true;
+    withRuby = false; # default updated in 26.05, but state version is old
+    withPython3 = true;
 
     plugins = with pkgs.vimPlugins; [
       vim-nix
@@ -405,9 +407,9 @@ in {
   };
 
   # VS CODIUM
-  programs.vscode = {
+  programs.vscodium = {
     enable = true;
-    package = pkgs.vscodium;
+    # package = pkgs.vscodium;
     # package = pkgs.vscodium-fhs;
     mutableExtensionsDir = false;
     profiles.default = {
@@ -612,6 +614,7 @@ in {
     enable = true;
     enableBashIntegration = true;
     enableFishIntegration = true;
+    shellWrapperName = "y"; # default updated in 26.05, but state version is old
     settings = {
       # ...
     };
