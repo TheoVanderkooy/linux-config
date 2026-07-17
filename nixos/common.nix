@@ -51,6 +51,9 @@ in {
     packages = with pkgs; [
       inter  # what was this for??
       font-awesome  # for yazi icons
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
     ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
 
@@ -59,7 +62,7 @@ in {
     allowUnfree = true;
 
     permittedInsecurePackages = [
-      # "electron-11.5.0"  # needed for: itch
+
     ];
   };
   nix.settings = {
@@ -105,9 +108,6 @@ in {
     kitty
     alacritty
 
-    # various system things
-    sshfs
-
     # backup
     borgbackup
 
@@ -134,11 +134,13 @@ in {
     nix-index
     lsof
     duperemove # BTRFS deduplication
+    sshfs
     ncdu
     xxd
     kdiff3
     opensnitch-ui
     ddcutil # controlling monitor brightness
+    socat
 
     # Rust versions of other programs
     ripgrep   # grep

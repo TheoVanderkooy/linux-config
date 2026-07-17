@@ -251,15 +251,15 @@ in {
     }];
   };
 
-
-  # printing/scanning doesn't seem to work...
-
   # Printing
   services.printing = {
     enable = true;
+    # See https://openprinting.github.io/foomatic/printers
     drivers = with pkgs; [
       # hplip
       # hplipWithPlugin
+      foo2zjs
+      gutenprint
     ];
   };
   services.ipp-usb.enable=true;
