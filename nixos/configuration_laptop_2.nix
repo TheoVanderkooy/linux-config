@@ -87,6 +87,7 @@ in {
       xdg-desktop-portal-hyprland
       xdg-desktop-portal
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
     ];
   };
 
@@ -147,6 +148,7 @@ in {
     mako
     yambar
     swaylock
+    nautilus
 
     pavucontrol brightnessctl
 
@@ -158,6 +160,7 @@ in {
     wayland-utils
     aha lm_sensors smartmontools lsof
     networkmanagerapplet
+    nix-tree
 
     waypipe
     gnupg
@@ -182,7 +185,10 @@ in {
       enable = true;
       wrapperFeatures.gtk = true;
     };
-    niri.enable = true;
+    niri = {
+      enable = true;
+      useNautilus = true;
+    };
     xwayland.enable = true;
     # waybar.enable = true;
     fish.enable = true;

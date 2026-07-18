@@ -35,7 +35,7 @@ in {
     # File management
     krusader
     kdePackages.filelight
-    onedrive
+    # onedrive
     rclone
     kdePackages.ark
 
@@ -59,13 +59,6 @@ in {
 
     # Games
     steam
-    lutris
-    heroic
-    itch
-    antimicrox  # configure controller -> keyboard inputs
-    goverlay
-    prismlauncher
-
 
     # Rust versions of other programs
     ripgrep   # grep
@@ -80,9 +73,6 @@ in {
 
     # Communication
     thunderbird  # TODO: try BetterBird?
-    # discord  # installed as flatpak instead
-    # kdePackages.neochat
-    mullvad-browser
 
     # Other tools...
     # ventoy-bin   # marked as insecure
@@ -94,7 +84,6 @@ in {
     keepassxc
     mpv  # video player
     piper  # configuring "gaming devices"
-    libreoffice-qt-fresh
     kdePackages.kolourpaint
 
 
@@ -120,9 +109,23 @@ in {
     # org.jitsi.jitsi-meet
     # io.freetubeapp.FreeTube
   ] ++ (if is-desktop then [
+    # Custome desktop-specific apps
     adaptive-brightness
+
+    # AI stuff
     lmstudio
     nvtopPackages.full
+
+    # Large packages
+    libreoffice-qt-fresh
+
+    # Games
+    lutris
+    heroic
+    itch
+    antimicrox  # configure controller -> keyboard inputs
+    goverlay
+    prismlauncher
   ] else []);
 
   # AI stuff
