@@ -76,7 +76,7 @@ in {
 
     # Other tools...
     # ventoy-bin   # marked as insecure
-    wireshark-qt
+    wireshark
     gparted
     lapce  # rust code editor
     kdePackages.kate
@@ -391,10 +391,10 @@ in {
     enable = true;
     settings = {
       theme = "noctis";
-      bufferline = "always";
       editor = {
         # auto-save = true;
         mouse = true;
+        bufferline = "always";
         rulers = [ 120 ];
         lsp = {
           display-inlay-hints = true;
@@ -429,6 +429,8 @@ in {
 
         # Other languages
         ms-python.python
+        ms-python.vscode-python-envs
+        ms-python.debugpy
         llvm-vs-code-extensions.vscode-clangd
 
         # AI

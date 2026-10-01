@@ -7,5 +7,10 @@ monitors: [
         (250, 100),
     ],
     ),
-]
+],
+disabled_monitors: [
+    ModelSerial("HWP", "HP 22xi", "3CM338035N"),
+],
+physical_sensor: FT232H_TSL2591,
+// physical_sensor: FT232H_LTR390,
 )
